@@ -4,12 +4,15 @@ package seedu.address.model.person;
  * Represents a student's attendance status for a single lab session.
  */
 public class Lab implements LabAttendance {
+    private final int labNumber;
     private boolean isAttended;
 
     /**
      * Constructs an {@code LabAttendance} with attendance initially set to false.
      */
-    public Lab() {
+    public Lab(int labNumber) {
+        assert labNumber > 0;
+        this.labNumber = labNumber;
         this.isAttended = false;
     }
 
@@ -37,6 +40,13 @@ public class Lab implements LabAttendance {
         }
 
         Lab otherLab = (Lab) other;
-        return this.isAttended == otherLab.isAttended;
+        return this.isAttended == otherLab.isAttended
+                && this.labNumber == otherLab.labNumber;
+    }
+
+    @Override
+    public String toString() {
+        String status = isAttended ? "Y" : "N";
+        return String.format("L%d: %s", labNumber, status);
     }
 }
