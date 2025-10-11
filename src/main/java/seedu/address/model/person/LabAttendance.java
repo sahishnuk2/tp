@@ -1,42 +1,20 @@
 package seedu.address.model.person;
 
 /**
- * Represents a student's attendance status for a single lab session.
+ * Represents a lab session.
  */
-public class LabAttendance implements Lab {
-    private boolean isAttended;
+public interface LabAttendance {
 
     /**
-     * Constructs an {@code LabAttendance} with attendance initially set to false.
+     * Marks this lab as attended.
      */
-    public LabAttendance() {
-        this.isAttended = false;
-    }
+    public void markAsAttended();
 
-    @Override
-    public void markAsAttended() throws IllegalStateException {
-        if (isAttended) {
-            throw new IllegalStateException("Lab Attendance has already been marked");
-        }
-        isAttended = true;
-    }
-
-    @Override
-    public boolean isAttended() {
-        return isAttended;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-
-        if (!(other instanceof LabAttendance)) {
-            return false;
-        }
-
-        LabAttendance otherLab = (LabAttendance) other;
-        return this.isAttended == otherLab.isAttended;
-    }
+    /**
+     * Returns whether this lab has been marked as attended.
+     *
+     * @return {@code true} if the lab has been marked as attended;
+     *         {@code false} otherwise
+     */
+    public boolean isAttended();
 }

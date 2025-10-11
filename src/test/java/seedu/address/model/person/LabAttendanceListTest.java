@@ -10,15 +10,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class LabAttendanceListTest {
-    private Lab[] labs;
+    private LabAttendance[] labs;
 
     @BeforeEach
     public void setUpLabs() {
         this.labs = createLabArray();
     }
 
-    private Lab[] createLabArray() {
-        Lab[] newLabs = new Lab[LabAttendanceList.NUMBER_OF_LABS];
+    private LabAttendance[] createLabArray() {
+        LabAttendance[] newLabs = new LabAttendance[LabList.NUMBER_OF_LABS];
         for (int i = 0; i < newLabs.length; i++) {
             newLabs[i] = new LabAttendanceStub();
         }
@@ -28,7 +28,7 @@ public class LabAttendanceListTest {
 
     @Test
     public void constructor_default_success() {
-        LabAttendanceList labAttendanceList = new LabAttendanceList(labs);
+        LabList labAttendanceList = new LabList(labs);
         for (int i = 0; i < labs.length; i++) {
             assertFalse(labs[i].isAttended());
         }
@@ -36,7 +36,7 @@ public class LabAttendanceListTest {
 
     @Test
     public void markLab_validIndex_success() {
-        LabAttendanceList labAttendanceList = new LabAttendanceList(labs);
+        LabList labAttendanceList = new LabList(labs);
 
         assertFalse(labs[0].isAttended());
         labAttendanceList.markLabAsAttended(0);
@@ -49,7 +49,7 @@ public class LabAttendanceListTest {
 
     @Test
     public void markLab_invalidIndex_throwsIndexOutOfBoundsException() {
-        LabAttendanceList labAttendanceList = new LabAttendanceList(labs);
+        LabList labAttendanceList = new LabList(labs);
 
         assertThrows(IndexOutOfBoundsException.class, () -> {
             labAttendanceList.markLabAsAttended(-1);
@@ -62,10 +62,10 @@ public class LabAttendanceListTest {
 
     @Test
     public void equals() {
-        Lab[] labs1 = createLabArray();
-        Lab[] labs2 = createLabArray();
-        LabAttendanceList labAttendanceList1 = new LabAttendanceList(labs1);
-        LabAttendanceList labAttendanceList2 = new LabAttendanceList(labs2);
+        LabAttendance[] labs1 = createLabArray();
+        LabAttendance[] labs2 = createLabArray();
+        LabList labAttendanceList1 = new LabList(labs1);
+        LabList labAttendanceList2 = new LabList(labs2);
         assertEquals(labAttendanceList1, labAttendanceList2);
 
         labAttendanceList1.markLabAsAttended(2);
