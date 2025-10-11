@@ -4,9 +4,15 @@ package seedu.address.model.person;
  * Represents a collection of lab attendance records for a student across all lab sessions.
  */
 public class LabList implements LabAttendanceList {
-    // Might need to shift to person class or other classes
     public static final int NUMBER_OF_LABS = 10;
     private final LabAttendance[] labs;
+
+    /**
+     * Constructs a {@code LabList} with all labs initialized to not attended.
+     */
+    public LabList() {
+        this(createDefaultLabs());
+    }
 
     /**
      * Constructs a {@code LabAttendanceList} with the specified lab attendance records.
@@ -16,6 +22,14 @@ public class LabList implements LabAttendanceList {
     public LabList(LabAttendance[] labs) {
         assert(labs.length == NUMBER_OF_LABS);
         this.labs = labs;
+    }
+
+    private static LabAttendance[] createDefaultLabs() {
+        LabAttendance[] labAttendanceList = new LabAttendance[NUMBER_OF_LABS];
+        for (int i = 0; i < NUMBER_OF_LABS; i++) {
+            labAttendanceList[i] = new Lab(i + 1);
+        }
+        return labAttendanceList;
     }
 
     /**
@@ -47,5 +61,14 @@ public class LabList implements LabAttendanceList {
             }
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < NUMBER_OF_LABS; i++) {
+            result.append(labs[i].toString()).append(" ");
+        }
+        return result.toString();
     }
 }

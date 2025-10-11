@@ -16,4 +16,9 @@ public class LabAttendanceStub implements LabAttendance {
     public boolean isAttended() {
         return isAttended;
     }
+
+    @Override
+    public String toString() {
+        return "L" + (isAttended ? "Y" : "N");
+    }
 }

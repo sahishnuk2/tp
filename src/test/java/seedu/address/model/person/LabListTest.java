@@ -25,9 +25,18 @@ public class LabListTest {
         return newLabs;
     }
 
+    // Not Fully Unit Testing
+    // Tests with Lab class, not the stub
+    @Test
+    public void constructorNoParam_default_success() {
+        LabList labAttendanceList = new LabList();
+        for (int i = 0; i < labs.length; i++) {
+            assertFalse(labs[i].isAttended());
+        }
+    }
 
     @Test
-    public void constructor_default_success() {
+    public void constructorWithParam_default_success() {
         LabList labAttendanceList = new LabList(labs);
         for (int i = 0; i < labs.length; i++) {
             assertFalse(labs[i].isAttended());
@@ -66,9 +75,38 @@ public class LabListTest {
         LabAttendance[] labs2 = createLabArray();
         LabList labAttendanceList1 = new LabList(labs1);
         LabList labAttendanceList2 = new LabList(labs2);
+        LabList labAttendanceList3 = labAttendanceList1;
+
+        assertEquals(labAttendanceList1, labAttendanceList3);
+
         assertEquals(labAttendanceList1, labAttendanceList2);
 
         labAttendanceList1.markLabAsAttended(2);
         assertNotEquals(labAttendanceList1, labAttendanceList2);
+
+        assertNotEquals(labAttendanceList1, null);
+    }
+
+    @Test
+    public void toString_default_success() {
+        LabList labAttendanceList = new LabList(labs);
+        // Can transfer these expected Strings to another test util class in the future
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < LabList.NUMBER_OF_LABS; i++) {
+            sb.append("LN").append(" ");
+        }
+        assertEquals(sb.toString(), labAttendanceList.toString());
+
+        labAttendanceList.markLabAsAttended(2);
+        sb = new StringBuilder();
+        for (int i = 0; i < LabList.NUMBER_OF_LABS; i++) {
+            if (i == 2) {
+                sb.append("LY").append(" ");
+            } else {
+                sb.append("LN").append(" ");
+            }
+
+        }
+        assertEquals(sb.toString(), labAttendanceList.toString());
     }
 }

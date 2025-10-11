@@ -8,7 +8,9 @@ public class Lab implements LabAttendance {
     private boolean isAttended;
 
     /**
-     * Constructs an {@code LabAttendance} with attendance initially set to false.
+     * Constructs a {@code Lab} with the specified lab number and attendance initially set to false.
+     *
+     * @param labNumber The lab number (must be positive)
      */
     public Lab(int labNumber) {
         assert labNumber > 0;
