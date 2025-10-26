@@ -1,0 +1,23 @@
+@startuml UndoState0
+!include style.puml
+skinparam ClassFontColor #000000
+skinparam ClassBorderColor #000000
+skinparam ClassBackgroundColor #FFFFAA
+
+title Initial state (Application Start)
+
+package "Current State" {
+    class CurrentAB as "<u>ab0:AddressBook</u>"
+    class CurrentTS as "<u>ts0:Timeslots</u>"
+}
+
+package "Previous State" {
+    class PreviousState as "null" #CCCCCC
+}
+
+note bottom of PreviousState
+  No previous state
+  Cannot undo
+end note
+
+@end

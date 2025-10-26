@@ -1,0 +1,31 @@
+@startuml UndoSequenceDiagram-Model
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> Model : undoAddressBook()
+activate Model
+
+Model -> Model : setAddressBook(previousAddressBookState)
+activate Model
+deactivate Model
+
+Model -> Model : setTimeslots(previousTimeslotsState)
+activate Model
+deactivate Model
+
+Model -> Model : previousAddressBookState = null
+activate Model
+deactivate Model
+
+Model -> Model : previousTimeslotsState = null
+activate Model
+deactivate Model
+
+[<-- Model : (state restored)
+deactivate Model
+
+@end

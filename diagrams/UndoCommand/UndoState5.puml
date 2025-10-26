@@ -1,0 +1,29 @@
+@startuml UndoState5
+!include style.puml
+skinparam ClassFontColor #000000
+skinparam ClassBorderColor #000000
+skinparam ClassBackgroundColor #FFFFAA
+
+title After command "clear"
+
+package "Current State" {
+    class CurrentAB as "<u>ab2:AddressBook</u>"
+    class CurrentTS as "<u>ts0:Timeslots</u>"
+}
+
+package "Previous State (SAVED)" #FFDDDD {
+    class PreviousAB as "<u>ab1:AddressBook</u>"
+    class PreviousTS as "<u>ts0:Timeslots</u>"
+}
+
+note bottom of PreviousAB
+  Before clear
+  Previous state saved
+  Can undo
+end note
+
+note bottom of CurrentAB
+  After clear: empty
+end note
+
+@end

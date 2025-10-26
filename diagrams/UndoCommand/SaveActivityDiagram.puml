@@ -1,0 +1,27 @@
+@startuml SaveActivityDiagram
+start
+:User executes command;
+
+if () then ([command modifies data])
+  :Call saveAddressBook();
+  note right
+    Saves current AddressBook
+    and Timeslots as previous state
+  end note
+
+  :Execute command;
+  note right
+    Modifies current state
+    Previous state preserved
+  end note
+else ([command is read-only])
+  :Execute command;
+  note right
+    Read-only command
+    (list, find, get-timeslots)
+    No state saved
+  end note
+endif
+
+stop
+@end

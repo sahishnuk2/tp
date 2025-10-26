@@ -1,0 +1,28 @@
+@startuml UndoState3
+!include style.puml
+skinparam ClassFontColor #000000
+skinparam ClassBorderColor #000000
+skinparam ClassBackgroundColor #FFFFAA
+
+title After command "undo"
+
+package "Current State (RESTORED)" {
+    class CurrentAB as "<u>ab1:AddressBook</u>"
+    class CurrentTS as "<u>ts0:Timeslots</u>"
+}
+
+package "Previous State" {
+    class PreviousState as "null" #CCCCCC
+}
+
+note bottom of PreviousState
+  Previous state cleared
+  Cannot undo
+end note
+
+note bottom of CurrentAB
+  "add n/John Doe ..." reverted
+  i.e. John Doe removed
+end note
+
+@end

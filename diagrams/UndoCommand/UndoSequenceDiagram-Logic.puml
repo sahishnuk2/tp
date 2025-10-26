@@ -1,4 +1,4 @@
-@startuml
+@startuml UndoSequenceDiagram-Logic
 !include style.puml
 skinparam ArrowFontStyle plain
 
@@ -11,14 +11,15 @@ end box
 box Model MODEL_COLOR_T1
 participant ":Model" as Model MODEL_COLOR
 end box
-[-> LogicManager : execute(undo)
+
+[-> LogicManager : execute("undo")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand(undo)
+LogicManager -> AddressBookParser : parseCommand("undo")
 activate AddressBookParser
 
 create UndoCommand
-AddressBookParser -> UndoCommand
+AddressBookParser -> UndoCommand : new UndoCommand()
 activate UndoCommand
 
 UndoCommand --> AddressBookParser
@@ -27,8 +28,14 @@ deactivate UndoCommand
 AddressBookParser --> LogicManager : u
 deactivate AddressBookParser
 
-LogicManager -> UndoCommand : execute()
+LogicManager -> UndoCommand : execute(model)
 activate UndoCommand
+
+UndoCommand -> Model : canUndoAddressBook()
+activate Model
+
+Model --> UndoCommand : true
+deactivate Model
 
 UndoCommand -> Model : undoAddressBook()
 activate Model
@@ -36,11 +43,12 @@ activate Model
 Model --> UndoCommand
 deactivate Model
 
-UndoCommand --> LogicManager : result
+UndoCommand --> LogicManager : CommandResult("Successfully undone!")
 deactivate UndoCommand
-UndoCommand -[hidden]-> LogicManager : result
+
 destroy UndoCommand
 
-[<--LogicManager
+[<-- LogicManager
 deactivate LogicManager
-@enduml
+@end
+

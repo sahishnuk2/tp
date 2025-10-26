@@ -1,0 +1,24 @@
+@startuml UndoState4
+!include style.puml
+skinparam ClassFontColor #000000
+skinparam ClassBorderColor #000000
+skinparam ClassBackgroundColor #FFFFAA
+
+title After command "list" (no change)
+
+package "Current State" {
+    class CurrentAB as "<u>ab1:AddressBook</u>"
+    class CurrentTS as "<u>ts0:Timeslots</u>"
+}
+
+package "Previous State" {
+    class PreviousState as "null" #CCCCCC
+}
+
+note bottom of PreviousState
+  No change (list command
+  does not modify any data)
+  Cannot undo
+end note
+
+@end

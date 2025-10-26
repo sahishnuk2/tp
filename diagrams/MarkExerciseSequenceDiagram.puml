@@ -1,0 +1,81 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":MarkExerciseCommandParser" as MarkExerciseCommandParser LOGIC_COLOR
+participant "m:MarkExerciseCommand" as MarkExerciseCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "model:Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("marke 1 ei/1 s/d")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("marke 1 ei/1 s/d")
+activate AddressBookParser
+
+create MarkExerciseCommandParser
+AddressBookParser -> MarkExerciseCommandParser : new MarkExerciseCommandParser()
+activate MarkExerciseCommandParser
+
+MarkExerciseCommandParser --> AddressBookParser
+deactivate MarkExerciseCommandParser
+
+AddressBookParser -> MarkExerciseCommandParser : parse("1 ei/1 s/d")
+activate MarkExerciseCommandParser
+
+create MarkExerciseCommand
+MarkExerciseCommandParser -> MarkExerciseCommand : new MarkExerciseCommand()
+activate MarkExerciseCommand
+
+MarkExerciseCommand --> MarkExerciseCommandParser
+deactivate MarkExerciseCommand
+
+MarkExerciseCommandParser --> AddressBookParser : m
+deactivate MarkExerciseCommandParser
+destroy MarkExerciseCommandParser
+
+AddressBookParser --> LogicManager : m
+deactivate AddressBookParser
+
+LogicManager -> MarkExerciseCommand : execute(model)
+activate MarkExerciseCommand
+
+MarkExerciseCommand -> Model : getFilteredPersonList()
+activate Model
+Model --> MarkExerciseCommand : list
+deactivate Model
+
+MarkExerciseCommand -> Model : saveAddressBook()
+activate Model
+Model --> MarkExerciseCommand
+deactivate Model
+
+MarkExerciseCommand -> Model : setPerson(old, updated)
+activate Model
+Model --> MarkExerciseCommand
+deactivate Model
+
+MarkExerciseCommand -> Model : updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS)
+activate Model
+Model --> MarkExerciseCommand
+deactivate Model
+
+create CommandResult
+MarkExerciseCommand -> CommandResult : new CommandResult(message)
+activate CommandResult
+CommandResult --> MarkExerciseCommand
+deactivate CommandResult
+
+MarkExerciseCommand --> LogicManager : r
+deactivate MarkExerciseCommand
+
+[<-- LogicManager
+deactivate LogicManager
+@enduml
