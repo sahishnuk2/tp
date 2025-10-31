@@ -80,14 +80,7 @@ public class LabListTest {
     }
 
     @Test
-    public void markAsAbsent_invalidIndex_assertionError() {
-        LabList labAttendanceList = new LabList(labs);
-        assertThrows(AssertionError.class, () -> labAttendanceList.markLabAsAbsent(-1));
-        assertThrows(AssertionError.class, () -> labAttendanceList.markLabAsAbsent(LabList.NUMBER_OF_LABS));
-    }
-
-    @Test
-    public void markAsAbsent_valid_index_success() {
+    public void markAsAbsent_validIndex_success() {
         LabList labAttendanceList = new LabList(labs);
 
         // Unmark after marking lab for index 0
@@ -103,6 +96,13 @@ public class LabListTest {
         assertTrue(labAttendanceList.getLabs()[LabList.NUMBER_OF_LABS - 1].isAttended());
         labAttendanceList.markLabAsAbsent(LabList.NUMBER_OF_LABS - 1);
         assertFalse(labAttendanceList.getLabs()[LabList.NUMBER_OF_LABS - 1].isAttended());
+    }
+
+    @Test
+    public void markAsAbsent_invalidIndex_assertionError() {
+        LabList labAttendanceList = new LabList(labs);
+        assertThrows(AssertionError.class, () -> labAttendanceList.markLabAsAbsent(-1));
+        assertThrows(AssertionError.class, () -> labAttendanceList.markLabAsAbsent(LabList.NUMBER_OF_LABS));
     }
 
     @Test
