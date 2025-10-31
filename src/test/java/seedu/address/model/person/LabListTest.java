@@ -67,9 +67,23 @@ public class LabListTest {
         labAttendanceList.markLabAsAttended(0);
         assertTrue(labAttendanceList.getLabs()[0].isAttended());
 
-        assertFalse(labAttendanceList.getLabs()[5].isAttended());
-        labAttendanceList.markLabAsAttended(5);
-        assertTrue(labAttendanceList.getLabs()[5].isAttended());
+        assertFalse(labAttendanceList.getLabs()[LabList.NUMBER_OF_LABS - 1].isAttended());
+        labAttendanceList.markLabAsAttended(LabList.NUMBER_OF_LABS - 1);
+        assertTrue(labAttendanceList.getLabs()[LabList.NUMBER_OF_LABS - 1].isAttended());
+    }
+
+    @Test
+    public void markAsAttended_invalidIndex_assertionError() {
+        LabList labAttendanceList = new LabList(labs);
+        assertThrows(AssertionError.class, () -> labAttendanceList.markLabAsAttended(-1));
+        assertThrows(AssertionError.class, () -> labAttendanceList.markLabAsAttended(LabList.NUMBER_OF_LABS));
+    }
+
+    @Test
+    public void markAsAbsent_invalidIndex_assertionError() {
+        LabList labAttendanceList = new LabList(labs);
+        assertThrows(AssertionError.class, () -> labAttendanceList.markLabAsAbsent(-1));
+        assertThrows(AssertionError.class, () -> labAttendanceList.markLabAsAbsent(LabList.NUMBER_OF_LABS));
     }
 
     @Test

@@ -23,7 +23,12 @@ public class LabTest {
         Lab labAttendance2 = new Lab(LAB_NUMBER_THREE, CURRENT_WEEK_FIVE);
         assertFalse(labAttendance2.isAttended());
         assertEquals("N", labAttendance2.getStatus());
+    }
 
+    @Test
+    public void constructor_invalid_labNumber() {
+        assertThrows(AssertionError.class, () -> new Lab(0, CURRENT_WEEK_FIVE));
+        assertThrows(AssertionError.class, () -> new Lab(LabList.NUMBER_OF_LABS + 1, CURRENT_WEEK_FIVE));
     }
 
     @Test
