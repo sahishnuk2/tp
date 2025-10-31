@@ -63,13 +63,13 @@ public class LabListTest {
     public void markAsAttended_validIndex_success() {
         LabList labAttendanceList = new LabList(labs);
 
-        assertFalse(labAttendanceList.getLabs()[0].isAttended());
+        assertFalse(labs[0].isAttended());
         labAttendanceList.markLabAsAttended(0);
-        assertTrue(labAttendanceList.getLabs()[0].isAttended());
+        assertTrue(labs[0].isAttended());
 
-        assertFalse(labAttendanceList.getLabs()[LabList.NUMBER_OF_LABS - 1].isAttended());
+        assertFalse(labs[LabList.NUMBER_OF_LABS - 1].isAttended());
         labAttendanceList.markLabAsAttended(LabList.NUMBER_OF_LABS - 1);
-        assertTrue(labAttendanceList.getLabs()[LabList.NUMBER_OF_LABS - 1].isAttended());
+        assertTrue(labs[LabList.NUMBER_OF_LABS - 1].isAttended());
     }
 
     @Test
@@ -84,18 +84,18 @@ public class LabListTest {
         LabList labAttendanceList = new LabList(labs);
 
         // Unmark after marking lab for index 0
-        assertFalse(labAttendanceList.getLabs()[0].isAttended());
+        assertFalse(labs[0].isAttended());
         labAttendanceList.markLabAsAttended(0);
-        assertTrue(labAttendanceList.getLabs()[0].isAttended());
+        assertTrue(labs[0].isAttended());
         labAttendanceList.markLabAsAbsent(0);
-        assertFalse(labAttendanceList.getLabs()[0].isAttended());
+        assertFalse(labs[0].isAttended());
 
         // Unmark after marking lab for last index
-        assertFalse(labAttendanceList.getLabs()[LabList.NUMBER_OF_LABS - 1].isAttended());
+        assertFalse(labs[LabList.NUMBER_OF_LABS - 1].isAttended());
         labAttendanceList.markLabAsAttended(LabList.NUMBER_OF_LABS - 1);
-        assertTrue(labAttendanceList.getLabs()[LabList.NUMBER_OF_LABS - 1].isAttended());
+        assertTrue(labs[LabList.NUMBER_OF_LABS - 1].isAttended());
         labAttendanceList.markLabAsAbsent(LabList.NUMBER_OF_LABS - 1);
-        assertFalse(labAttendanceList.getLabs()[LabList.NUMBER_OF_LABS - 1].isAttended());
+        assertFalse(labs[LabList.NUMBER_OF_LABS - 1].isAttended());
     }
 
     @Test
@@ -247,7 +247,6 @@ public class LabListTest {
             }
         }
     }
-
 
     @Test
     public void getLabels_default_success() {
