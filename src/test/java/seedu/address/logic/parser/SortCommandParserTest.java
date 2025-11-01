@@ -90,4 +90,12 @@ public class SortCommandParserTest {
                 "Invalid prefix(s) found: " + PREFIX_LAB_NUMBER + ", " + PREFIX_STATUS);
     }
 
+    @Test
+    public void parse_extraIndex_parseException() {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE);
+
+        assertParseFailure(parser, " 1 " + PREFIX_SORT_CRITERION + "email", expectedMessage);
+        assertParseFailure(parser, " 1:3 " + PREFIX_SORT_CRITERION + "email", expectedMessage);
+    }
+
 }
