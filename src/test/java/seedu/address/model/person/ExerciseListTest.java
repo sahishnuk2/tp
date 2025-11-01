@@ -20,6 +20,7 @@ public class ExerciseListTest {
     @BeforeEach
     public void setUp() {
         tracker = new ExerciseList();
+        ExerciseList.setCurrentWeek(0);
     }
 
     // -------------------------------------------------------------------------
