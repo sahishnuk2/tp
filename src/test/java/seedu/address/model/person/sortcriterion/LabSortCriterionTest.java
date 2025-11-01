@@ -32,7 +32,7 @@ public class LabSortCriterionTest {
         // Same number
         assertEquals(0, comparator.compare(person1, person2));
 
-        // Different lab attendaance percentage
+        // Different lab attendance percentage
         assertTrue(comparator.compare(person2, person3) > 0);
         assertTrue(comparator.compare(person3, person4) > 0);
         assertTrue(comparator.compare(person4, person5) > 0);
