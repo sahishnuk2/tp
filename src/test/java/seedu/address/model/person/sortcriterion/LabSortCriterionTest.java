@@ -7,7 +7,6 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.model.person.LabAttendanceList;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
 
@@ -19,7 +18,6 @@ public class LabSortCriterionTest {
         String labTwentyPercent = "L1: Y L2: Y L3: N L4: N L5: N L6: N L7: N L8: N L9: N L10: N ";
         String labThirtyPercent = "L1: Y L2: Y L3: Y L4: N L5: N L6: N L7: N L8: N L9: N L10: N ";
         String labFortyPercent = "L1: Y L2: Y L3: Y L4: Y L5: N L6: N L7: N L8: N L9: N L10: N ";
-        
         LabSortCriterion labSortCriterion = new LabSortCriterion();
         Comparator<Person> comparator = labSortCriterion.getComparator();
 
