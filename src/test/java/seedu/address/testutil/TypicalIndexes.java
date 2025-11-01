@@ -12,6 +12,9 @@ public class TypicalIndexes {
 
     public static final Index INDEX_FIRST_LAB = Index.fromOneBased(1);
     public static final Index INDEX_SECOND_LAB = Index.fromOneBased(2);
+    public static final Index INDEX_FIRST_EXERCISE = Index.fromZeroBased(0);
+    public static final Index INDEX_SECOND_EXERCISE = Index.fromZeroBased(1);
+
 
     // INVALID INDEX
     public static final Index INDEX_HUNDRED_PERSON = Index.fromOneBased(100);

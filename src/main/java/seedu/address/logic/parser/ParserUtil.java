@@ -322,9 +322,12 @@ public class ParserUtil {
 
         for (int i = 0; i < ExerciseList.NUMBER_OF_EXERCISES; i++) {
             String statusString = parts[i * 3 + 2];
-            statuses[i] = parseStatus(statusString);
+            if (statusString.equals("D")) {
+                statuses[i] = true;
+            } else if (statusString.equals("N") || statusString.equals("O")) {
+                statuses[i] = false;
+            }
         }
-
         return new ExerciseList(new ArrayList<>(Arrays.asList(statuses)));
     }
 
