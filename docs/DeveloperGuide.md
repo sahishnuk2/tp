@@ -644,7 +644,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   * 2a1. System displays error message
   * 2a2. User adds in missing field or re-enters a valid field
 
-  Use case resumes at Step 3
+    Use case resumes at Step 3
 * 2b. Duplicate student ID
   * 2b1. System returns error message to show student already exists
   * 2b2. User re-enters a valid student ID
@@ -682,7 +682,7 @@ Use case ends.
   * 1a1. System returns an error describing acceptable criteria
   * 1a2. User re-enters a valid criterion
 
-  Use case resumes at Step 2
+    Use case resumes at Step 2
 
 
 ### Non-Functional Requirements
@@ -694,7 +694,7 @@ Use case ends.
 5.  Core functionalities should be covered by automated tests to ensure that future changes do not break the existing features
 6.  Users should be able to run the application simply by executing a JAR file, without needing to run an installer.
 7.  Should be able to function fully offline.
-8.  Date persistence should not depend on an external database system. Storage should be file-based and embedded.
+8.  Data persistence should not depend on an external database system. Storage should be file-based and embedded.
 9.  User data should not be lost due to unexpected situations (e.g., unexpected shutdowns).
 10. Should be able to support multiple screen resolutions (e.g., 1280×720 and above) without layout issues.
 
