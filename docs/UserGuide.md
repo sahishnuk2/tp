@@ -354,6 +354,7 @@ grade INDEX... en/EXAM_NAME s/STATUS
 
 | **Valid Exam Name** | **Description** |
 |----------------------|-----------------|
+| `pe0`               | Practical Exam 0 |
 | `pe1`               | Practical Exam 1 |
 | `midterm`           | Mid-Semester Exam |
 | `pe2`               | Practical Exam 2 |
