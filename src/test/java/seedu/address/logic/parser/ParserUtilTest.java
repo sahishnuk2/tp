@@ -4,13 +4,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_LAB;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_LAB;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
@@ -80,6 +83,7 @@ public class ParserUtilTest {
     @Test
     public void parseIndex_invalidInput_throwsParseException() {
         assertThrows(ParseException.class, () -> ParserUtil.parseIndex("10 a"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseIndex("   "));
     }
 
     @Test
@@ -95,6 +99,32 @@ public class ParserUtilTest {
 
         // Leading and trailing whitespaces
         assertEquals(INDEX_FIRST_PERSON, ParserUtil.parseIndex("  1  "));
+    }
+
+
+    @Test
+    public void parseLabIndex_validInput_success() throws InvalidIndexException {
+        assertEquals(INDEX_FIRST_LAB, ParserUtil.parseLabIndex("1"));
+
+        assertEquals(INDEX_FIRST_LAB, ParserUtil.parseLabIndex("  1  "));
+
+        assertEquals(INDEX_SECOND_LAB, ParserUtil.parseLabIndex("  2 "));
+    }
+
+    @Test
+    public void parseLabIndex_invalidInput_parseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseLabIndex(""));
+
+        assertThrows(ParseException.class, () -> ParserUtil.parseLabIndex("-1"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseLabIndex("0"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseLabIndex("11"));
+
+        assertThrows(ParseException.class, () -> ParserUtil.parseLabIndex("abc"));
+    }
+
+    @Test
+    public void parseLabIndex_null_parseException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseLabIndex(null));
     }
 
     @Test
