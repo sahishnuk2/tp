@@ -19,7 +19,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -378,8 +377,6 @@ public class TimeslotsWindow {
                     block.setStrokeWidth(1);
 
                     // Decide whether to hide the generic timeslot label.
-                    // We only hide the label if a consultation actually covers the label area at the start
-                    // of the timeslot block. This prevents hiding labels when a consultation overlaps later.
                     final int labelSafeMinutes = 15;
                     boolean hideGenericLabel = false;
                     if (allTimeslots != null) {
@@ -392,12 +389,9 @@ public class TimeslotsWindow {
                             if (cStart == null || cEnd == null) {
                                 continue;
                             }
-                            // compute the portion of the consultation that falls on this date window
                             LocalDateTime cRenderStart = cStart.isAfter(dayWindowStart) ? cStart : dayWindowStart;
                             LocalDateTime cRenderEnd = cEnd.isBefore(dayWindowEnd) ? cEnd : dayWindowEnd;
-                            // if the consultation visible portion overlaps the timeslot at all
                             if (cRenderStart.isBefore(renderEnd) && cRenderEnd.isAfter(renderStart)) {
-                                // hide the generic label only if the consultation covers the label area near the start
                                 if (cRenderStart.isBefore(renderStart.plusMinutes(labelSafeMinutes))
                                         && cRenderEnd.isAfter(renderStart)) {
                                     hideGenericLabel = true;
@@ -407,8 +401,6 @@ public class TimeslotsWindow {
                         }
                     }
 
-                    // Only allow line breaks at the time separator " - " so we avoid character-level wrapping.
-                    // Show times as two lines with explicit S: (start) and E: (end) prefixes.
                     String displayLabelText = String.format("S: %s\nE: %s",
                             renderStart.format(DateTimeFormatter.ofPattern("HH:mm")),
                             renderEnd.format(DateTimeFormatter.ofPattern("HH:mm")));
@@ -419,13 +411,7 @@ public class TimeslotsWindow {
                     bl.layoutXProperty().bind(xBind.add(6));
                     bl.setLayoutY(8); // vertical placement
 
-                    Tooltip tooltip = new Tooltip(start.format(FORMATTER) + "\n" + end.format(FORMATTER));
-                    Tooltip.install(block, tooltip);
-
-                    // Add the block, and add the generic time label only if it's not obscured by a consultation
-                    // near the block start.
                     if (!hideGenericLabel) {
-                        Tooltip.install(bl, tooltip);
                         timeline.getChildren().addAll(block, bl);
                     } else {
                         timeline.getChildren().add(block);
@@ -447,7 +433,6 @@ public class TimeslotsWindow {
                     continue;
                 }
 
-                // same intersection logic as above: check if this consultation overlaps the date and timeline window
                 LocalDateTime dayWindowStart = LocalDateTime.of(date, LocalTime.of(START_HOUR, 0));
                 LocalDateTime dayWindowEnd = LocalDateTime.of(date.plusDays(1), LocalTime.MIDNIGHT);
 
@@ -455,7 +440,6 @@ public class TimeslotsWindow {
                 LocalDateTime renderEnd = end.isBefore(dayWindowEnd) ? end : dayWindowEnd;
 
                 if (renderStart.isBefore(renderEnd)) {
-                    // Use Duration to compute minutes to correctly handle spans across midnight
                     long minutesFromStart = Duration.between(dayWindowStart, renderStart).toMinutes();
                     long durationMinutes = Duration.between(renderStart, renderEnd).toMinutes();
 
@@ -465,7 +449,6 @@ public class TimeslotsWindow {
                     NumberBinding xBind = timelineWidth.multiply(xRatio);
                     NumberBinding wBind = timelineWidth.multiply(wRatio);
 
-                    // Render consultation as a simple red block; student name shown below the time label.
                     Rectangle consultBlock = new Rectangle();
                     consultBlock.xProperty().bind(xBind);
                     consultBlock.yProperty().set(8); // same vertical placement as other blocks
@@ -506,17 +489,6 @@ public class TimeslotsWindow {
                     // Keep student label positioned directly below the time label even after the time label wraps.
                     studentLbl.layoutYProperty().bind(timeLbl.layoutYProperty().add(timeLbl.heightProperty()).add(2));
 
-                    String consultTooltip = String.format("Consultation: %s -> %s%nStudent: %s",
-                            start.format(FORMATTER),
-                            end.format(FORMATTER),
-                            ct.getStudentName());
-                    Tooltip tooltip = new Tooltip(consultTooltip);
-                    Tooltip.install(consultBlock, tooltip);
-                    Tooltip.install(timeLbl, tooltip);
-                    Tooltip.install(studentLbl, tooltip);
-                    Tooltip.install(icon, tooltip);
-
-                    // Add consultation visuals: block, icon, then labels
                     timeline.getChildren().addAll(consultBlock, icon, timeLbl, studentLbl);
                     // Ensure labels and icon are rendered above the block.
                     icon.toFront();
