@@ -712,6 +712,13 @@ Now, if you set the current week to **Week 6**, the following occurs:
 
 <br/>
 
+<box type = "warning">
+
+**Caution:**
+- The week number must be within the valid semester range (e.g., 0–13).
+- Setting the wrong week may cause inconsistencies in exercise deadlines and attendance tracking.
+</box>
+
 #### Exiting the application: `exit`
 
 You can use this command to close LambdaLab.
