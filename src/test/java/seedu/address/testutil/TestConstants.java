@@ -132,5 +132,59 @@ public final class TestConstants {
     public static final String KEYWORD_GHUSER = "ghuser";
     public static final String PHONE_98765432 = "98765432";
 
+    // Exercise status
+    public static final String EX_N = "N"; // NOT_DONE
+    public static final String EX_D = "D"; // DONE
+
+    public static final String MSG_HAVE_COMPLETED = "have completed";
+    public static final String MSG_HAVE_NOT_YET_COMPLETED = "have not yet completed";
+    public static final String MSG_HAVE_NOT_MET_DEADLINE = "have not met the deadline for";
+    public static final String MSG_INVALID_FILTER = "invalid filter";
+
+    public static final String EX_LIST_10 =
+            "ex 0: D ex 1: N ex 2: D ex 3: N ex 4: N ex 5: N ex 6: N ex 7: N ex 8: N ex 9: N";
+
+    // Lab status
+    public static final String LAB_Y = "Y";
+    public static final String LAB_N = "N";
+    public static final String LAB_A = "A";
+
+    public static final String LAB_MSG_ATTENDED = "have attended";
+    public static final String LAB_MSG_NOT_YET_ATTENDED = "have not yet attended";
+    public static final String LAB_MSG_ABSENT = "were absent for";
+
+    public static final String LAB_LIST_10 =
+            "L1: Y L2: N L3: N L4: N L5: N L6: N L7: N L8: N L9: N L10: N";
+
+    // Lab attendance
+    public static final String LAB_LIST_10_0Y =
+            "L1: N L2: N L3: N L4: N L5: N L6: N L7: N L8: N L9: N L10: N";
+    public static final String LAB_LIST_10_5Y =
+            "L1: Y L2: Y L3: Y L4: Y L5: Y L6: N L7: N L8: N L9: N L10: N";
+    public static final String LAB_LIST_10_7Y =
+            "L1: Y L2: Y L3: Y L4: Y L5: Y L6: Y L7: Y L8: N L9: N L10: N";
+
+    public static final String ATTEND_MSG_EXACT = "exactly ";
+    public static final String ATTEND_MSG_GE = "more than or equal to ";
+    public static final String ATTEND_MSG_LE = "less than or equal to ";
+    public static final String ATTEND_MSG_GT = "more than ";
+    public static final String ATTEND_MSG_LT = "less than ";
+
+    public static final String ATTEND_SUCCESS_PREFIX = "have attended ";
+    public static final String ATTEND_SUCCESS_SUFFIX = " percent of labs";
+
+    // Filter combined
+
+    public static final String EX_LIST_10_ALL_N =
+            "ex 0: N ex 1: N ex 2: N ex 3: N ex 4: N ex 5: N ex 6: N ex 7: N ex 8: N ex 9: N";
+    public static final String EX_LIST_10_D0_OTHERS_N =
+            "ex 0: D ex 1: N ex 2: N ex 3: N ex 4: N ex 5: N ex 6: N ex 7: N ex 8: N ex 9: N";
+
+    public static final String LAB_LIST_10_Y1_OTHERS_N =
+            "L1: Y L2: N L3: N L4: N L5: N L6: N L7: N L8: N L9: N L10: N";
+
+
+
+
     private TestConstants() {}
 }
