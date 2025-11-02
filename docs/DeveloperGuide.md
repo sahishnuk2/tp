@@ -562,7 +562,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | TA                         | search for students based on their name                | easily find the student I'm looking for                       |
 | `* * *`  | TA                         | delete students                                        | remove false information                                      |
 | `* * *`  | TA conducting labs         | mark students attendance                               | know which students attended the lab and which students didnt |
-| `* * *`  | TA with many students      | add, update students data                              | have their accurate information in LambdaLabs                 |
+| `* * *`  | TA with many students      | add, update students data                              | maintain accurate information                                 |
 | `* *`    | TA                         | tag my student based on their exercise performance     | know how much effort I would need to help each student        |
 | `* *`    | New user                   | undo my mistakes                                       | recover from them quickly                                     |
 | `* *`    | TA                         | search for students based on their student ID          | easily find the student I'm looking for                       |
