@@ -35,6 +35,10 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Status;
 import seedu.address.model.person.StudentId;
+import seedu.address.model.person.sortcriterion.ExerciseSortCriterion;
+import seedu.address.model.person.sortcriterion.LabSortCriterion;
+import seedu.address.model.person.sortcriterion.NameSortCriterion;
+import seedu.address.model.person.sortcriterion.StudentIdSortCriterion;
 import seedu.address.model.tag.Tag;
 
 public class ParserUtilTest {
@@ -125,7 +129,7 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void parseLabIndex_null_parseException() {
+    public void parseLabIndex_null_nullPointerException() {
         assertThrows(NullPointerException.class, () -> ParserUtil.parseLabIndex(null));
     }
 
@@ -463,6 +467,29 @@ public class ParserUtilTest {
 
         assertThrows(ParseException.class, () -> ParserUtil.verifyNoUnwantedPrefixes(
                 "   n/John    p/12345678 ei/0 l/0  ", PREFIX_NAME, PREFIX_PHONE));
+    }
+
+    @Test
+    public void parseSortCriterion_valid_success() throws ParseException {
+        assertEquals(new LabSortCriterion(), ParserUtil.parseSortCriterion("lab"));
+        assertEquals(new ExerciseSortCriterion(), ParserUtil.parseSortCriterion("ex"));
+        assertEquals(new NameSortCriterion(), ParserUtil.parseSortCriterion("name"));
+        assertEquals(new StudentIdSortCriterion(), ParserUtil.parseSortCriterion("id"));
+
+        assertEquals(new LabSortCriterion(), ParserUtil.parseSortCriterion("   lab   "));
+        assertEquals(new ExerciseSortCriterion(), ParserUtil.parseSortCriterion("  ex "));
+    }
+
+    @Test
+    public void parseSortCriterion_null_nullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseSortCriterion(null));
+    }
+
+    @Test
+    public void parseSortCriterion_invalidInput_success() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseSortCriterion(""));
+        assertThrows(ParseException.class, () -> ParserUtil.parseSortCriterion("   "));
+        assertThrows(ParseException.class, () -> ParserUtil.parseSortCriterion("height"));
     }
 
 }
