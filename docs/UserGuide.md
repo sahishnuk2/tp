@@ -366,7 +366,7 @@ grade INDEX... en/EXAM_NAME s/STATUS
 
 #### Blocking a timeslot: `block-timeslot`
 
-You can use this command to add a timeslot to the application's timeslot store.
+You can use this command to add a timeslot to the application's timeslot database (stored in `/data/timeslots.json`).
 Timeslots can be used to mark regular events (e.g. classes)
 
 **Format:**
@@ -457,7 +457,7 @@ clear-timeslots
 
 <box type="warning">
 
-**Caution:** This action permanently removes all stored timeslots. You can restore them by running `undo` as the very next command. If any other data-modifying command runs first, the removal cannot be undone.
+**Caution:** This action permanently removes all stored timeslots. You can restore them by running `undo` as the very next command. f any other data-modifying command runs first, the removal cannot be undone.
 
 </box>
 
