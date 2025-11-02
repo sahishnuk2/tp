@@ -100,5 +100,5 @@ end
 [<-- LogicManager
 deactivate LogicManager
 
-scale 1.5
+scale 2.5
 @enduml
