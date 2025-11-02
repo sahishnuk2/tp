@@ -109,7 +109,7 @@ spreadsheets or GUI apps.
 
 3. Copy the `.jar` file to the folder you want to use as the _home folder_ for your LambdaLab.
 
-4. Open a command terminal, `cd` into the folder you put the `.jar` file in, and use the `java -jar LambdaLab.jar` command to run the application.<br>
+4. Open a command terminal, `cd` into the folder you put the `.jar` file in, and use the `java -jar [CS2103T-T09-3][LambdaLab].jar` command to run the application.<br>
    A GUI should appear in a few seconds, as shown by the image below. Note that the app contains some sample data and the layout
    is explained in coloured boxes.<br>
 
@@ -708,7 +708,7 @@ Similarly, lab attendance is tracked relative to the current week, allowing TAs 
 <box type="warning">
 
 **Caution:**
-- The week number must be within the valid semester range (e.g., 1–13).
+- The week number must be within the valid semester range (e.g., 0–13 (both inclusive)).
 - Setting the wrong week may cause inconsistencies in exercise deadlines and attendance tracking.
 </box>
 <br>

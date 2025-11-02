@@ -103,7 +103,7 @@ How the `Logic` component works:
 
 1. When `Logic` is called upon to execute a command, it is passed to an `AddressBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
 1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which is executed by the `LogicManager`.
-1. The command can communicate with the `Model` when it is executed (e.g. to delete a person).
+1. The command can communicate with the `Model` when it is executed (e.g. to delete a person).<br>
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
 1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
 
@@ -130,7 +130,7 @@ The `Model` component,
 
 <box type="info" seamless>
 
-**Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.
+**Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
 
 <puml src="diagrams/BetterModelClassDiagram.puml" width="450" />
 
@@ -500,7 +500,7 @@ and exercise tracking throughout the application.
 
 **How it works:**
 
-1. The user executes `set-week <WEEK_NUMBER>` where `WEEK_NUMBER` is between 0 and 13
+1. The user executes `set-week <WEEK_NUMBER>` where `WEEK_NUMBER` is between 0 and 13 (inclusive)
 2. The `SetWeekCommandParser` parses the input string and creates a `Week` object
 3. The `SetWeekCommand` is executed, which:
     - Saves the current state to enable undo functionality
@@ -667,8 +667,8 @@ Use case ends.
 2. System displays the sorted list
 
 **Extensions**
-* 1a. Invalid criterion
-  * 1a1. System returns an error describing acceptable criteria
+* 1a. Unsupported or misspelled criterion
+  * 1a1. System returns an error describing acceptable criteria 
   * 1a2. User re-enters a valid criterion
 
   Use case resumes at Step 2
@@ -769,13 +769,13 @@ testers are expected to do more *exploratory* testing.
 
 1. Editing a student with valid data
 
-    1. Prerequisites: List all students using the `list` command. Multiple students in the list.
+    1. Prerequisites: List all students using the `list` command. At least 3 students in the list.
 
     2. Test case: `edit 2 p/91234567 e/newmail@gmail.com` <br>
        Expected: In the displayed student list, the second student's data is updated to new details.
 
     3. Test case: `edit 1:3 t/outstanding` <br>
-       Expected: In the displayed student list, the first 3 students' tags are replaced with a new tag.
+       Expected: In the displayed student list, the first 3 students' tags are replaced with the `outstanding` tag.
 
 2. Editing a student with invalid fields
 
@@ -797,7 +797,7 @@ testers are expected to do more *exploratory* testing.
 
 1. Deleting student(s)
 
-    1. Prerequisites: List all student using the `list` command. Multiple students in the list.
+    1. Prerequisites: List all student using the `list` command. At least 3 students in the list.
 
     2. Test case: `delete 1`<br>
        Expected: First student is deleted from the list. Details of the deleted student shown in the status message.
@@ -854,14 +854,14 @@ testers are expected to do more *exploratory* testing.
 
 1. Marking attendance for student(s))
 
-      1. Prerequisites: List all students. Multiple persons in the list.
+      1. Prerequisites: List all students. At least 5 persons in the list.
 
       2. Test case: `marka 1 l/1 s/y`<br>
          Expected: Lab 1 marked as attended (green) for student 1. Success message shows student name and lab number.
 
       3. Test case: `marka 1 l/1 s/n`<br>
-         Expected: Lab 1 marked as not attended (grey/red depending on the week number) for student 2.
-
+         Expected: Lab 1 marked as not attended (grey/red depending on the week number) for student 1.
+   
       4. Test case: `marka 3:5 l/2 s/y`<br>
          Expected: Lab 2 marked as attended (green) for students 3, 4, and 5.
 
@@ -905,7 +905,7 @@ testers are expected to do more *exploratory* testing.
        Expected: Exercise 0 marked as done (green) for student 1. Success message shows student name and exercise number.
 
     3. Test case: `marke 1 ei/0 s/n`<br>
-       Expected: Exercise 3 marked as not done for student 2.
+       Expected: Exercise 3 marked as not done for student 1.
 
     4. Test case: `marke 3:5 ei/1 s/y`<br>
        Expected: Exercise 1 marked as done for students 3, 4, and 5.
@@ -1030,12 +1030,12 @@ testers are expected to do more *exploratory* testing.
     2. Test case: `filter la/<=70`<br>
        Expected: All students who attended less than or equal to 70 percent of labs are displayed.
 
-3. Filtering with multiple criteria
+4. Filtering with multiple criteria
 
     1. Test case: `filter ei/1 s/Y l/2 s/Y`<br>
        Expected: All students who completed exercise 1 AND attended lab 2 are displayed.
 
-4. Invalid filter commands
+5. Invalid filter commands
 
     1. Test case: `filter`<br>
        Expected: Error message indicating invalid command format.
@@ -1045,6 +1045,12 @@ testers are expected to do more *exploratory* testing.
 
     3. Test case: `filter s/Y`<br>
        Expected: Error message indicating invalid command format.
+
+    4. Test case: `filter la/50`<br>
+       Expected: Error message indicating an operator is missing.
+
+    5. Test case: `filter la/==101`<br>
+       Expected: Error message indicating invalid percentage value.
 
 ### Sorting students
 
