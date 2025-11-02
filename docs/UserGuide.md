@@ -109,7 +109,7 @@ spreadsheets or GUI apps.
 
 3. Copy the `.jar` file to the folder you want to use as the _home folder_ for your LambdaLab.
 
-4. Open a command terminal, `cd` into the folder you put the `.jar` file in, and use the `java -jar addressbook.jar` command to run the application.<br>
+4. Open a command terminal, `cd` into the folder you put the `.jar` file in, and use the `java -jar LambdaLab.jar` command to run the application.<br>
    A GUI should appear in a few seconds, as shown by the image below. Note that the app contains some sample data and the layout
    is explained in coloured boxes.<br>
 
@@ -191,7 +191,7 @@ You can use this command to add a new student to LambdaLab.
 
 **Format:**
 ```
-add i/STUDENTID n/NAME p/PHONE e/EMAIL g/GITHUB_USERNAME [t/TAG]…​
+add i/STUDENT_ID n/NAME p/PHONE e/EMAIL g/GITHUB_USERNAME [t/TAG]…​
 ```
 
 **Examples:**
@@ -219,7 +219,7 @@ You can use this command to edit an existing student's information in LambdaLab.
 
 **Format:**
 ```
-edit INDEX [i/STUDENTID] [n/NAME] [p/PHONE] [e/EMAIL] [g/GITHUB_USERNAME] [t/TAG]…​
+edit INDEX [i/STUDENT_ID] [n/NAME] [p/PHONE] [e/EMAIL] [g/GITHUB_USERNAME] [t/TAG]…​
 ```
 
 **Examples:**
@@ -355,6 +355,7 @@ grade INDEX... en/EXAM_NAME s/STATUS
 
 | **Valid Exam Name** | **Description** |
 |----------------------|-----------------|
+| `pe0`               | Practical Exam 0 |
 | `pe1`               | Practical Exam 1 |
 | `midterm`           | Mid-Semester Exam |
 | `pe2`               | Practical Exam 2 |
@@ -532,10 +533,10 @@ filter [l/LAB_NUMBER s/STATUS]... [ei/EXERCISE_INDEX s/STATUS]... [la/COMPARISON
 
 **Status Usage**:
 
-| **Use Case**                         | **Valid Inputs**                                              |
-|--------------------------------------|---------------------------------------------------------------|
-| **Filtering by lab attendance**      | `y` - attended <br>`n` - not attended <br> `a` - absent <br>  |
-| **Filtering by exercise completion** | `y` - attended <br>`n` - not attended <br> `o` - overdue <br> |
+| **Use Case**                         | **Valid Inputs**                                                |
+|--------------------------------------|-----------------------------------------------------------------|
+| **Filtering by lab attendance**      | `y` - attended <br>`n` - not attended <br> `a` - absent <br>    |
+| **Filtering by exercise completion** | `y` - completed <br>`n` - not completed <br> `o` - overdue <br> |
 
 **Examples:**
 - Shows students who attended Lab 7: `filter l/7 s/y`.
@@ -735,7 +736,7 @@ exit
 There is no need to save manually.
 
 **Q**: Can I edit on the data file directly without using commands?
-**A**: LambdaLab data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. 
+**A**: LambdaLab data are saved automatically as a JSON file `[JAR file location]/data/LambdaLab.json`. 
 Advanced users are welcome to update data directly by editing that data file.
 <box type="warning">
 
@@ -749,14 +750,14 @@ Furthermore, certain edits can cause the LambdaLab to behave in unexpected ways 
 1. Locate your data file on your current computer:
     - Navigate to the folder where your LambdaLab `.jar` file is located.
     - Look for a folder named `data`.
-    - Inside, you'll find a file called `addressbook.json` and a file called `timeslots.json` -- these contain all your student records and timeslot data.
+    - Inside, you'll find a file called `LambdaLab.json` and a file called `timeslots.json` -- these contain all your student records and timeslot data respectively.
 2. Install LambdaLab on your new computer:
     - Download the `.jar` file and place it in your desired folder.
     - Run it once to generate the initial file structure.
 3. Transfer your data:
-    - Copy the `addressbook.json` and `timeslots.json` files from your old computer.
+    - Copy the `LambdaLab.json` and `timeslots.json` files from your old computer.
     - On your new computer, navigate to `[JAR file location]/data/`.
-    - Replace the empty `addressbook.json` and `timeslots.json` files with your copied file.
+    - Replace the empty `LambdaLab.json` and `timeslots.json` files with your copied file.
 4. Restart LambdaLab on your new computer to see all your student data.
    <box type="tip">
    Tip: You can also backup your data regularly by copying the two `.json` files to a secure location (e.g., cloud storage, USB drive).
@@ -772,7 +773,7 @@ to determine which labs and exercises are currently active. Assuming that exerci
 in week 3, you may use [`set-week` command](#set-week) once every week to auto-update the status of past exercises and labs.
 
 **Q**: Can I export my student data to a spreadsheet?<br>
-**A**: Currently, data is stored in JSON format in the `data/addressbook.json` and `data/timeslots.json` file. Advanced users can manually convert
+**A**: Currently, data is stored in JSON format in the `data/LambdaLab.json` and `data/timeslots.json` file. Advanced users can manually convert
 this to a spreadsheet format using external tools.
 
 **Q**: What should I do if a student's information changes (e.g., github username or email)?<br>
@@ -816,8 +817,8 @@ lab sessions to maintain accurate records.
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add i/STUDENTID n/NAME p/PHONE e/EMAIL g/GITHUB_USERNAME [t/TAG]…` <br> e.g., `add i/A1234567X n/James Ho p/22224444 e/jamesho@example.com g/JamesHo t/friend`
-**Edit**   | `edit INDEX [i/STUDENTID] [n/NAME] [p/PHONE] [e/EMAIL] [g/GITHUB_USERNAME] [t/TAG]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Add**    | `add i/STUDENT_ID n/NAME p/PHONE e/EMAIL g/GITHUB_USERNAME [t/TAG]…` <br> e.g., `add i/A1234567X n/James Ho p/22224444 e/jamesho@example.com g/JamesHo t/friend`
+**Edit**   | `edit INDEX [i/STUDENT_ID] [n/NAME] [p/PHONE] [e/EMAIL] [g/GITHUB_USERNAME] [t/TAG]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Clear**  | `clear`
 **Mark Attendance** | `marka INDEX l/LAB_NUMBER s/STATUS` <br> e.g. `marka 2 l/7 s/y`
@@ -845,7 +846,7 @@ Action     | Format, Examples
 | **Parameter**       | **Description**                                   | **Prefix**                                      | **Constraint**                                                                                                                                         | **Used in**                                              |
 |---------------------|---------------------------------------------------|-------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
 | **INDEX**           | Index of student in the displayed list            | *(no prefix — written before other parameters)* | Must be a positive integer between 1 and maximum number of students in the list.                                                                       | `edit`, `delete`, `marka`, `marke`, `grade`              |
-| **STUDENTID**       | Student's matriculation number                    | `i/`                                            | Must follow NUS Student ID format (e.g., A1234567X)                                                                                                    | `add`, `edit`                                            |
+| **STUDENT_ID**       | Student's matriculation number                    | `i/`                                            | Must follow NUS Student ID format (e.g., A1234567X)                                                                                                    | `add`, `edit`                                            |
 | **NAME**            | Student's full name                               | `n/`                                            | Alphanumeric characters and spaces only; cannot be blank                                                                                               | `add`, `edit`, `add-consultation`                        |
 | **PHONE**           | Student's phone number                            | `p/`                                            | Numbers only; at least 3 digits long                                                                                                                   | `add`, `edit`                                            |
 | **EMAIL**           | Student's email address                           | `e/`                                            | Must be in format `local-part@domain` where local-part contains alphanumeric and special characters (`+_.-`); domain ends with at least 2 characters   | `add`, `edit`                                            |
