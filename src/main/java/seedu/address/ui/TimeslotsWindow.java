@@ -411,6 +411,20 @@ public class TimeslotsWindow {
                     bl.layoutXProperty().bind(xBind.add(6));
                     bl.setLayoutY(8); // vertical placement
 
+                    // add a tooltip on the block (single tooltip per block for consistent hover behaviour)
+                    javafx.scene.control.Tooltip tsTooltip = new javafx.scene.control.Tooltip(
+                            String.format("Timeslot%nStart: %s%nEnd: %s",
+                                    renderStart.format(FORMATTER),
+                                    renderEnd.format(FORMATTER)));
+                    tsTooltip.setWrapText(true);
+                    tsTooltip.setMaxWidth(300);
+                    // immediate show, short hide delay, reasonable show duration
+                    tsTooltip.setShowDelay(javafx.util.Duration.ZERO);
+                    tsTooltip.setHideDelay(javafx.util.Duration.millis(100));
+                    tsTooltip.setShowDuration(javafx.util.Duration.seconds(8));
+                    // install tooltip on the visual block (not on multiple nodes)
+                    javafx.scene.control.Tooltip.install(block, tsTooltip);
+
                     if (!hideGenericLabel) {
                         timeline.getChildren().addAll(block, bl);
                     } else {
@@ -494,11 +508,29 @@ public class TimeslotsWindow {
                     studentLbl.maxWidthProperty().bind(consultBlock.widthProperty().subtract(12));
                     studentLbl.setWrapText(true);
 
-                    // Show labels only when the block is wide enough; show icon for moderately narrow blocks.
+                    // --- NEW: prevent overlap of adjacent consultation labels ---
+                    timeLbl.maxWidthProperty().bind(consultBlock.widthProperty().subtract(12));
+                    timeLbl.setWrapText(true);
+                    studentLbl.maxWidthProperty().bind(consultBlock.widthProperty().subtract(12));
+                    studentLbl.setWrapText(true);
+
                     timeLbl.visibleProperty().bind(consultBlock.widthProperty().greaterThan(40));
                     studentLbl.visibleProperty().bind(consultBlock.widthProperty().greaterThan(40));
                     icon.visibleProperty().bind(consultBlock.widthProperty().greaterThan(16));
                     // ----------------------------------------------------------------
+
+                    // Tooltip for consultation block: single tooltip on block for consistent, immediate display.
+                    String consultTooltipText = String.format("Consultation%nStudent: %s%nStart: %s%nEnd: %s",
+                            ct.getStudentName(),
+                            renderStart.format(FORMATTER),
+                            renderEnd.format(FORMATTER));
+                    javafx.scene.control.Tooltip consultTooltip = new javafx.scene.control.Tooltip(consultTooltipText);
+                    consultTooltip.setWrapText(true);
+                    consultTooltip.setMaxWidth(320);
+                    consultTooltip.setShowDelay(javafx.util.Duration.ZERO);
+                    consultTooltip.setHideDelay(javafx.util.Duration.millis(100));
+                    consultTooltip.setShowDuration(javafx.util.Duration.seconds(10));
+                    javafx.scene.control.Tooltip.install(consultBlock, consultTooltip);
 
                     timeline.getChildren().addAll(consultBlock, icon, timeLbl, studentLbl);
                     // Ensure labels and icon are rendered above the block.
