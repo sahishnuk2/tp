@@ -44,6 +44,24 @@ public class Timeslot {
         if (end.isBefore(start) || end.equals(start)) {
             throw new IllegalArgumentException("End time must be after start time");
         }
+
+        // validate year is positive (reject negative/zero years)
+        if (start.getYear() <= 0 || end.getYear() <= 0) {
+            throw new IllegalArgumentException("Year must be a positive value");
+        }
+
+        // Time-of-day constraint:
+        // - start time must not be before 08:00
+        // - end time is allowed to be midnight (00:00) of the next day; otherwise end time must not be before 08:00
+        java.time.LocalTime earliest = java.time.LocalTime.of(8, 0);
+        java.time.LocalTime midnight = java.time.LocalTime.MIDNIGHT;
+        boolean endIsMidnightNextDay = end.toLocalTime().equals(midnight) && end.isAfter(start);
+
+        if (start.toLocalTime().isBefore(earliest) || 
+            (end.toLocalTime().isBefore(earliest) && !endIsMidnightNextDay)) {
+            throw new IllegalArgumentException("Timeslot must be within 08:00 to 24:00 (midnight of next day allowed)");
+        }
+
         this.start = start;
         this.end = end;
         this.studentName = studentName; // may be null

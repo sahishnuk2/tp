@@ -20,7 +20,7 @@ public class AddConsultationCommandParserTest {
     private final AddConsultationCommandParser parser = new AddConsultationCommandParser();
 
     @Test
-    public void parse_validIsoInput_success() throws Exception {
+    public void parse_validIsoInput_success(){
         String input = " ts/2025-10-04T10:00:00 te/2025-10-04T11:00:00 n/John Doe";
         LocalDateTime start = LocalDateTime.parse("2025-10-04T10:00:00", DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         LocalDateTime end = LocalDateTime.parse("2025-10-04T11:00:00", DateTimeFormatter.ISO_LOCAL_DATE_TIME);
@@ -32,7 +32,7 @@ public class AddConsultationCommandParserTest {
     }
 
     @Test
-    public void parse_validHumanReadableWithComma_success() throws Exception {
+    public void parse_validHumanReadableWithComma_success() {
         // format "d MMM uuuu, HH:mm"
         String input = " ts/4 Oct 2025, 10:00 te/4 Oct 2025, 11:30 n/Alice";
         LocalDateTime start = LocalDateTime.parse("4 Oct 2025, 10:00",
@@ -45,7 +45,7 @@ public class AddConsultationCommandParserTest {
     }
 
     @Test
-    public void parse_validHumanReadableWithoutComma_success() throws Exception {
+    public void parse_validHumanReadableWithoutComma_success() {
         // alternate accepted pattern "d MMM uuuu HH:mm"
         String input = " ts/4 Oct 2025 12:00 te/4 Oct 2025 13:15 n/Bob";
         LocalDateTime start = LocalDateTime.parse("4 Oct 2025 12:00",
@@ -76,8 +76,10 @@ public class AddConsultationCommandParserTest {
         String badStart = " ts/not-a-date te/2025-10-04T11:00:00 n/John";
         String badEnd = " ts/2025-10-04T10:00:00 te/also-bad n/John";
 
-        assertParseFailure(parser, badStart, "Invalid datetime format: not-a-date");
-        assertParseFailure(parser, badEnd, "Invalid datetime format: also-bad");
+        String expectedMessage = "Invalid datetime: either wrong format or an impossible calendar date \n(for example, '30 Feb' does not exist). ";
+
+        assertParseFailure(parser, badStart, expectedMessage);
+        assertParseFailure(parser, badEnd, expectedMessage);
     }
 
     @Test

@@ -165,7 +165,7 @@ public class SampleDataUtil {
 
                 sample.addTimeslot(new Timeslot(base.plusDays(2).atTime(11, 30), base.plusDays(2).atTime(12, 30)));
 
-                sample.addTimeslot(new Timeslot(base.plusDays(3).atTime(7, 30), base.plusDays(3).atTime(9, 0)));
+                sample.addTimeslot(new Timeslot(base.plusDays(3).atTime(8, 30), base.plusDays(3).atTime(9, 0)));
                 sample.addTimeslot(new Timeslot(base.plusDays(3).atTime(17, 30), base.plusDays(3).atTime(18, 30)));
 
                 sample.addTimeslot(new Timeslot(base.plusDays(4).atTime(14, 30), base.plusDays(4).atTime(16, 30)));

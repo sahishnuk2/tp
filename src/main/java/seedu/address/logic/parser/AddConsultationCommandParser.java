@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Locale;
 
 import seedu.address.logic.commands.AddConsultationCommand;
@@ -19,6 +20,10 @@ import seedu.address.model.timeslot.Timeslot;
  * Expected format: ts/START_DATETIME te/END_DATETIME n/STUDENT_NAME
  */
 public class AddConsultationCommandParser implements Parser<AddConsultationCommand> {
+
+    // Standardized error message for datetime parsing failures
+    private static final String INVALID_DATETIME_MESSAGE =
+        "Invalid datetime: either wrong format or an impossible calendar date \n(for example, '30 Feb' does not exist). ";
 
     @Override
     public AddConsultationCommand parse(String args) throws ParseException {
@@ -62,15 +67,17 @@ public class AddConsultationCommandParser implements Parser<AddConsultationComma
     private LocalDateTime parseDateTime(String input) throws ParseException {
         String trimmed = input.trim();
         DateTimeFormatter[] fmts = new DateTimeFormatter[] {
-            DateTimeFormatter.ISO_LOCAL_DATE_TIME,
-            // accept Timeslot's configured formatter as used elsewhere
-            Timeslot.FORMATTER,
+            // use strict resolver style to reject impossible dates (e.g., 30 Feb)
+            DateTimeFormatter.ISO_LOCAL_DATE_TIME.withResolverStyle(ResolverStyle.STRICT),
+            Timeslot.FORMATTER.withResolverStyle(ResolverStyle.STRICT),
             new DateTimeFormatterBuilder().parseCaseInsensitive()
                     .appendPattern("d MMM uuuu, HH:mm")
-                    .toFormatter(Locale.ENGLISH),
+                    .toFormatter(Locale.ENGLISH)
+                    .withResolverStyle(ResolverStyle.STRICT),
             new DateTimeFormatterBuilder().parseCaseInsensitive()
                     .appendPattern("d MMM uuuu HH:mm")
                     .toFormatter(Locale.ENGLISH)
+                    .withResolverStyle(ResolverStyle.STRICT)
         };
 
         for (DateTimeFormatter fmt : fmts) {
@@ -80,6 +87,7 @@ public class AddConsultationCommandParser implements Parser<AddConsultationComma
                 // try next
             }
         }
-        throw new ParseException("Invalid datetime format: " + input);
+        // unified, user-friendly message
+        throw new ParseException(INVALID_DATETIME_MESSAGE);
     }
 }
