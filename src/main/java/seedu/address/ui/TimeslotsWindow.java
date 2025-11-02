@@ -508,7 +508,7 @@ public class TimeslotsWindow {
                     studentLbl.maxWidthProperty().bind(consultBlock.widthProperty().subtract(12));
                     studentLbl.setWrapText(true);
 
-                    // --- NEW: prevent overlap of adjacent consultation labels ---
+                    // Prevent overlap of adjacent consultation labels
                     timeLbl.maxWidthProperty().bind(consultBlock.widthProperty().subtract(12));
                     timeLbl.setWrapText(true);
                     studentLbl.maxWidthProperty().bind(consultBlock.widthProperty().subtract(12));

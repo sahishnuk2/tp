@@ -57,7 +57,9 @@ public class JsonAdaptedTimeslot {
         } catch (DateTimeParseException ex) {
             // Handle "YYYY-MM-DDT24:MM:SS" by moving to next day and using 00:MM:SS
             int tIndex = trimmed.indexOf('T');
-            if (tIndex > 0 && trimmed.length() > tIndex + 2 && trimmed.charAt(tIndex + 1) == '2'
+            if (tIndex > 0
+                    && trimmed.length() > tIndex + 2
+                    && trimmed.charAt(tIndex + 1) == '2'
                     && trimmed.charAt(tIndex + 2) == '4') {
                 // split date and time
                 String datePart = trimmed.substring(0, tIndex);
@@ -65,8 +67,12 @@ public class JsonAdaptedTimeslot {
                 // replace leading 24: with 00:
                 String fixedTimePart = timePart.replaceFirst("^24:", "00:");
                 // parse date and add one day using strict resolver
-                LocalDate date = LocalDate.parse(datePart, java.time.format.DateTimeFormatter.ISO_LOCAL_DATE.withResolverStyle(ResolverStyle.STRICT));
-                LocalTime time = LocalTime.parse(fixedTimePart, java.time.format.DateTimeFormatter.ISO_LOCAL_TIME.withResolverStyle(ResolverStyle.STRICT));
+                java.time.format.DateTimeFormatter isoDateStrict =
+                        java.time.format.DateTimeFormatter.ISO_LOCAL_DATE.withResolverStyle(ResolverStyle.STRICT);
+                java.time.format.DateTimeFormatter isoTimeStrict =
+                        java.time.format.DateTimeFormatter.ISO_LOCAL_TIME.withResolverStyle(ResolverStyle.STRICT);
+                LocalDate date = LocalDate.parse(datePart, isoDateStrict);
+                LocalTime time = LocalTime.parse(fixedTimePart, isoTimeStrict);
                 return LocalDateTime.of(date.plusDays(1), time);
             }
             // rethrow original exception if not a 24:xx case
@@ -101,7 +107,6 @@ public class JsonAdaptedTimeslot {
         }
 
         // If studentName is present (even if empty), create a ConsultationTimeslot so the concrete type is preserved.
-        // Previously we required non-empty which caused consultations with empty studentName to be downgraded to Timeslot.
         if (studentName != null) {
             return new ConsultationTimeslot(startDt, endDt, studentName);
         } else {

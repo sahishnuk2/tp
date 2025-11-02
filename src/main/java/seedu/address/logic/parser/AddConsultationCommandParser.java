@@ -23,7 +23,8 @@ public class AddConsultationCommandParser implements Parser<AddConsultationComma
 
     // Standardized error message for datetime parsing failures
     private static final String INVALID_DATETIME_MESSAGE =
-        "Invalid datetime: either wrong format or an impossible calendar date \n(for example, '30 Feb' does not exist). ";
+        "Invalid datetime: either wrong format or an impossible calendar date"
+        + " (for example, '30 Feb' does not exist). ";
 
     @Override
     public AddConsultationCommand parse(String args) throws ParseException {

@@ -38,14 +38,17 @@ public class UnblockTimeslotCommandParser implements Parser<UnblockTimeslotComma
 
     // Standardized error message for datetime parsing failures
     private static final String INVALID_DATETIME_MESSAGE =
-            "Invalid datetime: either wrong format or an impossible calendar date \n(for example, '30 Feb' does not exist). ";
+            "Invalid datetime: either wrong format or an impossible calendar date \n"
+            + "(for example, '30 Feb' does not exist). ";
     private static LocalDateTime parseFlexibleDateTime(String input) throws DateTimeParseException {
         Objects.requireNonNull(input);
         String trimmed = input.trim();
 
         // try ISO first (strict)
         try {
-            return LocalDateTime.parse(trimmed, DateTimeFormatter.ISO_LOCAL_DATE_TIME.withResolverStyle(ResolverStyle.STRICT));
+            java.time.format.DateTimeFormatter isoStrict =
+                    DateTimeFormatter.ISO_LOCAL_DATE_TIME.withResolverStyle(ResolverStyle.STRICT);
+            return LocalDateTime.parse(trimmed, isoStrict);
         } catch (DateTimeParseException e) {
             // fall through
         }
