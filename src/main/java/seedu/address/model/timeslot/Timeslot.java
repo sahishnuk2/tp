@@ -57,7 +57,7 @@ public class Timeslot {
         java.time.LocalTime midnight = java.time.LocalTime.MIDNIGHT;
         boolean endIsMidnightNextDay = end.toLocalTime().equals(midnight) && end.isAfter(start);
 
-        if (start.toLocalTime().isBefore(earliest) || 
+        if (start.toLocalTime().isBefore(earliest) ||
             (end.toLocalTime().isBefore(earliest) && !endIsMidnightNextDay)) {
             throw new IllegalArgumentException("Timeslot must be within 08:00 to 24:00 (midnight of next day allowed)");
         }

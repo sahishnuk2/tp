@@ -831,7 +831,7 @@ Action     | Format, Examples
 **Find**   | `find KEYWORD [MORE_KEYWORDS] [i/] [n/] [p/] [e/] [g/] [t/]`<br> e.g., `find James Jake`
 **Filter** | `filter [l/LABNUMBER s/STATUS]... [ei/EXERCISEINDEX s/STATUS]... [la/COMPARISON]` <br> e.g., `filter l/7 s/y`
 **Sort**    | `sort c/SORT_CRITERION` <br> e.g., `sort c/name`
-**Get timeslots** | `get-timeslots` 
+**Get timeslots** | `get-timeslots`
 **Get consultations** | `get-consultations`
 **Help**   | `help`
 **Undo** | `undo`

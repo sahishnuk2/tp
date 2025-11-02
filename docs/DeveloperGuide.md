@@ -668,7 +668,7 @@ Use case ends.
 
 **Extensions**
 * 1a. Unsupported or misspelled criterion
-  * 1a1. System returns an error describing acceptable criteria 
+  * 1a1. System returns an error describing acceptable criteria
   * 1a2. User re-enters a valid criterion
 
   Use case resumes at Step 2
@@ -861,7 +861,7 @@ testers are expected to do more *exploratory* testing.
 
       3. Test case: `marka 1 l/1 s/n`<br>
          Expected: Lab 1 marked as not attended (grey/red depending on the week number) for student 1.
-   
+
       4. Test case: `marka 3:5 l/2 s/y`<br>
          Expected: Lab 2 marked as attended (green) for students 3, 4, and 5.
 
