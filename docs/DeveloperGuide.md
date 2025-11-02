@@ -177,7 +177,6 @@ The Timeslots feature is implemented as a set of commands that parse user input 
 
 <puml src="diagrams/Timeslots/TimeslotsClassDiagram.puml" width="820" />
 
-#### Command flow
 Typical lifecycle for a timeslot command:
 1. User input → AddressBookParser creates the specific CommandParser.
 2. Parser validates prefixes/arguments and constructs a Command instance (e.g., BlockTimeslotCommand).
@@ -202,17 +201,12 @@ Sequence diagrams:
 
 <puml src="diagrams/Timeslots/GetTimeslotsSequenceDiagram.puml" width="820" />
 
-### Persistence & UI
+#### Persistence & UI
 - Persistence: LogicManager is responsible for writing persistent files. After a successful command execution, LogicManager saves the address book and, if available, timeslots via StorageManager.saveAddressBook(...) and StorageManager.saveTimeslots(...).
 - UI scheduling: Some commands (e.g., get-timeslots) produce a timeslot ranges payload inside CommandResult. When present, LogicManager schedules the UI update using Platform.runLater(() -> TimeslotsWindow.showTimetable(...)). This call:
   - Is performed asynchronously on the JavaFX thread to avoid blocking command execution.
   - Is guarded in LogicManager with a try/catch to ignore IllegalStateException in headless environments (unit tests).
   - Is only invoked when CommandResult contains non-empty timeslot ranges.
-
-### Validation and error handling
-- Argument parsing: CommandParsers validate required prefixes (ts/ and te/) and perform flexible datetime parsing (ISO and human-friendly formats). Parsers throw ParseException with user-facing messages on invalid format.
-- Command execution: Commands validate business rules (e.g., no overlapping timeslots, consultations with duplicate student/time). On violation a CommandException is thrown with a clear message.
-- Persistence errors: LogicManager translates IO or permission errors (IOException, AccessDeniedException) from Storage into CommandException so callers can surface the error to users.
 
 ### Feature: Undo Command
 
