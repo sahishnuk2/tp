@@ -15,6 +15,7 @@ import static seedu.address.testutil.TestConstants.MSG_INVALID_FILTER;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
+import seedu.address.model.person.LabList;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
 
@@ -44,6 +45,8 @@ public class LabStatusMatchesPredicateTest {
                 .withLabAttendanceList(LAB_LIST_10)
                 .build();
 
+        LabList.setCurrentWeek(0);
+
         assertTrue(new LabStatusMatchesPredicate(Index.fromZeroBased(0), LAB_Y).test(person)); // L1: Y
         assertTrue(new LabStatusMatchesPredicate(Index.fromZeroBased(2), LAB_N).test(person)); // L3: N
         assertTrue(new LabStatusMatchesPredicate(Index.fromZeroBased(1), LAB_N).test(person)); // L2: N
@@ -52,6 +55,8 @@ public class LabStatusMatchesPredicateTest {
     @Test
     public void test_doesNotMatch_returnsFalse() {
         Person person = new PersonBuilder().withLabAttendanceList(LAB_LIST_10).build();
+
+        LabList.setCurrentWeek(0);
 
         assertFalse(new LabStatusMatchesPredicate(Index.fromZeroBased(0), LAB_N).test(person)); // L1 is Y
         assertFalse(new LabStatusMatchesPredicate(Index.fromZeroBased(1), LAB_Y).test(person)); // L2 is N
