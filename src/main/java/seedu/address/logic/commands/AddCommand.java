@@ -23,7 +23,7 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a student to LambdaLab. "
             + "Parameters: "
-            + PREFIX_STUDENTID + "STUDENTID "
+            + PREFIX_STUDENTID + "STUDENT_ID "
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
             + PREFIX_EMAIL + "EMAIL "
