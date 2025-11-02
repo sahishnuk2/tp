@@ -97,6 +97,14 @@ public class EditCommandTest {
 
         assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_PERSON);
     }
+    @Test
+    public void execute_noFieldSpecifiedUnfilteredList_failure() {
+        EditCommand editCommand = new EditCommand(new MultiIndex(INDEX_FIRST_PERSON), new EditPersonDescriptor());
+        String expectedMessage = EditCommand.MESSAGE_NO_CHANGES_MADE;
+
+        assertCommandFailure(editCommand, model, expectedMessage);
+    }
+
 
     @Test
     public void execute_duplicatePersonFilteredList_failure() {
