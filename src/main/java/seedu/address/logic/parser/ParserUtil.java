@@ -50,7 +50,7 @@ import seedu.address.model.tag.Tag;
  */
 public class ParserUtil {
 
-    public static final String MESSAGE_INVALID_INDEX = "index must be a number greater than 0";
+    public static final String MESSAGE_INVALID_INDEX = "Index must be a number greater than 0";
     public static final String MESSAGE_INVALID_STATUS = "Status input must be Y or N";
     private static final String MESSAGE_INVALID_EXERCISE_INDEX =
             "Exercise index is invalid! It must be between 0 and "
@@ -73,6 +73,7 @@ public class ParserUtil {
     private static final String MESSAGE_INVALID_PERCENTAGE =
             "Attendance percentage must be an integer between 0 and 100.";
     private static final String MESSAGE_INVALID_PREFIX = "Invalid prefix(s) found: %s";
+    private static final int MAXIMUM_FIELD_LENGTH = 100;
 
     /**
      * @param input a string that is either in the "X:Y" or "X" form
