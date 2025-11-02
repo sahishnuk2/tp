@@ -190,7 +190,7 @@ You can use this command to add a new student to LambdaLab.
 
 **Format:**
 ```
-add i/STUDENTID n/NAME p/PHONE e/EMAIL g/GITHUB_USERNAME [t/TAG]…​
+add i/STUDENT_ID n/NAME p/PHONE e/EMAIL g/GITHUB_USERNAME [t/TAG]…​
 ```
 
 **Examples:**
@@ -814,7 +814,7 @@ lab sessions to maintain accurate records.
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add i/STUDENTID n/NAME p/PHONE e/EMAIL g/GITHUB_USERNAME [t/TAG]…` <br> e.g., `add i/A1234567X n/James Ho p/22224444 e/jamesho@example.com g/JamesHo t/friend`
+**Add**    | `add i/STUDENT_ID n/NAME p/PHONE e/EMAIL g/GITHUB_USERNAME [t/TAG]…` <br> e.g., `add i/A1234567X n/James Ho p/22224444 e/jamesho@example.com g/JamesHo t/friend`
 **Edit**   | `edit INDEX [i/STUDENT ID] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GITHUB USERNAME] [t/TAG]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Clear**  | `clear`
@@ -828,12 +828,12 @@ Action     | Format, Examples
 **List**   | `list`
 **Find**   | `find KEYWORD [MORE_KEYWORDS] [i/] [n/] [p/] [e/] [g/] [t/]`<br> e.g., `find James Jake`
 **Filter** | `filter [l/LABNUMBER s/STATUS]... [ei/EXERCISEINDEX s/STATUS]... [la/COMPARISON]` <br> e.g., `filter l/7 s/y`
-**Sort**    | `sort c/SORTCRITERION` <br> e.g., `sort c/name`
+**Sort**    | `sort c/SORT_CRITERION` <br> e.g., `sort c/name`
 **Get timeslots** | `get-timeslots` 
 **Get consultations** | `get-consultations`
 **Help**   | `help`
 **Undo** | `undo`
-**Set Week** | `set-week WEEKNUMBER` <br> e.g. `set-week 5`
+**Set Week** | `set-week WEEK_NUMBER` <br> e.g. `set-week 5`
 **Exit**   | `exit`
 
 ---
@@ -843,19 +843,19 @@ Action     | Format, Examples
 | **Parameter**       | **Description**                                  | **Prefix**                                      | **Constraint**                                                                                                            | **Used in**                                              |
 |---------------------|--------------------------------------------------|-------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
 | **INDEX**           | Index of student in the displayed list           | *(no prefix — written before other parameters)* | Must be a positive integer between 1 and maximum number of students in the list.                                          | `edit`, `delete`, `marka`, `marke`, `grade`              |
-| **STUDENTID**       | Student's matriculation number                   | `i/`                                            | Must follow NUS Student ID format (e.g., A1234567X)                                                                       | `add`, `edit`                                            |
+| **STUDENT_ID**       | Student's matriculation number                   | `i/`                                            | Must follow NUS Student ID format (e.g., A1234567X)                                                                       | `add`, `edit`                                            |
 | **NAME**            | Student's full name                              | `n/`                                            | Can contain letters and spaces                                                                                            | `add`, `edit`, `add-consultation`                        |
 | **PHONE**           | Student's phone number                           | `p/`                                            | Must be a valid phone number                                                                                              | `add`, `edit`                                            |
 | **EMAIL**           | Student's email address                          | `e/`                                            | Must be a valid email format                                                                                              | `add`, `edit`                                            |
 | **GITHUB_USERNAME** | Student's GitHub username                        | `g/`                                            | Must be a valid GitHub username                                                                                           | `add`, `edit`                                            |
 | **TAG**             | Optional label(s) for categorizing students      | `t/`                                            | Must be alphanumeric with no spaces or special characters; can have multiple tags                                         | `add`, `edit`                                            |
 | **LAB_NUMBER**      | Specific lab session to mark attendance for      | `l/`                                            | Must be an integer between 1–10 (inclusive)                                                                               | `marka`, `filter`                                        |
-| **EXERCISENUMBER**  | Specific exercise number to mark                 | `ei/`                                           | Must be an integer between 0–9 (inclusive)                                                                                | `marke`, `filter`                                        |
-| **WEEKNUMBER**      | Current week of the semester                     | *(no prefix — written directly after command)*  | Must be an integer between 0–13 (inclusive)                                                                               | `set-week`                                               |
+| **EXERCISE_NUMBER**  | Specific exercise number to mark                 | `ei/`                                           | Must be an integer between 0–9 (inclusive)                                                                                | `marke`, `filter`                                        |
+| **WEEK_NUMBER**      | Current week of the semester                     | *(no prefix — written directly after command)*  | Must be an integer between 0–13 (inclusive)                                                                               | `set-week`                                               |
 | **EXAM_NAME**       | Name of the exam to record or update a grade for | `en/`                                           | Must be one of: `pe0`, `pe1`, `midterm`, `pe2`, or `final`<br/> This parameter is case-insensitive.                         | `grade`                                                  |
 | **STATUS**          | Generic status                                   | `s/`                                            | Refer to the commands' status usage <br/> This parameter is case-insensitive.                                               | `marka`, `marke`, `filter` `grade`                       |
 | **KEYWORD**         | Search term(s) for finding students              | *(no prefix — written directly after command)*  | Can be one or more words <br/> This parameter is case-insensitive.                                                          | `find`                                                   |
-| **SORTCRITERION**   | Criterion for sorting students                   | `c/`                                            | Must be one of: `name`, `id`, `lab`, or `ex` <br/> This parameter is case-insensitive.                                    | `sort`                                                   |
+| **SORT_CRITERION**   | Criterion for sorting students                   | `c/`                                            | Must be one of: `name`, `id`, `lab`, or `ex` <br/> This parameter is case-insensitive.                                    | `sort`                                                   |
 | **COMPARISON**      | Percentage of labs attended to filter by         | `la/`                                           | Must contain one of the following operators: `==`, `>=`, `<=`, `>`, `<` followed by an integer from 0-100                 | `filter`                                                 |
 | **START_DATETIME**  | Starting datetime of the timeslot                | `ts/`                                           | Must be in ISO_LOCAL_DATE_TIME (`2023-10-01T09:00:00`) or human-friendly format (`4 Oct 2025, 10:00`, `4 Oct 2025 10:00`) | `block-timeslot`, `unblock-timeslot`, `add-consultation` |
 | **END_DATETIME**    | Ending datetime of the timeslot                  | `te/`                                           | Must be in ISO_LOCAL_DATE_TIME (`2023-10-01T09:00:00`) or human-friendly format (`4 Oct 2025, 10:00`, `4 Oct 2025 10:00`) | `block-timeslot`, `unblock-timeslot`, `add-consultation` |
