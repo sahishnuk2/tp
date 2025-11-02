@@ -45,8 +45,8 @@ public class LabStatusMatchesPredicateTest {
                 .build();
 
         assertTrue(new LabStatusMatchesPredicate(Index.fromZeroBased(0), LAB_Y).test(person)); // L1: Y
-        assertTrue(new LabStatusMatchesPredicate(Index.fromZeroBased(1), LAB_N).test(person)); // L2: N
         assertTrue(new LabStatusMatchesPredicate(Index.fromZeroBased(2), LAB_N).test(person)); // L3: N
+        assertTrue(new LabStatusMatchesPredicate(Index.fromZeroBased(1), LAB_N).test(person)); // L2: N
     }
 
     @Test
