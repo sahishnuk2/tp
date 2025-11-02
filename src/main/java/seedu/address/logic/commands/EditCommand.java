@@ -43,7 +43,7 @@ public class EditCommand extends MultiIndexCommand {
             + "identified by their index numbers in the displayed student list. "
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: (must be a positive integer or range X:Y) "
-            + "[" + PREFIX_STUDENTID + "STUDENTID] "
+            + "[" + PREFIX_STUDENTID + "STUDENT_ID] "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
