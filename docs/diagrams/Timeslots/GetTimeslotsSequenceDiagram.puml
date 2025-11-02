@@ -14,14 +14,6 @@ box Model MODEL_COLOR_T1
 participant "m:Model" as Model MODEL_COLOR
 end box
 
-box Storage STORAGE_COLOR_T1
-participant "storage:Storage" as Storage STORAGE_COLOR
-end box
-
-box UI UI_COLOR_T1
-participant "TimeslotsWindow" as TimeslotsWindow UI_COLOR
-end box
-
 participant "Platform" as Platform
 
 [-> LogicManager : execute("get-timeslots")
@@ -66,33 +58,8 @@ deactivate CommandResult
 GetTimeslotCommand --> LogicManager : result
 deactivate GetTimeslotCommand
 
-' --- Persist state (shortened) ---
-LogicManager -> Storage : save
-activate Storage
-Storage --> LogicManager
-deactivate Storage
-
-alt model instanceof ModelManager
-    LogicManager -> Storage : saveTimeslots
-    activate Storage
-    Storage --> LogicManager
-    deactivate Storage
-end
-
-' --- Show UI (shortened) ---
-alt commandResult.getTimeslotRanges() != null && not empty
-    opt schedule UI via JavaFX
-        LogicManager -> Platform : runLater(showTimetable)
-        activate Platform
-        Platform -> TimeslotsWindow : showTimetable
-        activate TimeslotsWindow
-        TimeslotsWindow --> Platform : shown
-        deactivate TimeslotsWindow
-        Platform --> LogicManager : scheduled
-        deactivate Platform
-    end
-    note right of LogicManager : ignore FX errors
-end
+' --- Persistence & UI scheduling omitted to keep diagram compact ---
+' Persistence (saveAddressBook / saveTimeslots) and Platform.runLater UI calls removed.
 
 [<-- LogicManager
 deactivate LogicManager
