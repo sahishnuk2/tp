@@ -29,7 +29,7 @@ public class ExerciseListTest {
 
     @Test
     public void isValidExerciseList_validFormat_returnsTrue() {
-        String valid = "ex 0: N ex 1: D ex 2: O ex 3: I ex 4: N ex 5: N ex 6: D ex 7: O ex 8: N ex 9: I";
+        String valid = "ex 0: N ex 1: D ex 2: O ex 3: N ex 4: N ex 5: N ex 6: D ex 7: O ex 8: N ex 9: N";
         assertTrue(ExerciseList.isValidExerciseList(valid));
     }
 

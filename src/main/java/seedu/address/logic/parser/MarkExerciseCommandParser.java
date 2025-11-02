@@ -24,8 +24,10 @@ public class MarkExerciseCommandParser implements Parser<MarkExerciseCommand> {
      * @throws ParseException if user input is invalid
      */
     public MarkExerciseCommand parse(String args) throws ParseException {
+        ParserUtil.verifyNoUnwantedPrefixes(args, PREFIX_EXERCISE_INDEX, PREFIX_STATUS);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_EXERCISE_INDEX, PREFIX_STATUS);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_EXERCISE_INDEX, PREFIX_STATUS);
         MultiIndex personIndex;
         Index exerciseIndex;
         boolean status;

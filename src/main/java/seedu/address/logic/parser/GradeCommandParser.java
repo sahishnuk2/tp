@@ -26,8 +26,10 @@ public class GradeCommandParser implements Parser<GradeCommand> {
     @Override
     public GradeCommand parse(String userInput) throws ParseException {
         requireNonNull(userInput);
+        ParserUtil.verifyNoUnwantedPrefixes(userInput, PREFIX_EXAM_NAME, PREFIX_STATUS);
         ArgumentMultimap argumentMultimap =
                 ArgumentTokenizer.tokenize(userInput, PREFIX_EXAM_NAME, PREFIX_STATUS);
+        argumentMultimap.verifyNoDuplicatePrefixesFor(PREFIX_EXAM_NAME, PREFIX_STATUS);
         MultiIndex studentIndex;
         String examName;
         boolean isPassed;

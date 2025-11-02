@@ -145,7 +145,7 @@ public class ExerciseList implements ExerciseTracker {
 
             // Valid statuses only
             if (!status.equals("N") && !status.equals("D")
-                    && !status.equals("I") && !status.equals("O")) {
+                    && !status.equals("O")) {
                 return false;
             }
         }
