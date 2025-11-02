@@ -16,7 +16,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
@@ -452,8 +451,9 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void verifyNoUnwantedPrefixes_extraPrefixes_parseException(){
-        assertThrows(ParseException.class, () -> ParserUtil.verifyNoUnwantedPrefixes("1 2 3 l/1 ", PREFIX_NAME, PREFIX_PHONE));
+    public void verifyNoUnwantedPrefixes_extraPrefixes_parseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.verifyNoUnwantedPrefixes(
+                "1 2 3 l/1 ", PREFIX_NAME, PREFIX_PHONE));
 
         assertThrows(ParseException.class, () ->ParserUtil.verifyNoUnwantedPrefixes(
                 " n/John p/12345678 e/sk@gmail.com", PREFIX_NAME, PREFIX_PHONE));
