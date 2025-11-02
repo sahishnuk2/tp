@@ -1329,3 +1329,4 @@ Testers are encouraged to create their own test scenarios by combining the comma
 Team size: 5
 
 1. Make the timetable window (used by `get-timeslots` and `get-consultations`) refresh automatically when timeslot data changes. Currently it only updates after the command is reissued. We plan to add a listener so the window refreshes immediately whenever timeslots are modified.
+2. Add support for importing calendar files (e.g., .ics) to bulk-create timeslots. At the moment timeslots must be added or edited one at a time. A calendar import feature will let users import events directly from their calendar applications.
