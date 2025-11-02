@@ -16,13 +16,19 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.core.index.MultiIndex;
 import seedu.address.commons.exceptions.InvalidIndexException;
+import seedu.address.logic.helpers.Comparison;
+import seedu.address.logic.helpers.ExerciseIndexStatus;
+import seedu.address.logic.helpers.LabAttendanceComparison;
+import seedu.address.logic.helpers.LabIndexStatus;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.ExerciseList;
 import seedu.address.model.person.LabAttendanceList;
 import seedu.address.model.person.LabList;
 import seedu.address.model.person.LabListTest;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Status;
 import seedu.address.model.person.StudentId;
 import seedu.address.model.tag.Tag;
 
@@ -283,4 +289,119 @@ public class ParserUtilTest {
         LabAttendanceList labAttendanceListFromParser = ParserUtil.parseLabAttendanceList(VALID_LAB_LIST);
         assertEquals(labAttendanceList, labAttendanceListFromParser);
     }
+
+    // parseExerciseIndexStatus
+
+    @Test
+    public void parseExerciseIndexStatus_valid_success() throws Exception {
+        ExerciseIndexStatus result = ParserUtil.parseExerciseIndexStatus("0 s/Y");
+        assertEquals(Index.fromZeroBased(0), result.getExerciseIndex());
+        assertEquals(Status.DONE, result.getStatus());
+
+        result = ParserUtil.parseExerciseIndexStatus("  2   s/  O ");
+        assertEquals(Index.fromZeroBased(2), result.getExerciseIndex());
+        assertEquals(Status.OVERDUE, result.getStatus());
+    }
+
+    @Test
+    public void parseExerciseIndexStatus_missingStatus_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseExerciseIndexStatus("0"));
+    }
+
+    @Test
+    public void parseExerciseIndexStatus_invalidStatus_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseExerciseIndexStatus("0 s/X"));
+    }
+
+    @Test
+    public void parseExerciseIndexStatus_negativeIndex_throwsInvalidIndexException() {
+        assertThrows(InvalidIndexException.class, () -> ParserUtil.parseExerciseIndexStatus("-1 s/Y"));
+    }
+
+    @Test
+    public void parseExerciseIndexStatus_outOfRange_throwsInvalidIndexException() {
+        int tooLarge = ExerciseList.NUMBER_OF_EXERCISES;
+        assertThrows(InvalidIndexException.class, () -> ParserUtil.parseExerciseIndexStatus(tooLarge + " s/N"));
+    }
+
+    // parseLabNumberStatus
+
+    @Test
+    public void parseLabNumberStatus_valid_success() throws Exception {
+        LabIndexStatus result = ParserUtil.parseLabNumberStatus("1 s/N");
+        assertEquals(Index.fromOneBased(1), result.getLabIndex());
+        assertEquals("N", result.getStatus());
+
+        result = ParserUtil.parseLabNumberStatus("  10  s/  A ");
+        assertEquals(Index.fromOneBased(10), result.getLabIndex());
+        assertEquals("A", result.getStatus());
+    }
+
+    @Test
+    public void parseLabNumberStatus_missingStatus_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseLabNumberStatus("1"));
+    }
+
+    @Test
+    public void parseLabNumberStatus_invalidStatus_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseLabNumberStatus("1 s/Z"));
+    }
+
+    @Test
+    public void parseLabNumberStatus_zeroIndex_throwsInvalidIndexException() {
+        assertThrows(InvalidIndexException.class, () -> ParserUtil.parseLabNumberStatus("0 s/Y"));
+    }
+
+    @Test
+    public void parseLabNumberStatus_outOfRange_throwsInvalidIndexException() {
+        int tooLarge = LabList.NUMBER_OF_LABS + 1;
+        assertThrows(InvalidIndexException.class, () -> ParserUtil.parseLabNumberStatus(tooLarge + " s/Y"));
+    }
+
+    // parseAttendanceComparison
+
+    @Test
+    public void parseAttendanceComparison_valid_success() throws Exception {
+        LabAttendanceComparison c1 = ParserUtil.parseAttendanceComparison("==100%");
+        assertEquals(100, c1.getAttendance());
+        assertEquals(Comparison.EQUAL, c1.getComparison());
+
+        LabAttendanceComparison c2 = ParserUtil.parseAttendanceComparison(">=60");
+        assertEquals(60, c2.getAttendance());
+        assertEquals(Comparison.GREATER_THAN_OR_EQUAL, c2.getComparison());
+
+        LabAttendanceComparison c3 = ParserUtil.parseAttendanceComparison("<25%");
+        assertEquals(25, c3.getAttendance());
+        assertEquals(Comparison.LESS_THAN, c3.getComparison());
+
+        LabAttendanceComparison c4 = ParserUtil.parseAttendanceComparison("<= 80%");
+        assertEquals(80, c4.getAttendance());
+        assertEquals(Comparison.LESS_THAN_OR_EQUAL, c4.getComparison());
+
+        LabAttendanceComparison c5 = ParserUtil.parseAttendanceComparison(">40");
+        assertEquals(40, c5.getAttendance());
+        assertEquals(Comparison.GREATER_THAN, c5.getComparison());
+    }
+
+    @Test
+    public void parseAttendanceComparison_missingOperator_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseAttendanceComparison("75%"));
+    }
+
+    @Test
+    public void parseAttendanceComparison_invalidOperator_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseAttendanceComparison("!=70"));
+    }
+
+    @Test
+    public void parseAttendanceComparison_nonInteger_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseAttendanceComparison("70.5"));
+    }
+
+    @Test
+    public void parseAttendanceComparison_negativeOrTooLarge_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseAttendanceComparison("-1%"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseAttendanceComparison("101%"));
+    }
+
 }
