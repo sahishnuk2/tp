@@ -41,11 +41,15 @@ public class LabStatusMatchesPredicateTest {
 
     @Test
     public void test_matches_returnsTrue() {
+        LabList.setCurrentWeek(0);
         Person person = new PersonBuilder()
                 .withLabAttendanceList(LAB_LIST_10)
                 .build();
 
-        LabList.setCurrentWeek(0);
+
+        var labs = ((seedu.address.model.person.LabList) person.getLabAttendanceList()).getLabs();
+        assertEquals("Y", labs[0].getStatus(), "labs[0] mismatch; LAB_LIST_10 = " + LAB_LIST_10);
+        assertEquals("N", labs[1].getStatus(), "labs[1] mismatch");
 
         assertTrue(new LabStatusMatchesPredicate(Index.fromZeroBased(0), LAB_Y).test(person)); // L1: Y
         assertTrue(new LabStatusMatchesPredicate(Index.fromZeroBased(2), LAB_N).test(person)); // L3: N
@@ -54,9 +58,10 @@ public class LabStatusMatchesPredicateTest {
 
     @Test
     public void test_doesNotMatch_returnsFalse() {
+        LabList.setCurrentWeek(0);
         Person person = new PersonBuilder().withLabAttendanceList(LAB_LIST_10).build();
 
-        LabList.setCurrentWeek(0);
+
 
         assertFalse(new LabStatusMatchesPredicate(Index.fromZeroBased(0), LAB_N).test(person)); // L1 is Y
         assertFalse(new LabStatusMatchesPredicate(Index.fromZeroBased(1), LAB_Y).test(person)); // L2 is N
