@@ -18,17 +18,17 @@ box Storage STORAGE_COLOR_T1
 participant "storage:Storage" as Storage STORAGE_COLOR
 end box
 
-[-> LogicManager : execute("block-timeslot ts/.. te/..")
+[-> LogicManager : execute("block-timeslot")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand("block-timeslot ...")
+LogicManager -> AddressBookParser : parseCommand()
 activate AddressBookParser
 
 create BlockTimeslotCommandParser
 AddressBookParser -> BlockTimeslotCommandParser : new BlockTimeslotCommandParser()
 activate BlockTimeslotCommandParser
 
-AddressBookParser -> BlockTimeslotCommandParser : parse("ts/... te/...")
+AddressBookParser -> BlockTimeslotCommandParser : parse()
 activate BlockTimeslotCommandParser
 
 create BlockTimeslotCommand
@@ -69,14 +69,14 @@ deactivate CommandResult
 BlockTimeslotCommand --> LogicManager : result
 deactivate BlockTimeslotCommand
 
-' --- LogicManager persists changes to disk via Storage ---
-LogicManager -> Storage : saveAddressBook(model.getAddressBook())
+' --- Persistence (shortened) ---
+LogicManager -> Storage : save
 activate Storage
 Storage --> LogicManager
 deactivate Storage
 
 alt model instanceof ModelManager
-    LogicManager -> Storage : saveTimeslots(((ModelManager)model).getTimeslots())
+    LogicManager -> Storage : saveTimeslots
     activate Storage
     Storage --> LogicManager
     deactivate Storage
@@ -85,5 +85,4 @@ end
 [<-- LogicManager
 deactivate LogicManager
 
-scale 2.5
 @enduml

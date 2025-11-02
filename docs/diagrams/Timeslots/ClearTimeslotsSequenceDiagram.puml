@@ -21,14 +21,14 @@ end box
 [-> LogicManager : execute("clear-timeslots")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand("clear-timeslots")
+LogicManager -> AddressBookParser : parseCommand()
 activate AddressBookParser
 
 create ClearTimeslotsCommandParser
 AddressBookParser -> ClearTimeslotsCommandParser : new ClearTimeslotsCommandParser()
 activate ClearTimeslotsCommandParser
 
-AddressBookParser -> ClearTimeslotsCommandParser : parse("")
+AddressBookParser -> ClearTimeslotsCommandParser : parse()
 activate ClearTimeslotsCommandParser
 
 create ClearTimeslotsCommand
@@ -64,14 +64,14 @@ deactivate CommandResult
 ClearTimeslotsCommand --> LogicManager : result
 deactivate ClearTimeslotsCommand
 
-' --- LogicManager persists changes to disk via Storage (matches implementation in LogicManager) ---
-LogicManager -> Storage : saveAddressBook(model.getAddressBook())
+' --- Persistence (short) ---
+LogicManager -> Storage : save
 activate Storage
 Storage --> LogicManager
 deactivate Storage
 
 alt model instanceof ModelManager
-    LogicManager -> Storage : saveTimeslots(((ModelManager) model).getTimeslots())
+    LogicManager -> Storage : saveTimeslots
     activate Storage
     Storage --> LogicManager
     deactivate Storage

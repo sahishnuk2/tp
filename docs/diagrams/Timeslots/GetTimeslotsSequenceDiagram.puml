@@ -27,14 +27,14 @@ participant "Platform" as Platform
 [-> LogicManager : execute("get-timeslots")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand("get-timeslots")
+LogicManager -> AddressBookParser : parseCommand()
 activate AddressBookParser
 
 create GetTimeslotCommandParser
 AddressBookParser -> GetTimeslotCommandParser : new GetTimeslotCommandParser()
 activate GetTimeslotCommandParser
 
-AddressBookParser -> GetTimeslotCommandParser : parse("")
+AddressBookParser -> GetTimeslotCommandParser : parse()
 activate GetTimeslotCommandParser
 
 create GetTimeslotCommand
@@ -66,39 +66,35 @@ deactivate CommandResult
 GetTimeslotCommand --> LogicManager : result
 deactivate GetTimeslotCommand
 
-' --- Persist state (matches LogicManager implementation) ---
-LogicManager -> Storage : saveAddressBook(model.getAddressBook())
+' --- Persist state (shortened) ---
+LogicManager -> Storage : save
 activate Storage
 Storage --> LogicManager
 deactivate Storage
 
 alt model instanceof ModelManager
-    LogicManager -> Storage : saveTimeslots(((ModelManager)model).getTimeslots())
+    LogicManager -> Storage : saveTimeslots
     activate Storage
     Storage --> LogicManager
     deactivate Storage
 end
 
-' --- Show UI only if command produced timeslot ranges ---
+' --- Show UI (shortened) ---
 alt commandResult.getTimeslotRanges() != null && not empty
     opt schedule UI via JavaFX
-        LogicManager -> Platform : runLater(showTimetable(ranges, allTimeslots))
+        LogicManager -> Platform : runLater(showTimetable)
         activate Platform
-        Platform -> TimeslotsWindow : showTimetable(ranges, allTimeslots)
+        Platform -> TimeslotsWindow : showTimetable
         activate TimeslotsWindow
         TimeslotsWindow --> Platform : shown
         deactivate TimeslotsWindow
         Platform --> LogicManager : scheduled
         deactivate Platform
     end
-    note right of LogicManager
-      LogicManager wraps call in try/catch and ignores
-      IllegalStateException (e.g., FX not initialized in tests).
-    end note
+    note right of LogicManager : ignore FX errors
 end
 
 [<-- LogicManager
 deactivate LogicManager
 
-scale 2.5
 @enduml

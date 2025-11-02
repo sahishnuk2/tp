@@ -185,19 +185,19 @@ Typical lifecycle for a timeslot command:
 5. LogicManager persists changes (see [Persistence & UI](#persistence--ui)) and returns the CommandResult to the caller/UI.
 
 Sequence diagrams:
-- Block timeslot: 
+Block timeslot: 
 
 <puml src="diagrams/Timeslots/BlockTimeslotSequenceDiagram.puml" width="820" />
 
-- Unblock timeslot: 
+Unblock timeslot: 
 
 <puml src="diagrams/Timeslots/UnblockTimeslotSequenceDiagram.puml" width="820" />
 
-- Clear timeslots: 
+Clear timeslots: 
 
 <puml src="diagrams/Timeslots/ClearTimeslotsSequenceDiagram.puml" width="820" />
 
-- Get timeslots: 
+Get timeslots: 
 
 <puml src="diagrams/Timeslots/GetTimeslotsSequenceDiagram.puml" width="820" />
 
