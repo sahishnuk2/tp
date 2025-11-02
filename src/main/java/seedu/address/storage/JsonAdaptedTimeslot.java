@@ -92,18 +92,17 @@ public class JsonAdaptedTimeslot {
         try {
             startDt = parseIsoAllow24(start);
         } catch (DateTimeParseException e) {
-            throw new IllegalValueException("Invalid datetime in storage: either wrong format or an impossible calendar date "
-                    + "(for example, '30 Feb' does not exist): " + start);
+            throw new IllegalValueException("Invalid start datetime format: " + start);
         }
         try {
             endDt = parseIsoAllow24(end);
         } catch (DateTimeParseException e) {
-            throw new IllegalValueException("Invalid datetime in storage: either wrong format or an impossible calendar date "
-                    + "(for example, '30 Feb' does not exist): " + end);
+            throw new IllegalValueException("Invalid end datetime format: " + end);
         }
 
-        // If studentName present and non-empty, create a ConsultationTimeslot; otherwise a plain Timeslot.
-        if (studentName != null && !studentName.isEmpty()) {
+        // If studentName is present (even if empty), create a ConsultationTimeslot so the concrete type is preserved.
+        // Previously we required non-empty which caused consultations with empty studentName to be downgraded to Timeslot.
+        if (studentName != null) {
             return new ConsultationTimeslot(startDt, endDt, studentName);
         } else {
             return new Timeslot(startDt, endDt);

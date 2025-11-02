@@ -65,23 +65,24 @@ public class UnblockTimeslotCommand extends Command {
                 // overlap at left side: new stored becomes [u1, s1]
                 toRemove.add(s);
                 if (timeslot.getEnd().isBefore(s.getEnd())) {
-                    toAdd.add(new Timeslot(timeslot.getEnd(), s.getEnd()));
+                    // preserve consultation vs generic type
+                    toAdd.add(Timeslot.createSameType(s, timeslot.getEnd(), s.getEnd()));
                 }
             } else if (coversEnd) {
                 // overlap at right side: new stored becomes [s0, u0]
                 toRemove.add(s);
                 if (timeslot.getStart().isAfter(s.getStart())) {
-                    toAdd.add(new Timeslot(s.getStart(), timeslot.getStart()));
+                    toAdd.add(Timeslot.createSameType(s, s.getStart(), timeslot.getStart()));
                 }
             } else {
                 // unblock range is strictly inside stored timeslot -> split into two
                 toRemove.add(s);
                 // left part [s0, u0] and right part [u1, s1] (each valid by construction)
                 if (timeslot.getStart().isAfter(s.getStart())) {
-                    toAdd.add(new Timeslot(s.getStart(), timeslot.getStart()));
+                    toAdd.add(Timeslot.createSameType(s, s.getStart(), timeslot.getStart()));
                 }
                 if (timeslot.getEnd().isBefore(s.getEnd())) {
-                    toAdd.add(new Timeslot(timeslot.getEnd(), s.getEnd()));
+                    toAdd.add(Timeslot.createSameType(s, timeslot.getEnd(), s.getEnd()));
                 }
             }
         }

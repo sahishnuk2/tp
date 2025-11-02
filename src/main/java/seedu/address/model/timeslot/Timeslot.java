@@ -117,4 +117,31 @@ public class Timeslot {
     public int hashCode() {
         return Objects.hash(start, end, studentName);
     }
+
+    /**
+     * Create a new Timeslot of the same concrete type as this instance but with the supplied start/end.
+     *
+     * Default implementation returns a generic Timeslot carrying the same studentName payload.
+     * Subclasses (e.g. ConsultationTimeslot) should override this to preserve their concrete type.
+     */
+    public Timeslot withRange(java.time.LocalDateTime newStart, java.time.LocalDateTime newEnd) {
+        return new Timeslot(newStart, newEnd, this.studentName);
+    }
+
+    /**
+     * Convenience factory: create a timeslot of the same runtime type as {@code original} using the provided range.
+     * This is useful for callers that only have a Timeslot reference and want to create a split/trimmed
+     * replacement while preserving consultation vs generic type.
+     *
+     * @param original the source timeslot whose concrete type and studentName should be preserved
+     * @param newStart start of the new timeslot
+     * @param newEnd end of the new timeslot
+     * @return new Timeslot (or ConsultationTimeslot) with the requested range
+     */
+    public static Timeslot createSameType(Timeslot original,
+                                          java.time.LocalDateTime newStart,
+                                          java.time.LocalDateTime newEnd) {
+        // Delegate to the instance method so subclasses can preserve their concrete type.
+        return original.withRange(newStart, newEnd);
+    }
 }
