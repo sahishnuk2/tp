@@ -1323,3 +1323,9 @@ Testers are encouraged to create their own test scenarios by combining the comma
 - **Filter Persistence**: Apply filters, execute commands like marka or marke, verify filters remain active and update correctly.
 
 
+
+## **Appendix: Planned Enhancements**
+
+Team size: 5
+
+1. Make the timetable window (used by `get-timeslots` and `get-consultations`) refresh automatically when timeslot data changes. Currently it only updates after the command is reissued. We plan to add a listener so the window refreshes immediately whenever timeslots are modified.
