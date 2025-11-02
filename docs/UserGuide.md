@@ -732,16 +732,19 @@ exit
 ## Frequently asked questions
 
 **Q**: How do I save my data after editing?
-**A**: LambdaLab data are saved in the hard disk automatically after any command that changes the data.
+**A**: LambdaLab data is saved in the hard disk automatically after any command that changes the data.
 There is no need to save manually.
 
 **Q**: Can I edit on the data file directly without using commands?
-**A**: LambdaLab data are saved automatically as a JSON file `[JAR file location]/data/LambdaLab.json`.
+**A**: LambdaLab data is saved automatically as a JSON file `[JAR file location]/data/LambdaLab.json`.
 Advanced users are welcome to update data directly by editing that data file.
 <box type="warning">
 
 **Caution:**
-If your changes to the data file makes its format invalid, LambdaLab will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
+If you edit the data file in a way that breaks its format, LambdaLab will ignore all existing data and start with an empty list the next time it runs.
+When you then perform a command (like adding an item), LambdaLab will still execute that command and then save the new list as it currently exists.
+This means any previous data will be lost permanently.
+Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the LambdaLab to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
 
