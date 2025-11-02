@@ -167,17 +167,17 @@ This section describes some noteworthy details on how certain features are imple
 
 ### Feature: Storing, Adding And Managing Timeslots
 
-### Implementation overview
+#### Overview
 The Timeslots feature is implemented as a set of commands that parse user input into command objects, interact with the Model to read or mutate the stored timeslots, and return a CommandResult. Commands are implemented following the existing Command/Parser pattern used across the codebase (AddressBookParser -> XCommandParser -> XCommand). Some commands are read-only (e.g. get-timeslots) while others modify state (e.g. block-timeslot, unblock-timeslot, add-consultation, clear-timeslots).
 
-### Data model
+#### Implementation
 - Timeslot: stores start and end LocalDateTime; used for generic blocked timeslots.
 - ConsultationTimeslot: extends Timeslot and includes an associated student name; serialized to JSON with an explicit studentName field.
 - Timeslots are stored in a Timeslots collection inside ModelManager and are persisted by Storage (JsonTimeslotsStorage).
 
 <puml src="diagrams/Timeslots/TimeslotsClassDiagram.puml" width="820" />
 
-### Command flow
+#### Command flow
 Typical lifecycle for a timeslot command:
 1. User input → AddressBookParser creates the specific CommandParser.
 2. Parser validates prefixes/arguments and constructs a Command instance (e.g., BlockTimeslotCommand).
