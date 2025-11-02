@@ -733,7 +733,7 @@ exit
 There is no need to save manually.
 
 **Q**: Can I edit on the data file directly without using commands?
-**A**: LambdaLab data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. 
+**A**: LambdaLab data are saved automatically as a JSON file `[JAR file location]/data/LambdaLab.json`. 
 Advanced users are welcome to update data directly by editing that data file.
 <box type="warning">
 
@@ -747,17 +747,17 @@ Furthermore, certain edits can cause the LambdaLab to behave in unexpected ways 
 1. Locate your data file on your current computer:
     - Navigate to the folder where your LambdaLab `.jar` file is located.
     - Look for a folder named `data`.
-    - Inside, you'll find a file called `addressbook.json` - this contains all your student records.
+    - Inside, you'll find a file called `LambdaLab.json` - this contains all your student records.
 2. Install LambdaLab on your new computer:
     - Download the `.jar` file and place it in your desired folder.
     - Run it once to generate the initial file structure.
 3. Transfer your data:
-    - Copy the `addressbook.json` file from your old computer.
+    - Copy the `LambdaLab.json` file from your old computer.
     - On your new computer, navigate to `[JAR file location]/data/`.
-    - Replace the empty `addressbook.json` file with your copied file.
+    - Replace the empty `LambdaLab.json` file with your copied file.
 4. Restart LambdaLab on your new computer to see all your student data.
    <box type="tip">
-   Tip: You can also backup your data regularly by copying the `addressbook.json` file to a secure location (e.g., cloud storage, USB drive).
+   Tip: You can also backup your data regularly by copying the `LambdaLab.json` file to a secure location (e.g., cloud storage, USB drive).
    </box>
 
 **Q**: Can I track multiple tutorial groups in LambdaLab?<br>
@@ -770,7 +770,7 @@ to determine which labs and exercises are currently active. Assuming that exerci
 in week 3, you may use [`set-week` command](#set-week) once every week to auto-update the status of past exercises and labs.
 
 **Q**: Can I export my student data to a spreadsheet?<br>
-**A**: Currently, data is stored in JSON format in the `data/addressbook.json` file. Advanced users can manually convert
+**A**: Currently, data is stored in JSON format in the `data/LambdaLab.json` file. Advanced users can manually convert
 this to a spreadsheet format using external tools.
 
 **Q**: What should I do if a student's information changes (e.g., github username or email)?<br>
