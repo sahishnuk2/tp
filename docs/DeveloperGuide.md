@@ -103,7 +103,7 @@ How the `Logic` component works:
 
 1. When `Logic` is called upon to execute a command, it is passed to an `AddressBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
 1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which is executed by the `LogicManager`.
-1. The command can communicate with the `Model` when it is executed (e.g. to delete a person).<br>
+1. The command can communicate with the `Model` when it is executed (e.g. to delete a person).
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
 1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
 
@@ -130,7 +130,7 @@ The `Model` component,
 
 <box type="info" seamless>
 
-**Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
+**Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.
 
 <puml src="diagrams/BetterModelClassDiagram.puml" width="450" />
 
@@ -373,8 +373,7 @@ a student project with limited development time.
 ### Feature: Multi-Index Input Support
 
 #### Overview
-LambdaLab supports commands that can target **multiple students at once** through the use of **multi-index inputs**.  
-This feature is powered by the `MultiIndex` and `MultiIndexCommand` classes, which together allow users to specify **a single index** (e.g., `2`) or **a contiguous range** (e.g., `1:5`) when executing commands.
+LambdaLab supports commands that can target **multiple students at once** through the use of **multi-index inputs**. This feature is powered by the `MultiIndex` and `MultiIndexCommand` classes, which together allow users to specify **a single index** (e.g., `2`) or **a contiguous range** (e.g., `1:5`) when executing commands.
 
 This enables bulk operations such as grading, marking attendance, or updating exercises — all in one concise command.
 
@@ -391,7 +390,7 @@ It exposes methods such as:
 
 **MultiIndexCommand**
 
-Commands that use this feature extend the abstract class `MultiIndexCommand`,  
+Commands that use this feature extend the abstract class `MultiIndexCommand`,
 which defines a template for commands that support updates for multiple students at once using the [MultiIndex syntax](#multiindex-syntax).
 
 Each subclass:
@@ -428,7 +427,7 @@ A sequence diagram for this command is shown below:
 ### Feature: Displaying Trackable Data
 
 #### Overview
-LambdaLab displays each student’s academic progress using **trackable components**, which visually represent data such as **exercise completion**, **lab attendance**, and **exam performance**.  
+LambdaLab displays each student’s academic progress using **trackable components**, which visually represent data such as **exercise completion**, **lab attendance**, and **exam performance**.
 This feature leverages the `Trackable` interface and its implementing classes to unify how progress information is retrieved and displayed within the UI.
 
 Each trackable component defines both:
@@ -438,7 +437,7 @@ Each trackable component defines both:
 #### Implementation
 The **Trackable Display** feature enables LambdaLab to visually represent a student’s **exercises**, **lab attendance**, and **exam results** in a consistent and colour-coded format.
 
-This is achieved through the `Trackable` interface, which standardizes how trackable data is exposed to the UI.  
+This is achieved through the `Trackable` interface, which standardizes how trackable data is exposed to the UI.
 Each of the following classes implements `Trackable`:
 
 - `ExerciseList` – tracks completion status of exercises.
@@ -474,8 +473,7 @@ This provides a concise and visual summary of each student’s standing in the c
 
 #### Current Implementation
 The `find` mechanism performs a multi-keyword search over student records with **presence-only selectors** to restrict which fields are searched.
-Keywords are taken from the preamble (e.g., `find alice bob`), while empty selectors (e.g., `n/`, `g/`) 
-act as flags to limit the searched fields. If no selectors are provided, all supported fields are searched.
+Keywords are taken from the preamble (e.g., `find alice bob`), while empty selectors (e.g., `n/`, `g/`) act as flags to limit the searched fields. If no selectors are provided, all supported fields are searched.
 
 Each selector creates a separate `Predicate` with the `keywords` then they are combined into a combined `PersonContainsKeywordPredicate`
 and passed to a `FindCommand`. The command then updates the model’s filtered list in one step.
@@ -669,8 +667,8 @@ Use case ends.
 2. System displays the sorted list
 
 **Extensions**
-* 1a. Unsupported or misspelled criterion
-  * 1a1. System returns an error describing acceptable criteria 
+* 1a. Invalid criterion
+  * 1a1. System returns an error describing acceptable criteria
   * 1a2. User re-enters a valid criterion
 
   Use case resumes at Step 2
@@ -729,9 +727,9 @@ testers are expected to do more *exploratory* testing.
 
     2. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
-   
+
 3. Shutdown
-    1. `exit` <br> 
+    1. `exit` <br>
        Expected: Closes the application orderly. Users are advised to exit via this command to ensure all views are properly shut down.
 
 ### Adding a student
@@ -740,7 +738,7 @@ testers are expected to do more *exploratory* testing.
 
    1. Test case: `add i/A0309024L n/Shawn Lee p/98765432 e/shawn@gmail.com g/shawnlee2 t/modelStudent` <br>
       Expected: Shawn lee is added to the end of the student list with the specified details.
-   
+
    2. Test case: `add n/Kai Hong i/A0309124L p/99983721 e/kh@gmail.com g/kaihong551 t/consultation t/struggling` <br>
       Expected: Kai Hong is added with multiple tags.
 
@@ -748,10 +746,10 @@ testers are expected to do more *exploratory* testing.
 
    1. Test case:`add n/Shawn Lee p/98765432 e/shawn@gmail.com g/shawnlee2 t/modelStudent` - Student Id missing. <br>
       Expected: Error message indicating invalid command format.
-   
+
    2. Test case:`add i/A0309024L n/Shawn Lee e/shawn@gmail.com g/shawnlee2 t/modelStudent` - Phone number missing. <br>
       Expected: Error message indicating invalid command format.
-   
+
 3. Adding a student with invalid data fields
 
     1. Test case:`add i/A0309021 n/Shawn Lee p/98765432 e/shawn@gmail.com g/shawnlee2 t/modelStudent` <br>
@@ -763,7 +761,7 @@ testers are expected to do more *exploratory* testing.
 4. Add a duplicate person
 
     1. Prerequisite: Student named Alex Yeoh with Student Id: A1231234B is already added.
-   
+
     2. Test case:`add i/A1231234B n/Alex Yeoh p/98765432 e/alexyeoh@example.com g/AlexYeoh` <br>
        Expected: Error message indicating that this student already exists.
 
@@ -788,7 +786,7 @@ testers are expected to do more *exploratory* testing.
 
     3. Test case: `edit 0 p/98123456` <br>
        Expected: Error message indicating invalid `Student Index`.
-   
+
 3. Editing with no fields specified
 
     1. Test case: `edit 1`<br>
@@ -804,7 +802,7 @@ testers are expected to do more *exploratory* testing.
     2. Test case: `delete 1`<br>
        Expected: First student is deleted from the list. Details of the deleted student shown in the status message.
     3. Test case: `delete 1:3`<br>
-       Expected: First three students are deleted from the list. Details of the deleted student shown in the status message. 
+       Expected: First three students are deleted from the list. Details of the deleted students shown in the status message.
 
 2. Deleting with invalid index
 
@@ -816,7 +814,7 @@ testers are expected to do more *exploratory* testing.
 
     3. Test case: `delete x`<br>
        Expected: Error message indicating invalid `Student Index`.
-   
+
 3. Deleting with no index specified
 
     1. Test case: `delete`<br>
@@ -829,10 +827,10 @@ testers are expected to do more *exploratory* testing.
 
     2. Test case: `set-week 5`<br>
        Expected: Status bar footer updates to display "Week 5". Lab attendance and Exercises will be updated accordingly. (labs 1-2 show red for absent/green for attended and exercises 0-2 show red for overdue/green for done)
-   
+
     3. Test case: `set-week 0`<br>
        Expected: Status bar shows "Week 0". Lab attendance and Exercises updated.
-   
+
 2. Setting an invalid week number
 
     1. Test case: `set-week -1`<br>
@@ -840,7 +838,7 @@ testers are expected to do more *exploratory* testing.
 
     2. Test case: `set-week 14`<br>
        Expected: Error message indicating `Week number`.
-   
+
 3. Setting week with invalid format
 
     1. Test case: `set-week abc`<br>
@@ -863,10 +861,10 @@ testers are expected to do more *exploratory* testing.
 
       3. Test case: `marka 1 l/1 s/n`<br>
          Expected: Lab 1 marked as not attended (grey/red depending on the week number) for student 2.
-   
+
       4. Test case: `marka 3:5 l/2 s/y`<br>
-         Expected: Lab 2 marked as attended (green) for students 3, 4, and 5. 
-   
+         Expected: Lab 2 marked as attended (green) for students 3, 4, and 5.
+
 2. Invalid lab numbers
 
     1. Test case: `marka 1 l/0 s/y`<br>
@@ -924,7 +922,7 @@ testers are expected to do more *exploratory* testing.
 
     1. Test case: `marke 1 ei/0 s/x`<br>
        Expected: Error message indicating invalid `Status`.
-   
+
 4. Missing required fields
 
     1. Test case: `marke 1 ei/0`<br>
@@ -1048,12 +1046,6 @@ testers are expected to do more *exploratory* testing.
     3. Test case: `filter s/Y`<br>
        Expected: Error message indicating invalid command format.
 
-    4. Test case: `filter la/50`<br>
-       Expected: Error message indicating an operator is missing.
-
-    5. Test case: `filter la/==101`<br>
-       Expected: Error message indicating invalid percentage value.
-
 ### Sorting students
 
 1. Sorting by valid criteria
@@ -1064,7 +1056,7 @@ testers are expected to do more *exploratory* testing.
        Expected: Students sorted alphabetically by name. Success messages shows the specified sort criterion.
 
     3. Test case: `sort c/id`<br>
-       Expected: Students sorted by student ID. 
+       Expected: Students sorted by student ID.
 
     4. Test case: `sort c/lab`<br>
        Expected: Students sorted by lab attendance.
@@ -1275,7 +1267,7 @@ testers are expected to do more *exploratory* testing.
 
     2. Test case: Press `F1` key<br>
        Expected: Help window opens.
-   
+
     3. Test case: `help x`<br>
        Expected: Help window opens.
 
@@ -1285,7 +1277,7 @@ testers are expected to do more *exploratory* testing.
 
     2. Test case: `help` <br>
        Expected: Existing help window comes to focus, no duplicate window created.
-   
+
 
 ### Saving data
 

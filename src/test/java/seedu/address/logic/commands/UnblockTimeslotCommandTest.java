@@ -95,7 +95,7 @@ public class UnblockTimeslotCommandTest {
         UnblockTimeslotCommand cmd = new UnblockTimeslotCommand(toUnblock);
 
         CommandException ex = assertThrows(CommandException.class, () -> cmd.execute(model));
-        
+
         assertEquals(String.format(UnblockTimeslotCommand.MESSAGE_TIMESLOT_NOT_FOUND, toUnblock),
                 ex.getMessage());
     }

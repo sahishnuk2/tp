@@ -91,7 +91,7 @@ spreadsheets or GUI apps.
 
 # Quick Start
 
-1. Ensure you have **Java 17** or above installed on your computer.<br>
+1. Ensure you have **Java 17** or above installed on your computer.
 > **Checking your Java version:**
 > * Open a command terminal
 > * Type `java -version` and press Enter
@@ -109,11 +109,11 @@ spreadsheets or GUI apps.
 
 3. Copy the `.jar` file to the folder you want to use as the _home folder_ for your LambdaLab.
 
-4. Open a command terminal, `cd` into the folder you put the `.jar` file in, and use the `java -jar addressbook.jar` command to run the application.<br>
+4. Open a command terminal, `cd` into the folder you put the `.jar` file in, and use the `java -jar addressbook.jar` command to run the application.
    A GUI should appear in a few seconds, as shown by the image below. Note that the app contains some sample data and the layout
-   is explained in coloured boxes.<br>
+   is explained in coloured boxes.
 
-5. Type your command in the command box and press Enter to execute it. <br>
+5. Type your command in the command box and press Enter to execute it.
    Some example commands you can try:
     * `help` : Shows the help window that explains the command usage.
     * `list` : Lists all students' records.
@@ -129,7 +129,7 @@ spreadsheets or GUI apps.
 
 ![Ui.png](images/Ui.png)
 
-## Trackers  
+## Trackers
 These trackers provide a visual overview of each student’s progress in terms of **lab attendance**,
 **exercise completion**, and **examination performance (on a pass/fail basis)**.
 
@@ -141,8 +141,8 @@ Each tracker uses colour indicators to represent a student’s current status in
 | **Exercise** | Completed | Not conducted | Overdue |
 | **Exam** | Passed | Not graded | Failed |
 
-This system allows Teaching Assistants to quickly assess how students are performing at a glance.  
-For example, a green tracker indicates satisfactory progress, while a red one highlights areas needing attention 
+This system allows Teaching Assistants to quickly assess how students are performing at a glance.
+For example, a green tracker indicates satisfactory progress, while a red one highlights areas needing attention
 — such as missed labs, overdue exercises, or failed exams.
 
 ---
@@ -150,28 +150,28 @@ For example, a green tracker indicates satisfactory progress, while a red one hi
 
 <box type="info">
 
-**Notes about the command format:**<br>
+**Notes about the command format:**
 
-* Words in `UPPER_CASE` are the [parameters](#parameter-summary) to be supplied by the user.<br>
+* Words in `UPPER_CASE` are the [parameters](#parameter-summary) to be supplied by the user.
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
-* Items in square brackets are optional.<br>
+* Items in square brackets are optional.
   e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/modelStudent` or as `n/John Doe`.
 
-* Items with `…`​ after them can be used multiple times including zero times.<br>
+* Items with `…`​ after them can be used multiple times including zero times.
   e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/modelStudent`, `t/modelStudent t/NOIgold` etc.
 
-* Parameters can be in any order.<br>
+* Parameters can be in any order.
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
 * Accepted datetime formats for command parameters (i.e. START_DATETIME & END_DATETIME):
     * ISO_LOCAL_DATE_TIME: `2023-10-01T09:00:00`
     * Human-friendly: `d MMM uuuu, HH:mm` (e.g. `4 Oct 2025, 10:00`) or `d MMM uuuu HH:mm` (e.g. `4 Oct 2025 10:00`)
 
-* If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines 
+* If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines
 as space characters surrounding line-breaks may be omitted when copied over to the application.
 
 * For any command using the `INDEX` parameter, you can mark multiple students at once using a range `X:Y` (inclusive, X <= Y) (e.g., `1:5`).
@@ -326,7 +326,7 @@ marke INDEX ei/EXERCISE_INDEX s/STATUS
 <br>
 
 #### Marking a Student’s Exam as Passed or Failed: `grade`
-The `grade` command allows you to mark one or more students as **passed** or **failed** for a specific exam.  
+The `grade` command allows you to mark one or more students as **passed** or **failed** for a specific exam.
 It supports **multi-index input**, letting you update multiple students’ grades in a single command.
 
 **Format:**
@@ -364,7 +364,7 @@ grade INDEX... en/EXAM_NAME s/STATUS
 
 #### Blocking a timeslot: `block-timeslot`
 
-You can use this command to add a timeslot to the application's timeslot store. 
+You can use this command to add a timeslot to the application's timeslot store.
 Timeslots can be used to mark regular events (e.g. classes)
 
 **Format:**
@@ -505,13 +505,13 @@ find KEYWORD [MORE_KEYWORDS]... [i/] [n/] [p/] [e/] [g/] [t/]
 
 <box type="tip">
 
-**Tip:** If you do not include field prefixes, all fields are searched. Matching is case-insensitive. 
+**Tip:** If you do not include field prefixes, all fields are searched. Matching is case-insensitive.
 If any of the keywords match, the student will be shown.
 </box>
 
 <box type="warning">
 
-**Caution:** Field prefixes must appear after all keywords and must not contain any values. For example, use 
+**Caution:** Field prefixes must appear after all keywords and must not contain any values. For example, use
 `find alice n/` instead of `find n/alice`. The prefixes act as filters to specify which fields to
 search, not as parameters with values.
 </box>
@@ -574,15 +574,15 @@ sort c/CRITERION
 
 <box type="tip">
 
-**Tip:** Sort criteria must be one of `name`, `id`, `lab`, `ex` (case-insensitive). 
+**Tip:** Sort criteria must be one of `name`, `id`, `lab`, `ex` (case-insensitive).
 </box>
 
 <box type="warning">
 
-**Caution:** 
+**Caution:**
 - Sorting does not change any data and cannot be undone with `undo`.
 To change the order again, run `sort` with a different criterion.
-- Sorting is unstable, meaning students with the same value for the 
+- Sorting is unstable, meaning students with the same value for the
 chosen criterion might not stay in their original order.
 </box>
 
@@ -661,12 +661,12 @@ undo
 <box type="tip">
 
 **Tip:** Only commands that modify student data can be undone (e.g., `add`, `marka`, `clear`, `set-week`, `block-timeslot`).
-Commands that do not modify data cannot be undone (e.g., `sort`, `filter`, `find`, `help`, `get-timeslots`). 
+Commands that do not modify data cannot be undone (e.g., `sort`, `filter`, `find`, `help`, `get-timeslots`).
 </box>
 
 <box type="warning">
 
-**Caution:** This command only undoes the most recent data-modifying command. You cannot undo multiple data-modifying 
+**Caution:** This command only undoes the most recent data-modifying command. You cannot undo multiple data-modifying
 commands or skip back to earlier changes.
 </box>
 
@@ -674,7 +674,7 @@ commands or skip back to earlier changes.
 
 #### Setting current week: `set-week`
 
-The `set-week` command allows you to update the **current teaching week** in LambdaLab.  
+The `set-week` command allows you to update the **current teaching week** in LambdaLab.
 This helps the system automatically manage time-sensitive features such as **exercise due dates** and **lab attendances**.
 
 **Format:**
@@ -686,14 +686,14 @@ set-week WEEK_NUMBER
 
 <box type="tip">
 
-**Tip:**  
+**Tip:**
 The current week determines the following:
 1. If an exercise that is not done is displayed as overdue in the lab attendance tracker.
 2. If a lab that is not attended is displayed as absent in the lab attendance tracker.
 </box>
 
 3. For example:
-Let's say **Exercise 0** is due on **Week 2** and it is not done. 
+Let's say **Exercise 0** is due on **Week 2** and it is not done.
 <br>
 
 ![not-done-exercise.png](images/not-done-exercise.png)
@@ -728,11 +728,11 @@ exit
 ## Frequently asked questions
 
 **Q**: How do I save my data after editing?
-**A**: LambdaLab data are saved in the hard disk automatically after any command that changes the data. 
+**A**: LambdaLab data are saved in the hard disk automatically after any command that changes the data.
 There is no need to save manually.
 
 **Q**: Can I edit on the data file directly without using commands?
-**A**: LambdaLab data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. 
+**A**: LambdaLab data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`.
 Advanced users are welcome to update data directly by editing that data file.
 <box type="warning">
 
@@ -828,7 +828,7 @@ Action     | Format, Examples
 **Find**   | `find KEYWORD [MORE_KEYWORDS] [i/] [n/] [p/] [e/] [g/] [t/]`<br> e.g., `find James Jake`
 **Filter** | `filter [l/LABNUMBER s/STATUS]... [ei/EXERCISEINDEX s/STATUS]... [la/COMPARISON]` <br> e.g., `filter l/7 s/y`
 **Sort**    | `sort c/SORTCRITERION` <br> e.g., `sort c/name`
-**Get timeslots** | `get-timeslots` 
+**Get timeslots** | `get-timeslots`
 **Get consultations** | `get-consultations`
 **Help**   | `help`
 **Undo** | `undo`
