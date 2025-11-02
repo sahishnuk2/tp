@@ -1,7 +1,10 @@
 package seedu.address.logic.parser;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_LAB;
@@ -432,6 +435,34 @@ public class ParserUtilTest {
     public void parseAttendanceComparison_negativeOrTooLarge_throwsParseException() {
         assertThrows(ParseException.class, () -> ParserUtil.parseAttendanceComparison("-1%"));
         assertThrows(ParseException.class, () -> ParserUtil.parseAttendanceComparison("101%"));
+    }
+
+    @Test
+    public void verifyNoUnwantedPrefixes_validPrefixesOnly_success() {
+        assertDoesNotThrow(() -> ParserUtil.verifyNoUnwantedPrefixes("1 2 3", PREFIX_NAME, PREFIX_PHONE));
+
+        assertDoesNotThrow(() ->ParserUtil.verifyNoUnwantedPrefixes(
+                " n/John p/12345678", PREFIX_NAME, PREFIX_PHONE));
+
+        assertDoesNotThrow(() -> ParserUtil.verifyNoUnwantedPrefixes(
+                " n/John n/Jane p/12345678", PREFIX_NAME, PREFIX_PHONE));
+
+        assertDoesNotThrow(() -> ParserUtil.verifyNoUnwantedPrefixes(
+                "   n/John    p/12345678   ", PREFIX_NAME, PREFIX_PHONE));
+    }
+
+    @Test
+    public void verifyNoUnwantedPrefixes_extraPrefixes_parseException(){
+        assertThrows(ParseException.class, () -> ParserUtil.verifyNoUnwantedPrefixes("1 2 3 l/1 ", PREFIX_NAME, PREFIX_PHONE));
+
+        assertThrows(ParseException.class, () ->ParserUtil.verifyNoUnwantedPrefixes(
+                " n/John p/12345678 e/sk@gmail.com", PREFIX_NAME, PREFIX_PHONE));
+
+        assertThrows(ParseException.class, () -> ParserUtil.verifyNoUnwantedPrefixes(
+                " n/John n/Jane ei/0 p/12345678", PREFIX_NAME, PREFIX_PHONE));
+
+        assertThrows(ParseException.class, () -> ParserUtil.verifyNoUnwantedPrefixes(
+                "   n/John    p/12345678 ei/0 l/0  ", PREFIX_NAME, PREFIX_PHONE));
     }
 
 }
