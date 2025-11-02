@@ -1,14 +1,6 @@
 @startuml
 !include ../style.puml
-
 skinparam ArrowFontStyle plain
-
-// Improve readability: larger fonts, higher DPI and larger overall scale
-skinparam defaultFontSize 14
-skinparam sequenceMessageFontSize 13
-skinparam sequenceParticipantFontSize 14
-skinparam ArrowFontSize 13
-skinparam dpi 200
 
 box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
@@ -99,5 +91,5 @@ end
 [<-- LogicManager
 deactivate LogicManager
 
-scale 2
+scale 1.5
 @enduml
