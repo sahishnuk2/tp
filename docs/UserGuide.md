@@ -676,45 +676,39 @@ commands or skip back to earlier changes.
 
 #### Setting current week: `set-week`
 
-The `set-week` command allows you to update the **current teaching week** in LambdaLab.
+The `set-week` command allows you to update the **current teaching week** in LambdaLab.  
 This helps the system automatically manage time-sensitive features such as **exercise due dates** and **lab attendances**.
 
 **Format:**
-```
 set-week WEEK_NUMBER
-```
 
 **Examples:**
-- Sets the current teaching week to Week 5: `set-week 5`.
-- Resets the current week to Week 1 at the start of a new semester: `set-week 1`.
+- Setting the current teaching week to Week 5: `set-week 5`.
+- Resetting the current week to Week 0 at the start of a new semester: `set-week 0`.
 
 <box type="tip">
-
 **Tip:**
+You can see the current week in LambdaLab at the bottom right corner of the app
+</box>
+
 The current week determines the following:
 1. If an exercise that is not done is displayed as overdue in the lab attendance tracker.
 2. If a lab that is not attended is displayed as absent in the lab attendance tracker.
-</box>
 
-3. For example:
-Let's say **Exercise 0** is due on **Week 2** and it is not done.
+For example:
+In week 5, the student missed both Lab 3 and Exercise 3, which were scheduled for that week.
+This is how his tracker would look in week 5:
 <br>
 
-![not-done-exercise.png](images/not-done-exercise.png)
+![week5.png](images/week5.png)
 
-Now, if you set the current week to **Week 3**, **Exercise 0** will automatically be marked as **overdue**
+Now, if you set the current week to **Week 6**, the following occurs:
+- **Exercise 3** will automatically be marked as **overdue**
+- **Lab 3** will automatically be marked as **absent**
 
-![overdue-exercise.png](images/overdue-exercise.png)
+![week6.png](images/week6.png)
 
-Similarly, lab attendance is tracked relative to the current week, allowing TAs to manage which students have missed sessions.
-
-<box type="warning">
-
-**Caution:**
-- The week number must be within the valid semester range (e.g., 0–13 (both inclusive)).
-- Setting the wrong week may cause inconsistencies in exercise deadlines and attendance tracking.
-</box>
-<br>
+<br/>
 
 #### Exiting the application: `exit`
 
