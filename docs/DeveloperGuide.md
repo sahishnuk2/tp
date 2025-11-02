@@ -175,7 +175,7 @@ The Timeslots feature is implemented as a set of commands that parse user input 
 - ConsultationTimeslot: extends Timeslot and includes an associated student name; serialized to JSON with an explicit studentName field.
 - Timeslots are stored in a Timeslots collection inside ModelManager and are persisted by Storage (JsonTimeslotsStorage).
 
-<puml src="diagrams/TimeslotsClassDiagram.puml" width="574" />
+<puml src="diagrams/Timeslots/TimeslotsClassDiagram.puml" width="820" />
 
 ### Command flow
 Typical lifecycle for a timeslot command:
@@ -186,10 +186,21 @@ Typical lifecycle for a timeslot command:
 5. LogicManager persists changes (see [Persistence & UI](#persistence--ui)) and returns the CommandResult to the caller/UI.
 
 Sequence diagrams:
-- Block timeslot: <puml src="diagrams/BlockTimeslotSequenceDiagram.puml" width="574" />
-- Unblock timeslot: <puml src="diagrams/UnblockTimeslotSequenceDiagram.puml" width="574" />
-- Clear timeslots: <puml src="diagrams/ClearTimeslotsSequenceDiagram.puml" width="574" />
-- Get timeslots: <puml src="diagrams/GetTimeslotsSequenceDiagram.puml" width="574" />
+- Block timeslot: 
+
+<puml src="diagrams/Timeslots/BlockTimeslotSequenceDiagram.puml" width="820" />
+
+- Unblock timeslot: 
+
+<puml src="diagrams/Timeslots/UnblockTimeslotSequenceDiagram.puml" width="820" />
+
+- Clear timeslots: 
+
+<puml src="diagrams/Timeslots/ClearTimeslotsSequenceDiagram.puml" width="820" />
+
+- Get timeslots: 
+
+<puml src="diagrams/Timeslots/GetTimeslotsSequenceDiagram.puml" width="820" />
 
 ### Persistence & UI
 - Persistence: LogicManager is responsible for writing persistent files. After a successful command execution, LogicManager saves the address book and, if available, timeslots via StorageManager.saveAddressBook(...) and StorageManager.saveTimeslots(...).
