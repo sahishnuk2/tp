@@ -402,7 +402,7 @@ It exposes methods such as:
 **MultiIndexCommand**
 
 Commands that use this feature extend the abstract class `MultiIndexCommand`,
-which defines a template for commands that support updates for multiple students at once using the [MultiIndex syntax](#multiindex-syntax).
+which defines a template for commands that support updates for multiple students at once using the [MultiIndex syntax](#implementation-1).
 
 Each subclass:
 1. Implements `applyActionToPerson(Model model, Person person)` — defining how each student is modified.
