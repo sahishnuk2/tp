@@ -469,7 +469,7 @@ This design cleanly separates **model data** from **UI rendering**, ensuring tha
 
 <puml src="diagrams/Trackable/TrackableClassDiagram.puml" width="800" />
 
-### **Example**
+#### Example
 Each student card displays their current progress in three areas:
 
 | Category | Green Meaning | Grey Meaning | Red Meaning |
@@ -519,6 +519,13 @@ and exercise tracking throughout the application.
     - Updates the static current week in `LabList` and `ExerciseList` classes
     - Updates all existing students' lab and exercise tracking data to reflect the new week
 4. The system displays a success message showing the new week number and how many students were updated
+<br>
+
+#### Design Rationale
+
+The set-week command is intentionally designed as a manual command because it is simple and quick for users to type, giving TAs easy control over the current week.
+
+An automated approach—calculating the current week from the semester start date—would require users to update the semester start date each semester, which could be confusing and error-prone. In contrast, the manual approach is faster, clearer, and only needs to be done once per week, reducing the chance of errors and keeping the system straightforward to use.
 <br>
 <puml src="diagrams/set-week/SetWeekSequenceDiagram.puml" width="820" />
 
