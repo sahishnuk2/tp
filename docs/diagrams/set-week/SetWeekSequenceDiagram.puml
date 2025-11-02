@@ -20,7 +20,7 @@ end box
 [-> LogicManager : execute("set-week <WEEK NUMBER>")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand("set-week <WEEK NUMBER>")
+LogicManager -> AddressBookParser : parse("set-week <WEEK NUMBER>")
 activate AddressBookParser
 
 create SetWeekCommandParser
@@ -71,8 +71,8 @@ activate Model
 Model --> SetWeekCommand
 deactivate Model
 
-SetWeekCommand -> LabList : setCurrentWeek(currentWeekNumber)
-SetWeekCommand -> ExerciseList : setCurrentWeek(currentWeekNumber)
+SetWeekCommand -> LabList : setCurrentWeek(weekNumber)
+SetWeekCommand -> ExerciseList : setCurrentWeek(weekNumber)
 
 create CommandResult
 SetWeekCommand -> CommandResult
