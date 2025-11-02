@@ -86,4 +86,6 @@ deactivate SetWeekCommand
 
 [<-- LogicManager
 deactivate LogicManager
+
+scale 1.5
 @enduml
