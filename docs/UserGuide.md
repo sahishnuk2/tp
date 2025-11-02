@@ -531,10 +531,10 @@ filter [l/LAB_NUMBER s/STATUS]... [ei/EXERCISE_INDEX s/STATUS]... [la/COMPARISON
 
 **Status Usage**:
 
-| **Use Case**                         | **Valid Inputs**                                              |
-|--------------------------------------|---------------------------------------------------------------|
-| **Filtering by lab attendance**      | `y` - attended <br>`n` - not attended <br> `a` - absent <br>  |
-| **Filtering by exercise completion** | `y` - attended <br>`n` - not attended <br> `o` - overdue <br> |
+| **Use Case**                         | **Valid Inputs**                                                |
+|--------------------------------------|-----------------------------------------------------------------|
+| **Filtering by lab attendance**      | `y` - attended <br>`n` - not attended <br> `a` - absent <br>    |
+| **Filtering by exercise completion** | `y` - completed <br>`n` - not completed <br> `o` - overdue <br> |
 
 **Examples:**
 - Shows students who attended Lab 7: `filter l/7 s/y`.
