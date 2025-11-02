@@ -142,8 +142,8 @@ Each tracker uses colour indicators to represent a student’s current status in
 | **Exercise** | Completed | Not conducted | Overdue |
 | **Exam** | Passed | Not graded    | Failed |
 
-This system allows Teaching Assistants to quickly assess how students are performing at a glance.  
-For example, a green tracker indicates satisfactory progress, while a red one highlights areas needing attention 
+This system allows Teaching Assistants to quickly assess how students are performing at a glance.
+For example, a green tracker indicates satisfactory progress, while a red one highlights areas needing attention
 — such as missed labs, overdue exercises, or failed exams.
 
 ---
@@ -172,7 +172,7 @@ For example, a green tracker indicates satisfactory progress, while a red one hi
     * ISO_LOCAL_DATE_TIME: `2023-10-01T09:00:00`
     * Human-friendly: `d MMM uuuu, HH:mm` (e.g. `4 Oct 2025, 10:00`) or `d MMM uuuu HH:mm` (e.g. `4 Oct 2025 10:00`)
 
-* If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines 
+* If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines
 as space characters surrounding line-breaks may be omitted when copied over to the application.
 
 * For any command using the `INDEX` parameter, you can mark multiple students at once using a range `X:Y` (inclusive, X <= Y) (e.g., `1:5`).
@@ -366,7 +366,7 @@ grade INDEX... en/EXAM_NAME s/STATUS
 
 #### Blocking a timeslot: `block-timeslot`
 
-You can use this command to add a timeslot to the application's timeslot store. 
+You can use this command to add a timeslot to the application's timeslot store.
 Timeslots can be used to mark regular events (e.g. classes)
 
 **Format:**
@@ -507,13 +507,13 @@ find KEYWORD [MORE_KEYWORDS]... [i/] [n/] [p/] [e/] [g/] [t/]
 
 <box type="tip">
 
-**Tip:** If you do not include field prefixes, all fields are searched. Matching is case-insensitive. 
+**Tip:** If you do not include field prefixes, all fields are searched. Matching is case-insensitive.
 If any of the keywords match, the student will be shown.
 </box>
 
 <box type="warning">
 
-**Caution:** Field prefixes must appear after all keywords and must not contain any values. For example, use 
+**Caution:** Field prefixes must appear after all keywords and must not contain any values. For example, use
 `find alice n/` instead of `find n/alice`. The prefixes act as filters to specify which fields to
 search, not as parameters with values.
 </box>
@@ -576,15 +576,15 @@ sort c/CRITERION
 
 <box type="tip">
 
-**Tip:** Sort criteria must be one of `name`, `id`, `lab`, `ex` (case-insensitive). 
+**Tip:** Sort criteria must be one of `name`, `id`, `lab`, `ex` (case-insensitive).
 </box>
 
 <box type="warning">
 
-**Caution:** 
+**Caution:**
 - Sorting does not change any data and cannot be undone with `undo`.
 To change the order again, run `sort` with a different criterion.
-- Sorting is unstable, meaning students with the same value for the 
+- Sorting is unstable, meaning students with the same value for the
 chosen criterion might not stay in their original order.
 </box>
 
@@ -663,12 +663,12 @@ undo
 <box type="tip">
 
 **Tip:** Only commands that modify student data can be undone (e.g., `add`, `marka`, `clear`, `set-week`, `block-timeslot`).
-Commands that do not modify data cannot be undone (e.g., `sort`, `filter`, `find`, `help`, `get-timeslots`). 
+Commands that do not modify data cannot be undone (e.g., `sort`, `filter`, `find`, `help`, `get-timeslots`).
 </box>
 
 <box type="warning">
 
-**Caution:** This command only undoes the most recent data-modifying command. You cannot undo multiple data-modifying 
+**Caution:** This command only undoes the most recent data-modifying command. You cannot undo multiple data-modifying
 commands or skip back to earlier changes.
 </box>
 
@@ -676,7 +676,7 @@ commands or skip back to earlier changes.
 
 #### Setting current week: `set-week`
 
-The `set-week` command allows you to update the **current teaching week** in LambdaLab.  
+The `set-week` command allows you to update the **current teaching week** in LambdaLab.
 This helps the system automatically manage time-sensitive features such as **exercise due dates** and **lab attendances**.
 
 **Format:**
@@ -690,14 +690,14 @@ set-week WEEK_NUMBER
 
 <box type="tip">
 
-**Tip:**  
+**Tip:**
 The current week determines the following:
 1. If an exercise that is not done is displayed as overdue in the lab attendance tracker.
 2. If a lab that is not attended is displayed as absent in the lab attendance tracker.
 </box>
 
 3. For example:
-Let's say **Exercise 0** is due on **Week 2** and it is not done. 
+Let's say **Exercise 0** is due on **Week 2** and it is not done.
 <br>
 
 ![not-done-exercise.png](images/not-done-exercise.png)
@@ -732,11 +732,11 @@ exit
 ## Frequently asked questions
 
 **Q**: How do I save my data after editing?
-**A**: LambdaLab data are saved in the hard disk automatically after any command that changes the data. 
+**A**: LambdaLab data are saved in the hard disk automatically after any command that changes the data.
 There is no need to save manually.
 
 **Q**: Can I edit on the data file directly without using commands?
-**A**: LambdaLab data are saved automatically as a JSON file `[JAR file location]/data/LambdaLab.json`. 
+**A**: LambdaLab data are saved automatically as a JSON file `[JAR file location]/data/LambdaLab.json`.
 Advanced users are welcome to update data directly by editing that data file.
 <box type="warning">
 

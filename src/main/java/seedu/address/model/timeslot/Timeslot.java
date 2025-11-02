@@ -44,6 +44,24 @@ public class Timeslot {
         if (end.isBefore(start) || end.equals(start)) {
             throw new IllegalArgumentException("End time must be after start time");
         }
+
+        // validate year is positive (reject negative/zero years)
+        if (start.getYear() <= 0 || end.getYear() <= 0) {
+            throw new IllegalArgumentException("Year must be a positive value");
+        }
+
+        // Time-of-day constraint:
+        // - start time must not be before 08:00
+        // - end time is allowed to be midnight (00:00) of the next day; otherwise end time must not be before 08:00
+        java.time.LocalTime earliest = java.time.LocalTime.of(8, 0);
+        java.time.LocalTime midnight = java.time.LocalTime.MIDNIGHT;
+        boolean endIsMidnightNextDay = end.toLocalTime().equals(midnight) && end.isAfter(start);
+
+        if (start.toLocalTime().isBefore(earliest)
+                || (end.toLocalTime().isBefore(earliest) && !endIsMidnightNextDay)) {
+            throw new IllegalArgumentException("Timeslot must be within 08:00 to 24:00 (midnight of next day allowed)");
+        }
+
         this.start = start;
         this.end = end;
         this.studentName = studentName; // may be null
@@ -98,5 +116,32 @@ public class Timeslot {
     @Override
     public int hashCode() {
         return Objects.hash(start, end, studentName);
+    }
+
+    /**
+     * Create a new Timeslot of the same concrete type as this instance but with the supplied start/end.
+     *
+     * Default implementation returns a generic Timeslot carrying the same studentName payload.
+     * Subclasses (e.g. ConsultationTimeslot) should override this to preserve their concrete type.
+     */
+    public Timeslot withRange(java.time.LocalDateTime newStart, java.time.LocalDateTime newEnd) {
+        return new Timeslot(newStart, newEnd, this.studentName);
+    }
+
+    /**
+     * Convenience factory: create a timeslot of the same runtime type as {@code original} using the provided range.
+     * This is useful for callers that only have a Timeslot reference and want to create a split/trimmed
+     * replacement while preserving consultation vs generic type.
+     *
+     * @param original the source timeslot whose concrete type and studentName should be preserved
+     * @param newStart start of the new timeslot
+     * @param newEnd end of the new timeslot
+     * @return new Timeslot (or ConsultationTimeslot) with the requested range
+     */
+    public static Timeslot createSameType(Timeslot original,
+                                          java.time.LocalDateTime newStart,
+                                          java.time.LocalDateTime newEnd) {
+        // Delegate to the instance method so subclasses can preserve their concrete type.
+        return original.withRange(newStart, newEnd);
     }
 }

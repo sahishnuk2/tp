@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -26,27 +27,35 @@ public class UnblockTimeslotCommandParser implements Parser<UnblockTimeslotComma
     private static final DateTimeFormatter ALTERNATE_WITH_COMMA =
             new DateTimeFormatterBuilder().parseCaseInsensitive()
                     .appendPattern("d MMM uuuu, HH:mm")
-                    .toFormatter(Locale.ENGLISH);
+                    .toFormatter(Locale.ENGLISH)
+                    .withResolverStyle(ResolverStyle.STRICT);
     // without comma: "1 Jan 2025 10:00"
     private static final DateTimeFormatter ALTERNATE_NO_COMMA =
             new DateTimeFormatterBuilder().parseCaseInsensitive()
                     .appendPattern("d MMM uuuu HH:mm")
-                    .toFormatter(Locale.ENGLISH);
+                    .toFormatter(Locale.ENGLISH)
+                    .withResolverStyle(ResolverStyle.STRICT);
 
+    // Standardized error message for datetime parsing failures
+    private static final String INVALID_DATETIME_MESSAGE =
+            "Invalid datetime: either wrong format or an impossible calendar date \n"
+            + "(for example, '30 Feb' does not exist). ";
     private static LocalDateTime parseFlexibleDateTime(String input) throws DateTimeParseException {
         Objects.requireNonNull(input);
         String trimmed = input.trim();
 
-        // try ISO first (accepts strings like 2025-10-04T10:00:00)
+        // try ISO first (strict)
         try {
-            return LocalDateTime.parse(trimmed, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            java.time.format.DateTimeFormatter isoStrict =
+                    DateTimeFormatter.ISO_LOCAL_DATE_TIME.withResolverStyle(ResolverStyle.STRICT);
+            return LocalDateTime.parse(trimmed, isoStrict);
         } catch (DateTimeParseException e) {
             // fall through
         }
 
-        // try Timeslot's configured formatter (if different)
+        // try Timeslot's configured formatter (strict)
         try {
-            return LocalDateTime.parse(trimmed, Timeslot.FORMATTER);
+            return LocalDateTime.parse(trimmed, Timeslot.FORMATTER.withResolverStyle(ResolverStyle.STRICT));
         } catch (DateTimeParseException e) {
             // try human-friendly with comma
             try {
@@ -92,14 +101,16 @@ public class UnblockTimeslotCommandParser implements Parser<UnblockTimeslotComma
         try {
             LocalDateTime start = parseFlexibleDateTime(startStr);
             LocalDateTime end = parseFlexibleDateTime(endStr);
+
+            // Construct Timeslot and let Timeslot constructor enforce business rules.
             Timeslot ts = new Timeslot(start, end);
             return new UnblockTimeslotCommand(ts);
-        } catch (DateTimeException | IllegalArgumentException e) {
-            throw new ParseException("Invalid timeslot datetime or range.\n  Accepted formats:\n"
-                    + " - ISO: 2025-10-04T010:00:00\n"
-                    + " - Human: 4 Oct 2025, 10:00 or 4 Oct 2025 10:00\n"
-                    + "Ensure end is after start and prefixes are ts/ and te/. Example:\n"
-                    + "  block-timeslot ts/4 Oct 2025, 10:00 te/4 Oct 2025, 13:00");
+        } catch (DateTimeException e) {
+            // unified, user-friendly message
+            throw new ParseException(INVALID_DATETIME_MESSAGE);
+        } catch (IllegalArgumentException e) {
+            // Timeslot constructor validations (year, time window, end before start, etc.)
+            throw new ParseException("Invalid timeslot: " + e.getMessage());
         }
     }
 }
