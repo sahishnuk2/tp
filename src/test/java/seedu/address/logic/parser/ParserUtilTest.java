@@ -47,7 +47,7 @@ public class ParserUtilTest {
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
     private static final String VALID_GITHUB_USERNAME = "TestUsername";
-    private static final String VALID_LAB_LIST = "L1: Y L2: N L3: N L4: N L5: N L6: N L7: Y L8: N L9: N L10: N ";
+    private static final String VALID_LAB_LIST = "L1: Y L2: A L3: A L4: N L5: N L6: N L7: Y L8: N L9: N L10: N ";
 
 
 

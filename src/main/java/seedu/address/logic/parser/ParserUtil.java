@@ -300,6 +300,8 @@ public class ParserUtil {
             labs[i] = new Lab(i + 1, LabList.getCurrentWeek());
             if (status.equals("Y")) {
                 labs[i].markAsAttended();
+            } else if (!(status.equals("A") || status.equals("N"))) {
+                throw new ParseException(LabList.MESSAGE_CONSTRAINTS);
             }
         }
         return new LabList(labs);
