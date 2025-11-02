@@ -350,7 +350,7 @@ grade INDEX... en/EXAM_NAME s/STATUS
 <box type="warning">
 
 **Caution:**
-- The exam name must match one of the valid exams listed below — entering an invalid one will cause an error.
+The exam name must match one of the valid exams listed below — entering an invalid one will cause an error.
   </box>
 
 | **Valid Exam Name** | **Description** |
