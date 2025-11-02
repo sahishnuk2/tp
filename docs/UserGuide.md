@@ -687,8 +687,10 @@ set-week WEEK_NUMBER
 - Resetting the current week to Week 0 at the start of a new semester: `set-week 0`.
 
 <box type="tip">
+
 **Tip:**
 You can see the current week in LambdaLab at the bottom right corner of the app
+
 </box>
 
 The current week determines the following:
