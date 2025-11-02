@@ -55,8 +55,11 @@ public class ParserUtil {
     private static final String MESSAGE_INVALID_EXERCISE_INDEX =
             "Exercise index is invalid! It must be between 0 and "
                     + (ExerciseList.NUMBER_OF_EXERCISES - 1) + " (inclusive).";
-    private static final String MESSAGE_INVALID_LAB_INDEX =
+    public static final String MESSAGE_INVALID_LAB_INDEX =
             "Lab index is invalid! It must be between 1 and " + LabList.NUMBER_OF_LABS + " (inclusive).";
+    public static final String MESSAGE_INVALID_MULTIINDEX_BOUNDS =
+            "%s is invalid! Lower bound cannot be greater than upper bound";
+    public static final String MESSAGE_INVALID_PREFIX = "Invalid prefix(s) found: %s";
     private static final String MESSAGE_INVALID_FILTER_EXERCISE_STATUS =
             "Exercise status must be Y, N or O";
     private static final String MESSAGE_INVALID_FILTER_LAB_STATUS =
@@ -66,13 +69,11 @@ public class ParserUtil {
     private static final String MESSAGE_MISSING_LAB_STATUS =
             "Lab index must always be followed by lab status";
     private static final String MESSAGE_EMPTY_INPUT = "Input string is empty!";
-    private static final String MESSAGE_INVALID_MULTIINDEX_BOUNDS =
-            "%s is invalid! Lower bound cannot be greater than upper bound";
     private static final String MESSAGE_MISSING_OPERATOR =
             "Missing appropriate operator for comparison, one of ==, >=, <=, >, < should follow la/";
     private static final String MESSAGE_INVALID_PERCENTAGE =
             "Attendance percentage must be an integer between 0 and 100.";
-    private static final String MESSAGE_INVALID_PREFIX = "Invalid prefix(s) found: %s";
+
 
     /**
      * @param input a string that is either in the "X:Y" or "X" form
