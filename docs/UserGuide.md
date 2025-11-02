@@ -748,6 +748,7 @@ Furthermore, certain edits can cause the LambdaLab to behave in unexpected ways 
     - Navigate to the folder where your LambdaLab `.jar` file is located.
     - Look for a folder named `data`.
     - Inside, you'll find a file called `LambdaLab.json` - this contains all your student records.
+    - Another file you'll find is one called `timeslots.json` - this contains all the timeslots you have recorded
 2. Install LambdaLab on your new computer:
     - Download the `.jar` file and place it in your desired folder.
     - Run it once to generate the initial file structure.
@@ -755,6 +756,7 @@ Furthermore, certain edits can cause the LambdaLab to behave in unexpected ways 
     - Copy the `LambdaLab.json` file from your old computer.
     - On your new computer, navigate to `[JAR file location]/data/`.
     - Replace the empty `LambdaLab.json` file with your copied file.
+    - Repeat these steps for `timeslots.json`
 4. Restart LambdaLab on your new computer to see all your student data.
    <box type="tip">
    Tip: You can also backup your data regularly by copying the `LambdaLab.json` file to a secure location (e.g., cloud storage, USB drive).
