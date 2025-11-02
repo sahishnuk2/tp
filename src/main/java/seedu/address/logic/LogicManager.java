@@ -86,10 +86,10 @@ public class LogicManager implements Logic {
             try {
                 if (model instanceof ModelManager) {
                     List<Timeslot> allTimeslots = ((ModelManager) model).getTimeslots().getTimeslotList();
-                    Platform.runLater(() -> TimeslotsWindow.showMerged(commandResult.getTimeslotRanges(),
+                    Platform.runLater(() -> TimeslotsWindow.showTimetable(commandResult.getTimeslotRanges(),
                                                                          allTimeslots));
                 } else {
-                    Platform.runLater(() -> TimeslotsWindow.showMerged(commandResult.getTimeslotRanges(),
+                    Platform.runLater(() -> TimeslotsWindow.showTimetable(commandResult.getTimeslotRanges(),
                             Collections.emptyList()));
                 }
             } catch (IllegalStateException e) {

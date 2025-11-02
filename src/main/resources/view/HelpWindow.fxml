@@ -21,133 +21,293 @@
             <stylesheets>
                 <URL value="@HelpWindow.css" />
             </stylesheets>
-         <BorderPane>
-            <top>
-                  <HBox fx:id="helpMessageContainer" alignment="CENTER" BorderPane.alignment="CENTER">
-                      <children>
-                          <Label fx:id="helpMessage" text="Label">
-                              <HBox.margin>
-                                  <Insets right="5.0" />
-                              </HBox.margin>
-                          </Label>
-                          <Button fx:id="copyButton" mnemonicParsing="false" onAction="#copyUrl" text="Copy URL">
-                              <HBox.margin>
-                                  <Insets left="5.0" />
-                              </HBox.margin>
-                          </Button>
-                      </children>
-                      <opaqueInsets>
-                          <Insets bottom="10.0" left="5.0" right="10.0" top="5.0" />
-                      </opaqueInsets>
-                      <padding>
-                          <Insets bottom="10.0" left="5.0" right="10.0" top="5.0" />
-                      </padding>
-                  </HBox>
-            </top>
-            <center>
-               <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                 <content>
-                     <VBox maxWidth="1.7976931348623157E308" style="-fx-background-color: derive(#1d1d1d, 20%);">
+            <BorderPane>
+                <top>
+                    <HBox fx:id="helpMessageContainer" alignment="CENTER" BorderPane.alignment="CENTER">
                         <children>
-                           <VBox id="help">
-                              <children>
-                                 <Label text="Command: help" />
-                                 <Label text="Format: help" />
-                                 <Label text="Parameters: None" />
-                                 <Label text="Description: Lists out all commands." wrapText="true" />
-                              </children>
-                              <padding>
-                                 <Insets left="12.0" bottom="28.0" top="8.0" />
-                              </padding>
-                              <VBox.margin>
-                                 <Insets />
-                              </VBox.margin>
-                           </VBox>
-                           <VBox id="add">
-                              <children>
-                                 <Label text="Command: add" />
-                                 <Label text="Format: add i/ID n/NAME p/PHONE e/EMAIL g/GITHUB NAME [t/TAG]..." />
-                                 <Label text="Parameters: i/ - Student ID AXXXXXXXY  n/ - Student's Name p/ - Phone number e/ - Email  g/ - Student's GitHub Username  t/ - Optional Tags" wrapText="true" />
-                                 <Label text="Description: Adds a new student." wrapText="true" />
-                              </children>
-                              <padding>
-                                  <Insets left="12.0" bottom="28.0" top="8.0" />
-                              </padding>
-                              <VBox.margin>
-                                 <Insets />
-                              </VBox.margin>
-                           </VBox>
-                            <VBox id="delete">
-                                <children>
-                                    <Label text="Command: delete" />
-                                    <Label text="Format: delete INDEX" />
-                                    <Label text="Parameters: index - A positive integer between 1 and the number of students" wrapText="true" />
-                                    <Label text="Description: Deletes the student at specified index." wrapText="true" />
-                                </children>
-                              <padding>
-                                  <Insets left="12.0" bottom="28.0" top="8.0" />
-                              </padding>
-                              <VBox.margin>
-                                 <Insets />
-                              </VBox.margin>
-                            </VBox>
-                            <VBox id="list">
-                                <children>
-                                    <Label text="Command: list" />
-                                    <Label text="Format: list" />
-                                    <Label text="Parameters: None" wrapText="true" />
-                                    <Label text="Description: Displays all students records." wrapText="true" />
-                                </children>
-                              <padding>
-                                  <Insets left="12.0" bottom="28.0" top="8.0" />
-                              </padding>
-                              <VBox.margin>
-                                 <Insets />
-                              </VBox.margin>
-                            </VBox>
-                            <VBox id="find">
-                                <children>
-                                    <Label text="Command: find" />
-                                    <Label text="Format: find KEYWORD" />
-                                    <Label text="Parameters: KEYWORD - Case insensitive substring of the string users wish to find" wrapText="true" />
-                                    <Label text="Description: Searches student's data." wrapText="true" />
-                                </children>
-                                <padding>
-                                    <Insets left="12.0" bottom="28.0" top="8.0" />
-                                </padding>
-                            </VBox>
-                            <VBox id="markLab">
-                                <children>
-                                    <Label text="Command: marka" />
-                                    <Label text="Format: marka INDEX l/LABNUMBER" />
-                                    <Label text="Parameters: INDEX - Index of student in list  LABNUMBER - Number of lab you wish to mark attendance for" wrapText="true" />
-                                    <Label text="Description: Mark attendance of a student for a specific lab." wrapText="true" />
-                                </children>
-                                <padding>
-                                    <Insets left="12.0" bottom="28.0" top="8.0" />
-                                </padding>
-                            </VBox>
-                            <VBox id="markEx">
-                                <children>
-                                    <Label text="Command: marke" />
-                                    <Label text="Format: marke INDEX ei/EXERCISENUMBER s/STATUS" />
-                                    <Label text="Parameters: INDEX - Index of student in list  EXERCISENUMBER - Number of exercise you wish to mark as complete." wrapText="true" />
-                                    <Label text="STATUS - Choose from D(done), N(not done), O(overdue)." wrapText="true" />
-                                    <Label text="Description: Mark completion an exercise as completed for a specific student." wrapText="true" />
-                                </children>
-                                <padding>
-                                    <Insets left="12.0" bottom="28.0" top="8.0" />
-                                </padding>
-                            </VBox>
+                            <Label fx:id="helpMessage" text="For full details, see the User Guide.">
+                                <HBox.margin>
+                                    <Insets right="5.0" />
+                                </HBox.margin>
+                            </Label>
+                            <Button fx:id="copyButton" mnemonicParsing="false" onAction="#copyUrl" text="Copy URL">
+                                <HBox.margin>
+                                    <Insets left="5.0" />
+                                </HBox.margin>
+                            </Button>
                         </children>
+                        <opaqueInsets>
+                            <Insets bottom="10.0" left="5.0" right="10.0" top="5.0" />
+                        </opaqueInsets>
                         <padding>
-                           <Insets left="10.0" right="10.0" />
+                            <Insets bottom="10.0" left="5.0" right="10.0" top="5.0" />
                         </padding>
-                     </VBox>
-                 </content>
-               </ScrollPane>
-            </center>
-         </BorderPane>
+                    </HBox>
+                </top>
+                <center>
+                    <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                        <content>
+                            <VBox maxWidth="1.7976931348623157E308" style="-fx-background-color: derive(#1d1d1d, 20%);">
+                                <children>
+
+                                    <VBox id="help">
+                                        <children>
+                                            <Label text="Command: help" />
+                                            <Label text="Format: help" />
+                                            <Label text="Description: Opens this Help window and links to the User Guide." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                        <VBox.margin>
+                                            <Insets />
+                                        </VBox.margin>
+                                    </VBox>
+
+                                    <VBox id="list">
+                                        <children>
+                                            <Label text="Command: list" />
+                                            <Label text="Format: list" />
+                                            <Label text="Description: Displays all student records." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                        <VBox.margin>
+                                            <Insets />
+                                        </VBox.margin>
+                                    </VBox>
+
+                                    <VBox id="find">
+                                        <children>
+                                            <Label text="Command: find" />
+                                            <Label text="Format: find KEYWORD [MORE_KEYWORDS]... [i/] [n/] [p/] [e/] [g/] [t/]" />
+                                            <Label text="Description: Searches by keywords; empty selectors (if present) limit which fields are searched." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                    </VBox>
+
+                                    <VBox id="filter">
+                                        <children>
+                                            <Label text="Command: filter" />
+                                            <Label text="Format: filter [l/LAB_NUMBER s/y|n]... [ei/EXERCISE_INDEX s/y|n]... [la/COMPARISON]" />
+                                            <Label text="Description: Filters by lab attendance, exercise status, and/or lab-attendance threshold; combined with AND." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                    </VBox>
+
+                                    <VBox id="sort">
+                                        <children>
+                                            <Label text="Command: sort" />
+                                            <Label text="Format: sort c/SORTCRITERION" />
+                                            <Label text="Description: Sorts the displayed list (e.g., by name)." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                    </VBox>
+
+                                    <VBox id="add">
+                                        <children>
+                                            <Label text="Command: add"/>
+                                            <Label text="Format: add i/STUDENTID n/NAME p/PHONE e/EMAIL g/GITHUB_USERNAME [t/TAG]…"/>
+                                            <Label text="Description: Adds a student; tags are optional and repeatable." wrapText="true"/>
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                        <VBox.margin>
+                                            <Insets />
+                                        </VBox.margin>
+                                    </VBox>
+
+                                    <VBox id="edit">
+                                        <children>
+                                            <Label text="Command: edit"/>
+                                            <Label text="Format: edit INDEX [i/STUDENT ID] [n/NAME] [p/PHONE] [e/EMAIL] [g/GITHUB USERNAME] [t/TAG]…"/>
+                                            <Label text="Description: Updates the fields of the student at the given index." wrapText="true"/>
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                        <VBox.margin>
+                                            <Insets />
+                                        </VBox.margin>
+                                    </VBox>
+
+                                    <VBox id="delete">
+                                        <children>
+                                            <Label text="Command: delete" />
+                                            <Label text="Format: delete INDEX" />
+                                            <Label text="Description: Deletes the student at the specified index." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                        <VBox.margin>
+                                            <Insets />
+                                        </VBox.margin>
+                                    </VBox>
+
+                                    <VBox id="clear">
+                                        <children>
+                                            <Label text="Command: clear" />
+                                            <Label text="Format: clear" />
+                                            <Label text="Description: Clears all students from the app." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                        <VBox.margin>
+                                            <Insets />
+                                        </VBox.margin>
+                                    </VBox>
+
+                                    <VBox id="markLab">
+                                        <children>
+                                            <Label text="Command: marka" />
+                                            <Label text="Format: marka INDEX l/LAB_NUMBER s/y|n" />
+                                            <Label text="Description: Marks lab attendance for the selected student(s)." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                    </VBox>
+
+                                    <VBox id="markEx">
+                                        <children>
+                                            <Label text="Command: marke" />
+                                            <Label text="Format: marke INDEX ei/EXERCISE_INDEX s/y|n" />
+                                            <Label text="Description: Marks exercise as done or not done for the selected student(s)." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                    </VBox>
+
+                                    <VBox id="grade">
+                                        <children>
+                                            <Label text="Command: grade" />
+                                            <Label text="Format: grade INDEX en/EXAMNAME sc/SCORE" />
+                                            <Label text="Description: Records a score for a named assessment." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                    </VBox>
+
+                                    <VBox id="setWeek">
+                                        <children>
+                                            <Label text="Command: set-week" />
+                                            <Label text="Format: set-week WEEK_NUMBER" />
+                                            <Label text="Description: Sets the current teaching week for trackers." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                    </VBox>
+
+                                    <VBox id="blockTimeslot">
+                                        <children>
+                                            <Label text="Command: block-timeslot" />
+                                            <Label text="Format: block-timeslot ts/START_DATETIME te/END_DATETIME" />
+                                            <Label text="Description: Adds a blocked timeslot to your schedule." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                    </VBox>
+
+                                    <VBox id="unblockTimeslot">
+                                        <children>
+                                            <Label text="Command: unblock-timeslot" />
+                                            <Label text="Format: unblock-timeslot ts/START_DATETIME te/END_DATETIME" />
+                                            <Label text="Description: Removes or trims blocked timeslots overlapping the range." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                    </VBox>
+
+                                    <VBox id="addConsultation">
+                                        <children>
+                                            <Label text="Command: add-consultation" />
+                                            <Label text="Format: add-consultation ts/START_DATETIME te/END_DATETIME n/STUDENT_NAME" />
+                                            <Label text="Description: Adds a consultation timeslot for a student." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                    </VBox>
+
+                                    <VBox id="clearTimeslots">
+                                        <children>
+                                            <Label text="Command: clear-timeslots" />
+                                            <Label text="Format: clear-timeslots" />
+                                            <Label text="Description: Clears all stored timeslots and consultations." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                    </VBox>
+
+                                    <VBox id="getTimeslots">
+                                        <children>
+                                            <Label text="Command: get-timeslots" />
+                                            <Label text="Format: get-timeslots" />
+                                            <Label text="Description: Shows merged blocked timeslot ranges." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                    </VBox>
+
+                                    <VBox id="getConsultations">
+                                        <children>
+                                            <Label text="Command: get-consultations" />
+                                            <Label text="Format: get-consultations" />
+                                            <Label text="Description: Shows consultation timeslots only." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                    </VBox>
+
+                                    <VBox id="undo">
+                                        <children>
+                                            <Label text="Command: undo" />
+                                            <Label text="Format: undo" />
+                                            <Label text="Description: Reverts the most recent data-modifying command." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                    </VBox>
+
+                                    <VBox id="exit">
+                                        <children>
+                                            <Label text="Command: exit" />
+                                            <Label text="Format: exit" />
+                                            <Label text="Description: Exits the application." wrapText="true" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="12.0" bottom="28.0" top="8.0" />
+                                        </padding>
+                                    </VBox>
+
+                                </children>
+                                <padding>
+                                    <Insets left="10.0" right="10.0" />
+                                </padding>
+                            </VBox>
+                        </content>
+                    </ScrollPane>
+                </center>
+            </BorderPane>
         </Scene>
     </scene>
 </fx:root>

@@ -6,9 +6,11 @@ import java.util.Set;
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.ExerciseList;
 import seedu.address.model.person.ExerciseTracker;
 import seedu.address.model.person.GithubUsername;
 import seedu.address.model.person.GradeMap;
+import seedu.address.model.person.GradeTracker;
 import seedu.address.model.person.LabAttendanceList;
 import seedu.address.model.person.LabList;
 import seedu.address.model.person.Name;
@@ -38,10 +40,10 @@ public class PersonBuilder {
     private Phone phone;
     private Email email;
     private Set<Tag> tags;
-    private ExerciseTracker exerciseTracker;
+    private ExerciseTracker exerciseList;
     private GithubUsername githubUsername;
     private LabAttendanceList labAttendanceList;
-    private GradeMap gradeMap;
+    private GradeTracker gradeMap;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -52,7 +54,7 @@ public class PersonBuilder {
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
         tags = new HashSet<>();
-        exerciseTracker = new ExerciseTracker();
+        exerciseList = new ExerciseList();
         githubUsername = new GithubUsername(DEFAULT_GITHUB_USERNAME);
         labAttendanceList = new LabList();
         gradeMap = new GradeMap();
@@ -67,10 +69,10 @@ public class PersonBuilder {
         phone = personToCopy.getPhone();
         email = personToCopy.getEmail();
         tags = new HashSet<>(personToCopy.getTags());
-        exerciseTracker = personToCopy.getExerciseTracker();
+        exerciseList = personToCopy.getExerciseTracker();
         githubUsername = personToCopy.getGithubUsername();
         labAttendanceList = personToCopy.getLabAttendanceList();
-        gradeMap = personToCopy.getGradeMap();
+        gradeMap = personToCopy.getGradeTracker();
     }
 
     /**
@@ -134,13 +136,13 @@ public class PersonBuilder {
     }
 
     /**
-     * Sets the {@code exerciseTracker} of the {@code Person} that we are building.
+     * Sets the {@code ExerciseList} of the {@code Person} that we are building.
      */
-    public PersonBuilder withExerciseTracker(String exerciseTrackerString) {
+    public PersonBuilder withExerciseList(String exerciseListString) {
         try {
-            exerciseTracker = ParserUtil.parseExerciseTracker(exerciseTrackerString);
+            exerciseList = ParserUtil.parseExerciseTracker(exerciseListString);
         } catch (ParseException e) {
-            throw new IllegalArgumentException("Invalid Exercise Tracker List format"); // For developers
+            throw new IllegalArgumentException("Invalid Exercise Tracker format"); // For developers
         }
         return this;
     }
@@ -150,9 +152,9 @@ public class PersonBuilder {
      */
     public PersonBuilder withGradeMap(String gradeMapString) {
         try {
-            gradeMap = ParserUtil.parseGradeMap(gradeMapString);
+            gradeMap = ParserUtil.parseGradeTracker(gradeMapString);
         } catch (ParseException e) {
-            throw new IllegalArgumentException("Invalid Exercise Tracker List format"); // For developers
+            throw new IllegalArgumentException("Invalid Grade Map format"); // For developers
         }
         return this;
     }
@@ -168,7 +170,7 @@ public class PersonBuilder {
                 email,
                 tags,
                 githubUsername,
-                exerciseTracker,
+                exerciseList,
                 labAttendanceList,
                 gradeMap
                 );

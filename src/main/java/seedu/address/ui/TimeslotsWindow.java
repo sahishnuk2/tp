@@ -19,7 +19,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -60,11 +59,11 @@ public class TimeslotsWindow {
     private static Stage currentStage = null;
 
     /**
-     * Shows the merged timeslot ranges in a new window laid out as a timetable.
+     * Shows the timeslot ranges in a new window laid out as a timetable.
      * Each entry in {@code mergedRanges} should be a LocalDateTime[2] array: [start, end].
      * Receives the concrete timeslot list so consultations (with student names) can be rendered specially.
      */
-    public static void showMerged(List<LocalDateTime[]> mergedRanges, List<Timeslot> allTimeslots) {
+    public static void showTimetable(List<LocalDateTime[]> mergedRanges, List<Timeslot> allTimeslots) {
         // If a window already exists and is showing, update its contents and bring to front.
         if (currentStage != null && currentStage.isShowing()) {
             Scene scene = currentStage.getScene();
@@ -378,8 +377,6 @@ public class TimeslotsWindow {
                     block.setStrokeWidth(1);
 
                     // Decide whether to hide the generic timeslot label.
-                    // We only hide the label if a consultation actually covers the label area at the start
-                    // of the timeslot block. This prevents hiding labels when a consultation overlaps later.
                     final int labelSafeMinutes = 15;
                     boolean hideGenericLabel = false;
                     if (allTimeslots != null) {
@@ -392,12 +389,9 @@ public class TimeslotsWindow {
                             if (cStart == null || cEnd == null) {
                                 continue;
                             }
-                            // compute the portion of the consultation that falls on this date window
                             LocalDateTime cRenderStart = cStart.isAfter(dayWindowStart) ? cStart : dayWindowStart;
                             LocalDateTime cRenderEnd = cEnd.isBefore(dayWindowEnd) ? cEnd : dayWindowEnd;
-                            // if the consultation visible portion overlaps the timeslot at all
                             if (cRenderStart.isBefore(renderEnd) && cRenderEnd.isAfter(renderStart)) {
-                                // hide the generic label only if the consultation covers the label area near the start
                                 if (cRenderStart.isBefore(renderStart.plusMinutes(labelSafeMinutes))
                                         && cRenderEnd.isAfter(renderStart)) {
                                     hideGenericLabel = true;
@@ -407,8 +401,6 @@ public class TimeslotsWindow {
                         }
                     }
 
-                    // Only allow line breaks at the time separator " - " so we avoid character-level wrapping.
-                    // Show times as two lines with explicit S: (start) and E: (end) prefixes.
                     String displayLabelText = String.format("S: %s\nE: %s",
                             renderStart.format(DateTimeFormatter.ofPattern("HH:mm")),
                             renderEnd.format(DateTimeFormatter.ofPattern("HH:mm")));
@@ -419,13 +411,21 @@ public class TimeslotsWindow {
                     bl.layoutXProperty().bind(xBind.add(6));
                     bl.setLayoutY(8); // vertical placement
 
-                    Tooltip tooltip = new Tooltip(start.format(FORMATTER) + "\n" + end.format(FORMATTER));
-                    Tooltip.install(block, tooltip);
+                    // add a tooltip on the block (single tooltip per block for consistent hover behaviour)
+                    javafx.scene.control.Tooltip tsTooltip = new javafx.scene.control.Tooltip(
+                            String.format("Timeslot%nStart: %s%nEnd: %s",
+                                    renderStart.format(FORMATTER),
+                                    renderEnd.format(FORMATTER)));
+                    tsTooltip.setWrapText(true);
+                    tsTooltip.setMaxWidth(300);
+                    // immediate show, short hide delay, reasonable show duration
+                    tsTooltip.setShowDelay(javafx.util.Duration.ZERO);
+                    tsTooltip.setHideDelay(javafx.util.Duration.millis(100));
+                    tsTooltip.setShowDuration(javafx.util.Duration.seconds(8));
+                    // install tooltip on the visual block (not on multiple nodes)
+                    javafx.scene.control.Tooltip.install(block, tsTooltip);
 
-                    // Add the block, and add the generic time label only if it's not obscured by a consultation
-                    // near the block start.
                     if (!hideGenericLabel) {
-                        Tooltip.install(bl, tooltip);
                         timeline.getChildren().addAll(block, bl);
                     } else {
                         timeline.getChildren().add(block);
@@ -447,7 +447,6 @@ public class TimeslotsWindow {
                     continue;
                 }
 
-                // same intersection logic as above: check if this consultation overlaps the date and timeline window
                 LocalDateTime dayWindowStart = LocalDateTime.of(date, LocalTime.of(START_HOUR, 0));
                 LocalDateTime dayWindowEnd = LocalDateTime.of(date.plusDays(1), LocalTime.MIDNIGHT);
 
@@ -455,7 +454,6 @@ public class TimeslotsWindow {
                 LocalDateTime renderEnd = end.isBefore(dayWindowEnd) ? end : dayWindowEnd;
 
                 if (renderStart.isBefore(renderEnd)) {
-                    // Use Duration to compute minutes to correctly handle spans across midnight
                     long minutesFromStart = Duration.between(dayWindowStart, renderStart).toMinutes();
                     long durationMinutes = Duration.between(renderStart, renderEnd).toMinutes();
 
@@ -465,7 +463,6 @@ public class TimeslotsWindow {
                     NumberBinding xBind = timelineWidth.multiply(xRatio);
                     NumberBinding wBind = timelineWidth.multiply(wRatio);
 
-                    // Render consultation as a simple red block; student name shown below the time label.
                     Rectangle consultBlock = new Rectangle();
                     consultBlock.xProperty().bind(xBind);
                     consultBlock.yProperty().set(8); // same vertical placement as other blocks
@@ -497,7 +494,6 @@ public class TimeslotsWindow {
 
                     // Student name label placed below the time label
                     String studentText = ct.getStudentName();
-                    // allow student name to break at spaces if necessary
                     Label studentLbl = new Label(studentText.contains(" ")
                         ? studentText.replace(" ", "\n")
                         : studentText);
@@ -506,17 +502,36 @@ public class TimeslotsWindow {
                     // Keep student label positioned directly below the time label even after the time label wraps.
                     studentLbl.layoutYProperty().bind(timeLbl.layoutYProperty().add(timeLbl.heightProperty()).add(2));
 
-                    String consultTooltip = String.format("Consultation: %s -> %s%nStudent: %s",
-                            start.format(FORMATTER),
-                            end.format(FORMATTER),
-                            ct.getStudentName());
-                    Tooltip tooltip = new Tooltip(consultTooltip);
-                    Tooltip.install(consultBlock, tooltip);
-                    Tooltip.install(timeLbl, tooltip);
-                    Tooltip.install(studentLbl, tooltip);
-                    Tooltip.install(icon, tooltip);
+                    // Constrain label max widths to the block width (minus padding) and enable wrapping
+                    timeLbl.maxWidthProperty().bind(consultBlock.widthProperty().subtract(12));
+                    timeLbl.setWrapText(true);
+                    studentLbl.maxWidthProperty().bind(consultBlock.widthProperty().subtract(12));
+                    studentLbl.setWrapText(true);
 
-                    // Add consultation visuals: block, icon, then labels
+                    // Prevent overlap of adjacent consultation labels
+                    timeLbl.maxWidthProperty().bind(consultBlock.widthProperty().subtract(12));
+                    timeLbl.setWrapText(true);
+                    studentLbl.maxWidthProperty().bind(consultBlock.widthProperty().subtract(12));
+                    studentLbl.setWrapText(true);
+
+                    timeLbl.visibleProperty().bind(consultBlock.widthProperty().greaterThan(40));
+                    studentLbl.visibleProperty().bind(consultBlock.widthProperty().greaterThan(40));
+                    icon.visibleProperty().bind(consultBlock.widthProperty().greaterThan(16));
+                    // ----------------------------------------------------------------
+
+                    // Tooltip for consultation block: single tooltip on block for consistent, immediate display.
+                    String consultTooltipText = String.format("Consultation%nStudent: %s%nStart: %s%nEnd: %s",
+                            ct.getStudentName(),
+                            renderStart.format(FORMATTER),
+                            renderEnd.format(FORMATTER));
+                    javafx.scene.control.Tooltip consultTooltip = new javafx.scene.control.Tooltip(consultTooltipText);
+                    consultTooltip.setWrapText(true);
+                    consultTooltip.setMaxWidth(320);
+                    consultTooltip.setShowDelay(javafx.util.Duration.ZERO);
+                    consultTooltip.setHideDelay(javafx.util.Duration.millis(100));
+                    consultTooltip.setShowDuration(javafx.util.Duration.seconds(10));
+                    javafx.scene.control.Tooltip.install(consultBlock, consultTooltip);
+
                     timeline.getChildren().addAll(consultBlock, icon, timeLbl, studentLbl);
                     // Ensure labels and icon are rendered above the block.
                     icon.toFront();

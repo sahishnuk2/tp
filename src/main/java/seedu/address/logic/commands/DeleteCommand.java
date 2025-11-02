@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +35,6 @@ public class DeleteCommand extends MultiIndexCommand {
     protected Person applyActionToPerson(Model model, Person personToDelete) {
         requireNonNull(model);
         model.deletePerson(personToDelete);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return personToDelete;
     }
 

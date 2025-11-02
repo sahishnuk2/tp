@@ -11,19 +11,19 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Predicate;
 
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.predicates.EmailContainsKeywordsPredicate;
-import seedu.address.model.person.predicates.GithubContainsKeywordsPredicate;
-import seedu.address.model.person.predicates.NameContainsKeywordsPredicate;
-import seedu.address.model.person.predicates.PersonContainsKeywordsPredicate;
-import seedu.address.model.person.predicates.PhoneContainsKeywordsPredicate;
-import seedu.address.model.person.predicates.StudentIdContainsKeywordsPredicate;
-import seedu.address.model.person.predicates.TagContainsKeywordsPredicate;
+import seedu.address.model.person.predicates.findpredicates.EmailContainsKeywordsPredicate;
+import seedu.address.model.person.predicates.findpredicates.FindPredicate;
+import seedu.address.model.person.predicates.findpredicates.GithubContainsKeywordsPredicate;
+import seedu.address.model.person.predicates.findpredicates.NameContainsKeywordsPredicate;
+import seedu.address.model.person.predicates.findpredicates.PersonContainsKeywordsPredicate;
+import seedu.address.model.person.predicates.findpredicates.PhoneContainsKeywordsPredicate;
+import seedu.address.model.person.predicates.findpredicates.StudentIdContainsKeywordsPredicate;
+import seedu.address.model.person.predicates.findpredicates.TagContainsKeywordsPredicate;
 
 /**
  * Parses input arguments and creates a new FindCommand object
@@ -44,20 +44,27 @@ public class FindCommandParser implements Parser<FindCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, FIND_PREFIXES);
 
-        String[] preamble = argMultimap.getPreamble().trim().split("\\s+");
-        List<String> keywords = Arrays.asList(preamble);
 
-        if (keywords.isEmpty() || keywords.get(0).isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
-        }
-
-        List<Predicate<Person>> predicates = getSelectedPredicates(argMultimap, keywords);
+        List<String> keywords = getKeywords(argMultimap);
+        List<FindPredicate> predicates = getSelectedPredicates(argMultimap, keywords);
 
         return new FindCommand(new PersonContainsKeywordsPredicate(predicates));
     }
 
-    private List<Predicate<Person>> getSelectedPredicates(ArgumentMultimap argMultimap, List<String> keywords)
+
+    private List<String> getKeywords(ArgumentMultimap argMultimap) throws ParseException {
+        String[] preamble = argMultimap.getPreamble().trim().split("\\s+");
+        List<String> keywords = Arrays.asList(preamble);
+
+        // Require at least one keyword in the preamble
+        if (keywords.isEmpty() || keywords.get(0).isBlank()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
+        return keywords;
+    }
+
+    private List<FindPredicate> getSelectedPredicates(ArgumentMultimap argMultimap, List<String> keywords)
             throws ParseException {
 
         checkNoDuplicatePrefix(argMultimap);
@@ -68,8 +75,13 @@ public class FindCommandParser implements Parser<FindCommand> {
 
     private static void checkSelectorEmpty(ArgumentMultimap argMultimap) throws ParseException {
         for (Prefix p : FIND_PREFIXES) {
+
+            //Already checked by checkNoDuplicatePrefix
+            assert argMultimap.getAllValues(p).size() <= 1
+                    : "Parser precondition violated: repeated selector " + p;
+
             if (argMultimap.getValue(p).isPresent()
-                    && !argMultimap.getValue(p).get().isEmpty()) {
+                    && !argMultimap.getValue(p).get().isBlank()) {
                 throw new ParseException(MESSAGE_FIELD_NOT_EMPTY);
             }
 
@@ -92,10 +104,10 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
     }
 
-    private static List<Predicate<Person>> selectPredicates(ArgumentMultimap argMultimap, List<String> keywords) {
+    private static List<FindPredicate> selectPredicates(ArgumentMultimap argMultimap, List<String> keywords) {
         List<PrefixPredicateContainer> prefixPredicateContainers = PrefixPredicateContainer.getAllPrefixPredicate();
 
-        List<Predicate<Person>> predicates = new ArrayList<>();
+        List<FindPredicate> predicates = new ArrayList<>();
 
         boolean isAnySelected = Arrays.stream(FIND_PREFIXES).anyMatch(p -> argMultimap.getValue(p).isPresent());
 
@@ -109,6 +121,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
         return predicates;
     }
+
 
     /**
      * Binds a {@link Prefix} (e.g., {@code n/}, {@code e/}) to a predicate “builder” for a {@link Person}
@@ -173,7 +186,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         @FunctionalInterface
         public interface PredicateWrapper {
 
-            public Predicate<Person> buildPredicate(List<String> keywords);
+            public FindPredicate buildPredicate(List<String> keywords);
         }
     }
 }

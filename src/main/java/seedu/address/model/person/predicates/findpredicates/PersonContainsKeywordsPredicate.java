@@ -1,17 +1,23 @@
-package seedu.address.model.person.predicates;
+package seedu.address.model.person.predicates.findpredicates;
 
 import java.util.List;
 import java.util.function.Predicate;
 
+import seedu.address.logic.parser.FindCommandParser;
 import seedu.address.model.person.Person;
 
 /**
  *  A {@code Predicate} over {@code Person} that OR-combines multiple field-level predicates.
  */
-public class PersonContainsKeywordsPredicate implements Predicate<Person> {
+public class PersonContainsKeywordsPredicate extends FindPredicate {
 
+    private static final int MAX_PREDICATES = FindCommandParser
+            .PrefixPredicateContainer
+            .getAllPrefixPredicate()
+            .size();
     private Predicate<Person> combinedPredicate;
-    private final List<Predicate<Person>> predicates;
+    private final List<FindPredicate> predicates;
+
 
     /**
      * Constructs a predicate that matches a {@code Person} if any of the provided predicates match.
@@ -19,7 +25,7 @@ public class PersonContainsKeywordsPredicate implements Predicate<Person> {
      * @param predicates a non-empty list of individual field {@code Predicate}
      *                  targeting different {@code Person} fields.
      */
-    public PersonContainsKeywordsPredicate(List<Predicate<Person>> predicates) {
+    public PersonContainsKeywordsPredicate(List<FindPredicate> predicates) {
         this.predicates = predicates;
         combinedPredicate = predicates.get(0);
         for (int i = 1; i < predicates.size(); i++) {
@@ -62,5 +68,37 @@ public class PersonContainsKeywordsPredicate implements Predicate<Person> {
         return true;
     }
 
+    @Override
+    public String successMessage() {
+
+        List<String> keywords = getKeywords();
+        StringBuilder success = new StringBuilder();
+        StringBuilder keywordsString = new StringBuilder();
+        for (int i = 0; i < keywords.size() - 1; i++) {
+            keywordsString.append(keywords.get(i))
+                    .append(", ");
+        }
+        keywordsString.append(keywords.get(keywords.size() - 1));
+        StringBuilder fieldsString = new StringBuilder();
+        if (predicates.size() == MAX_PREDICATES) {
+            fieldsString.append(" all");
+        } else {
+            for (int i = 0; i < predicates.size() - 1; i++) {
+                fieldsString.append(predicates.get(i).successMessage())
+                        .append(", ");
+            }
+            fieldsString.append(predicates.get(predicates.size() - 1).successMessage());
+        }
+        success.append(keywordsString).append(" within").append(fieldsString).append(" fields.");
+
+
+
+        return success.toString();
+    }
+
+    @Override
+    public List<String> getKeywords() {
+        return predicates.get(0).getKeywords();
+    }
 
 }

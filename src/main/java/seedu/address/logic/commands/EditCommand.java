@@ -7,7 +7,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENTID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -25,7 +24,7 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.ExerciseTracker;
 import seedu.address.model.person.GithubUsername;
-import seedu.address.model.person.GradeMap;
+import seedu.address.model.person.GradeTracker;
 import seedu.address.model.person.LabAttendanceList;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
@@ -44,16 +43,16 @@ public class EditCommand extends MultiIndexCommand {
             + "identified by their index numbers in the displayed student list. "
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: (must be a positive integer or range X:Y) "
-            + "[" + PREFIX_STUDENTID + "STUDENTID] "
+            + "[" + PREFIX_STUDENTID + "STUDENT_ID] "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_GITHUB_USERNAME + "GITHUB_USERNAME] "
             + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Example: " + COMMAND_WORD + " 1:2 "
+            + "Example: " + COMMAND_WORD + " 5 "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com \n"
-            + "Example: " + COMMAND_WORD + " 5 " + PREFIX_TAG + "struggling";
+            + "Example: " + COMMAND_WORD + " 1:2 " + PREFIX_TAG + "struggling";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Student(s):\n%1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
@@ -80,7 +79,6 @@ public class EditCommand extends MultiIndexCommand {
         }
 
         model.setPerson(personToEdit, editedPerson);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return editedPerson;
     }
 
@@ -111,10 +109,11 @@ public class EditCommand extends MultiIndexCommand {
                 .orElse(personToEdit.getExerciseTracker());
         LabAttendanceList updatedLabAttendanceList = editPersonDescriptor.getLabAttendanceList()
                 .orElse(personToEdit.getLabAttendanceList());
-        GradeMap updatedGradeMap = editPersonDescriptor.getGradeMap()
-                .orElse(personToEdit.getGradeMap());
+        GradeTracker updatedGradeTracker = editPersonDescriptor.getGradeTracker()
+                .orElse(personToEdit.getGradeTracker());
         return new Person(updatedStudentId, updatedName, updatedPhone, updatedEmail,
-                updatedTags, updatedGithubUsername, updatedExerciseTracker, updatedLabAttendanceList, updatedGradeMap);
+                updatedTags, updatedGithubUsername,
+                updatedExerciseTracker, updatedLabAttendanceList, updatedGradeTracker);
     }
 
     @Override
@@ -153,7 +152,7 @@ public class EditCommand extends MultiIndexCommand {
         private GithubUsername githubUsername;
         private ExerciseTracker exerciseTracker;
         private LabAttendanceList labAttendanceList;
-        private GradeMap gradeMap;
+        private GradeTracker gradeTracker;
 
         public EditPersonDescriptor() {}
 
@@ -170,6 +169,7 @@ public class EditCommand extends MultiIndexCommand {
             setGithubUsername(toCopy.githubUsername);
             setExerciseTracker(toCopy.exerciseTracker);
             setLabAttendanceList(toCopy.labAttendanceList);
+            setGradeTracker(toCopy.gradeTracker);
         }
 
         /**
@@ -223,12 +223,16 @@ public class EditCommand extends MultiIndexCommand {
             this.labAttendanceList = labAttendanceList;
         }
 
+        public void setGradeTracker(GradeTracker gradeTracker) {
+            this.gradeTracker = gradeTracker;
+        }
+
         public Optional<LabAttendanceList> getLabAttendanceList() {
             return Optional.ofNullable(labAttendanceList);
         }
 
-        public Optional<GradeMap> getGradeMap() {
-            return Optional.ofNullable(gradeMap);
+        public Optional<GradeTracker> getGradeTracker() {
+            return Optional.ofNullable(gradeTracker);
         }
 
         public void setTags(Set<Tag> tags) {

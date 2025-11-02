@@ -23,7 +23,7 @@ public class ConsultationTimeslot extends Timeslot {
     public ConsultationTimeslot(@JsonProperty("start") LocalDateTime start,
                                 @JsonProperty("end") LocalDateTime end,
                                 @JsonProperty("studentName") String studentName) {
-        super(start, end, studentName == null ? "" : studentName);
+        super(start, end, studentName);
     }
 
     @Override
@@ -50,5 +50,15 @@ public class ConsultationTimeslot extends Timeslot {
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    /**
+     * Preserve concrete type when creating a new timeslot for a new range.
+     * This ensures that trimming/splitting a ConsultationTimeslot produces ConsultationTimeslot(s)
+     * (i.e., the associated studentName is preserved).
+     */
+    @Override
+    public Timeslot withRange(java.time.LocalDateTime newStart, java.time.LocalDateTime newEnd) {
+        return new ConsultationTimeslot(newStart, newEnd, getStudentName());
     }
 }

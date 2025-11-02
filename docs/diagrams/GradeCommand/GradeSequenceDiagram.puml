@@ -1,0 +1,67 @@
+@startuml
+!include ../style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant "logic:LogicManager" as LogicManager LOGIC_COLOR
+participant "command:GradeCommand" as GradeCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "model:Model" as Model MODEL_COLOR
+participant "person:Person" as Person MODEL_COLOR
+participant "gradeMap:GradeMap" as GradeMap MODEL_COLOR
+end box
+
+[-> LogicManager : execute("grade 1:3 en/midterm s/y")
+activate LogicManager
+
+LogicManager -> GradeCommand : execute(model)
+activate GradeCommand
+note right: Inherited from MultiIndexCommand
+
+GradeCommand -> GradeCommand : super.execute(model)
+activate GradeCommand #LightGray
+note right: Executes MultiIndexCommand logic\n(loops through selected persons)
+
+GradeCommand -> Model : getFilteredPersonList()
+activate Model
+Model --> GradeCommand : list of persons [1,2,3]
+deactivate Model
+
+loop For each person in the filtered person list
+    GradeCommand -> GradeCommand : applyActionToPerson(model, person)
+    activate GradeCommand #LightBlue
+    note right: Overridden in GradeCommand
+
+    GradeCommand -> GradeMap : markExamPassed("midterm")
+    activate GradeMap
+    GradeMap --> GradeCommand
+    deactivate GradeMap
+
+    GradeCommand -> Model : setPerson(old, updated)
+    activate Model
+    Model --> GradeCommand
+    deactivate Model
+
+    deactivate GradeCommand
+end
+
+GradeCommand -> GradeCommand : buildResult(updatedPersons)
+activate GradeCommand #LightGreen
+note right: Overridden in GradeCommand
+
+create CommandResult
+GradeCommand -> CommandResult : new CommandResult("midterm marked as passed for: Alex Yeoh (A1231230B), Bernice Yu (A1231231B), Charlotte Oliveiro (A1231232B)")
+activate CommandResult
+CommandResult --> GradeCommand
+deactivate CommandResult
+deactivate GradeCommand
+
+GradeCommand --> LogicManager : CommandResult
+deactivate GradeCommand
+
+[<-- LogicManager
+deactivate LogicManager
+@enduml

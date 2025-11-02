@@ -26,8 +26,8 @@ public class MarkAttendanceCommand extends MultiIndexCommand {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Marks the specific lab of the person(s) identified "
             + "by the index number(s) used in the last person listing.\n"
             + "Parameters: INDEX (must be a positive integer or range X:Y) "
-            + PREFIX_LAB_NUMBER + "LABNUMBER "
-            + PREFIX_STATUS + "ATTENDANCESTATUS\n"
+            + PREFIX_LAB_NUMBER + "LAB_NUMBER "
+            + PREFIX_STATUS + "STATUS\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_LAB_NUMBER + "1 " + PREFIX_STATUS + "y\n"
             + "Example: " + COMMAND_WORD + " 1:5 "
@@ -41,8 +41,6 @@ public class MarkAttendanceCommand extends MultiIndexCommand {
             "Lab %1$d already marked as attended for %2$s";
     public static final String MESSAGE_FAILURE_ALREADY_NOT_ATTENDED =
             "Lab %1$d already marked as not attended for %2$s";
-    public static final String MESSAGE_FAILURE_INVALID_LAB_INDEX =
-            "The lab index provided is invalid, index must be between 1 to 10 (inclusive)";
 
     private final Index labNumber;
     private final boolean isAttended;
@@ -81,7 +79,7 @@ public class MarkAttendanceCommand extends MultiIndexCommand {
                 personToEdit.getStudentId(), personToEdit.getName(), personToEdit.getPhone(),
                 personToEdit.getEmail(), personToEdit.getTags(),
                 personToEdit.getGithubUsername(), personToEdit.getExerciseTracker(),
-                labAttendanceList, personToEdit.getGradeMap());
+                labAttendanceList, personToEdit.getGradeTracker());
 
         model.setPerson(personToEdit, editedPerson);
         return editedPerson;

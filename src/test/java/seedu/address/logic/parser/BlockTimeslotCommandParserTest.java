@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 
@@ -49,5 +50,29 @@ public class BlockTimeslotCommandParserTest {
     public void parse_invalidFormat_throwsParseException() {
         String args = "ts/invalid te/alsoinvalid";
         assertThrows(ParseException.class, () -> parser.parse(args));
+    }
+
+    @Test
+    public void parse_timeBefore08_throwsParseException() {
+        String args = "ts/2025-10-04T07:00:00 te/2025-10-04T09:00:00";
+        ParseException ex = assertThrows(ParseException.class, () -> parser.parse(args));
+        assertTrue(ex.getMessage().contains("Timeslot must be within 08:00 to 24:00 (midnight of next day allowed)"));
+    }
+
+    @Test
+    public void parse_invalidCalendarDate_throwsParseException() {
+        // 30 Feb 2025 does not exist
+        String args = "ts/2025-02-30T10:00:00 te/2025-02-30T11:00:00";
+        ParseException ex = assertThrows(ParseException.class, () -> parser.parse(args));
+        assertTrue(ex.getMessage().contains("Invalid datetime: either wrong format or an impossible calendar date"));
+    }
+
+    @Test
+    public void parse_nonPositiveYear_throwsParseException() {
+        // Year 0000 -> should trigger year validation (<= 0)
+        String args = "ts/0000-01-01T10:00:00 te/2025-10-04T11:00:00";
+        ParseException ex = assertThrows(ParseException.class, () -> parser.parse(args));
+        assertTrue(ex.getMessage().contains("Invalid timeslot"));
+        assertTrue(ex.getMessage().toLowerCase().contains("year must be a positive"));
     }
 }

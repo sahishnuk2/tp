@@ -44,6 +44,7 @@ public class CommandTestUtil {
     public static final String VALID_LAB_NUMBER_TWO = "2";
     public static final String VALID_LAB_NUMBER_THREE = "3";
     public static final String VALID_SORT_CRITERION = "name";
+    public static final int VALID_WEEK_NUMBER = 13;
 
     public static final String STUDENTID_DESC_AMY = " " + PREFIX_STUDENTID + VALID_STUDENTID_AMY;
     public static final String STUDENTID_DESC_BOB = " " + PREFIX_STUDENTID + VALID_STUDENTID_BOB;
@@ -65,6 +66,7 @@ public class CommandTestUtil {
     public static final String LAB_NUMBER_DESC_TWO = PREFIX_LAB_NUMBER + VALID_LAB_NUMBER_TWO;
     public static final String LAB_NUMBER_DESC_THREE = PREFIX_LAB_NUMBER + VALID_LAB_NUMBER_THREE;
     public static final String SORT_CRITERION_DESC_NAME = PREFIX_SORT_CRITERION + VALID_SORT_CRITERION;
+    public static final String WEEK_NUMBER_DESC = "13";
 
     public static final String INVALID_STUDENTID_DESC = " " + PREFIX_STUDENTID + "B12345X"; // invalid format
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
@@ -77,6 +79,9 @@ public class CommandTestUtil {
             + PREFIX_LAB_NUMBER + "0"; // '0' not allowed for Lab Number
     public static final String INVALID_SORT_CRITERION_DESC = PREFIX_SORT_CRITERION
             + "height"; // only "name" and "id" allowed
+    public static final String INVALID_ARGUMENT_WEEK_NUMBER_DESC = "14";
+    public static final String INVALID_NUMBER_FORMAT_WEEK_NUMBER_DESC = "one";
+
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";

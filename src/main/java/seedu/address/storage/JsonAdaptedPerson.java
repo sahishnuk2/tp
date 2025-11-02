@@ -15,7 +15,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Examination;
-import seedu.address.model.person.ExerciseTracker;
+import seedu.address.model.person.ExerciseList;
 import seedu.address.model.person.GithubUsername;
 import seedu.address.model.person.GradeMap;
 import seedu.address.model.person.LabAttendanceList;
@@ -41,7 +41,7 @@ class JsonAdaptedPerson {
     private final String githubUsername;
     private final List<String> exerciseStatuses = new ArrayList<>();
     private final String labAttendanceList;
-    private Map<String, JsonAdaptedExamination> gradeMap = new HashMap<>();
+    private final Map<String, JsonAdaptedExamination> gradeMap = new HashMap<>();
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
      */
@@ -102,7 +102,7 @@ class JsonAdaptedPerson {
         githubUsername = source.getGithubUsername().value;
         labAttendanceList = source.getLabAttendanceList().toString();
         gradeMap.putAll(
-                source.getGradeMap()
+                source.getGradeTracker()
                         .getExamMap()
                         .entrySet()
                         .stream()
@@ -203,6 +203,6 @@ class JsonAdaptedPerson {
 
         return new Person(modelStudentId, modelName, modelPhone, modelEmail,
                 modelTags, modelGithubUsername,
-                new ExerciseTracker(isDoneList), modelLabAttendanceList, gradeMapModel);
+                new ExerciseList(isDoneList), modelLabAttendanceList, gradeMapModel);
     }
 }

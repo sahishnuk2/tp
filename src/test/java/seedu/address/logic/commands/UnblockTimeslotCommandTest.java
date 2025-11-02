@@ -29,7 +29,7 @@ public class UnblockTimeslotCommandTest {
         CommandResult result = cmd.execute(model);
 
         assertFalse(model.hasTimeslot(stored));
-        assertEquals(String.format(UnblockTimeslotCommand.MESSAGE_SUCCESS, 1, 0),
+        assertEquals(UnblockTimeslotCommand.MESSAGE_SUCCESS,
                 result.getFeedbackToUser());
     }
 
@@ -55,7 +55,7 @@ public class UnblockTimeslotCommandTest {
         assertFalse(model.hasTimeslot(stored));
         assertTrue(model.hasTimeslot(left));
         assertTrue(model.hasTimeslot(right));
-        assertEquals(String.format(UnblockTimeslotCommand.MESSAGE_SUCCESS, 1, 2),
+        assertEquals(UnblockTimeslotCommand.MESSAGE_SUCCESS,
                 result.getFeedbackToUser());
     }
 
@@ -78,7 +78,7 @@ public class UnblockTimeslotCommandTest {
 
         assertFalse(model.hasTimeslot(stored));
         assertTrue(model.hasTimeslot(remaining));
-        assertEquals(String.format(UnblockTimeslotCommand.MESSAGE_SUCCESS, 1, 1),
+        assertEquals(UnblockTimeslotCommand.MESSAGE_SUCCESS,
                 result.getFeedbackToUser());
     }
 
@@ -90,14 +90,13 @@ public class UnblockTimeslotCommandTest {
                 LocalDateTime.of(2025, 10, 5, 11, 0));
         model.addTimeslot(stored);
 
-        UnblockTimeslotCommand cmd = new UnblockTimeslotCommand(
-                new Timeslot(LocalDateTime.of(2025, 10, 4, 10, 0),
-                              LocalDateTime.of(2025, 10, 4, 11, 0)));
+        Timeslot toUnblock = new Timeslot(LocalDateTime.of(2025, 10, 4, 10, 0),
+                              LocalDateTime.of(2025, 10, 4, 11, 0));
+        UnblockTimeslotCommand cmd = new UnblockTimeslotCommand(toUnblock);
 
         CommandException ex = assertThrows(CommandException.class, () -> cmd.execute(model));
-        String start = "2025-10-04T10:00:00";
-        String end = "2025-10-04T11:00:00";
-        assertEquals(String.format(UnblockTimeslotCommand.MESSAGE_TIMESLOT_NOT_FOUND, start, end),
+
+        assertEquals(String.format(UnblockTimeslotCommand.MESSAGE_TIMESLOT_NOT_FOUND, toUnblock),
                 ex.getMessage());
     }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.Week;
+import seedu.address.model.person.ExerciseList;
 import seedu.address.model.person.ExerciseTracker;
 import seedu.address.model.person.LabList;
 import seedu.address.model.person.Person;
@@ -45,7 +46,7 @@ public class SetWeekCommand extends Command {
         int currentWeekNumber = currentWeek.getWeekNumber();
 
         LabList.setCurrentWeek(currentWeekNumber);
-        ExerciseTracker.setCurrentWeek(currentWeekNumber);
+        ExerciseList.setCurrentWeek(currentWeekNumber);
 
         List<Person> allPersons = model.getAddressBook().getPersonList();
         int updatedCount = 0;
@@ -64,7 +65,7 @@ public class SetWeekCommand extends Command {
                     person.getGithubUsername(),
                     updatedExerciseTracker,
                     updatedLabList, // New LabList with updated weeks
-                    person.getGradeMap()
+                    person.getGradeTracker()
             );
             model.setPerson(person, updatedPerson);
             updatedCount++;

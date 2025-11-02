@@ -41,8 +41,11 @@ public class JsonAdaptedPersonTest {
     private static final String VALID_GITHUB_USERNAME = BENSON.getGithubUsername().toString();
     private static final String VALID_LAB_ATTENDANCE_LIST = BENSON.getLabAttendanceList().toString();
     private static final Map<String, JsonAdaptedExamination> VALID_GRADE_ASSESSMENTS =
-            new JsonAdaptedGradeMap(BENSON.getGradeMap()).getAssessments();
-
+            BENSON.getGradeTracker().getExamMap().entrySet().stream()
+                    .collect(Collectors.toMap(
+                            Map.Entry::getKey,
+                            entry -> new JsonAdaptedExamination(entry.getValue())
+                    ));
 
     @Test
     public void toModelType_validPersonDetails_returnsPerson() throws Exception {

@@ -1,7 +1,6 @@
 package seedu.address.ui;
 
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 
 import javafx.fxml.FXML;
@@ -9,11 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import seedu.address.model.person.Examination;
-import seedu.address.model.person.GradeMap;
-import seedu.address.model.person.LabAttendance;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Status;
+import seedu.address.model.person.Trackable;
+import seedu.address.model.person.TrackerColour;
 
 /**
  * An UI component that displays information of a {@code Person}.
@@ -21,14 +18,6 @@ import seedu.address.model.person.Status;
 public class PersonCard extends UiPart<Region> {
 
     private static final String FXML = "PersonListCard.fxml";
-
-    /**
-     * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
-     * As a consequence, UI elements' variable names cannot be set to such keywords
-     * or an exception will be thrown by JavaFX during runtime.
-     *
-     * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on AddressBook level 4</a>
-     */
 
     public final Person person;
 
@@ -56,63 +45,49 @@ public class PersonCard extends UiPart<Region> {
     private FlowPane grades;
 
     /**
-     * Creates a {@code PersonCode} with the given {@code Person} and index to display.
+     * Creates a {@code PersonCard} with the given {@code Person} and index to display.
      */
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);
+        //render one-based index
         this.person = person;
         id.setText(displayedIndex + ". ");
+        //Set student details
         studentId.setText(person.getStudentId().value);
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);
         email.setText(person.getEmail().value);
-        List<Status> exerciseStatuses = person.getExerciseTracker().getStatuses();
-        for (int i = 0; i < exerciseStatuses.size(); i++) {
-            Label exerciseLabel = new Label("EX" + i);
-            String statusClass = switch (exerciseStatuses.get(i)) {
-            case NOT_DONE -> "exercise-not-done";
-            case DONE -> "exercise-done";
-            case OVERDUE -> "exercise-overdue";
-            };
-            exerciseLabel.getStyleClass().addAll("status-label", statusClass);
-            exerciseStatus.getChildren().add(exerciseLabel);
-        }
+        githubUsername.setText(person.getGithubUsername().value);
 
+        // Render tags
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-        githubUsername.setText(person.getGithubUsername().value);
-        LabAttendance[] labs = person.getLabAttendanceList().getLabs();
 
-        for (LabAttendance lab : labs) {
-            Label labLabel = new Label("L" + lab.getLabNumber());
-            String statusClass = switch (lab.getStatus()) {
-            case "Y" -> "lab-attended";
-            case "A" -> "lab-absent";
-            default -> "lab-not-attended"; // "N"
+        // Render trackable sections
+        renderTrackable(exerciseStatus, person.getExerciseTracker(), "exercise");
+        renderTrackable(labAttendance, person.getLabAttendanceList(), "lab");
+        renderTrackable(grades, person.getGradeTracker(), "exam");
+    }
+
+    /**
+     * Renders a generic Trackable object (e.g., ExerciseList, LabList, GradeMap)
+     * into the provided FlowPane using its labels and tracker colours.
+     */
+    private void renderTrackable(FlowPane pane, Trackable trackable, String baseClass) {
+        List<TrackerColour> colours = trackable.getTrackerColours();
+        List<String> labels = trackable.getLabels();
+        assert labels.size() == colours.size() : "There must be the same number of labels and colours";
+        pane.getChildren().clear();
+        for (int i = 0; i < labels.size(); i++) {
+            Label label = new Label(labels.get(i));
+            String colourClass = switch (colours.get(i)) {
+            case GREEN -> baseClass + "-green";
+            case RED -> baseClass + "-red";
+            case GREY -> baseClass + "-grey";
             };
-            labLabel.getStyleClass().addAll("status-label", statusClass);
-            labAttendance.getChildren().add(labLabel);
+            label.getStyleClass().addAll("status-label", colourClass);
+            pane.getChildren().add(label);
         }
-
-        HashMap<String, Examination> examMap = person.getGradeMap().getExamMap();
-
-        for (String examName : GradeMap.VALID_EXAM_NAMES) {
-            Examination exam = examMap.get(examName);
-            Label gradeLabel = new Label(examName.toUpperCase());
-
-            if (exam.isPassed().isEmpty()) {
-                gradeLabel.getStyleClass().addAll("status-label", "exam-not-graded");
-            } else {
-                if (exam.isPassed().get()) {
-                    gradeLabel.getStyleClass().addAll("status-label", "exam-pass");
-                } else {
-                    gradeLabel.getStyleClass().addAll("status-label", "exam-fail");
-                }
-            }
-
-            grades.getChildren().add(gradeLabel);
-        }
-
     }
 }

@@ -13,13 +13,14 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
 
-public class ExerciseTrackerTest {
+public class ExerciseListTest {
 
-    private ExerciseTracker tracker;
+    private ExerciseList tracker;
 
     @BeforeEach
     public void setUp() {
-        tracker = new ExerciseTracker();
+        tracker = new ExerciseList();
+        ExerciseList.setCurrentWeek(0);
     }
 
     // -------------------------------------------------------------------------
@@ -27,15 +28,15 @@ public class ExerciseTrackerTest {
     // -------------------------------------------------------------------------
 
     @Test
-    public void isValidExerciseTracker_validFormat_returnsTrue() {
-        String valid = "ex 0: N ex 1: D ex 2: O ex 3: I ex 4: N ex 5: N ex 6: D ex 7: O ex 8: N ex 9: I";
-        assertTrue(ExerciseTracker.isValidExerciseTracker(valid));
+    public void isValidExerciseList_validFormat_returnsTrue() {
+        String valid = "ex 0: N ex 1: D ex 2: O ex 3: N ex 4: N ex 5: N ex 6: D ex 7: O ex 8: N ex 9: N";
+        assertTrue(ExerciseList.isValidExerciseList(valid));
     }
 
     @Test
-    public void isValidExerciseTracker_invalidFormat_returnsFalse() {
+    public void isValidExerciseList_invalidFormat_returnsFalse() {
         String invalid = "ex 0: X ex 1: D ex 2: O"; // X is invalid status
-        assertFalse(ExerciseTracker.isValidExerciseTracker(invalid));
+        assertFalse(ExerciseList.isValidExerciseList(invalid));
     }
 
     // -------------------------------------------------------------------------
@@ -54,7 +55,7 @@ public class ExerciseTrackerTest {
         ArrayList<Boolean> list = new ArrayList<>();
         list.add(true);
         list.add(false);
-        ExerciseTracker tracker2 = new ExerciseTracker(list);
+        ExerciseList tracker2 = new ExerciseList(list);
 
         assertEquals(10, tracker2.getStatuses().size());
         assertEquals(Status.DONE, tracker2.getStatuses().get(0));
@@ -83,14 +84,14 @@ public class ExerciseTrackerTest {
 
     @Test
     public void equals_sameStatuses_returnsTrue() {
-        ExerciseTracker other = new ExerciseTracker(new ArrayList<>(tracker.getIsDoneList()));
+        ExerciseList other = new ExerciseList(new ArrayList<>(tracker.getIsDoneList()));
         assertTrue(tracker.equals(other));
         assertEquals(tracker.hashCode(), other.hashCode());
     }
 
     @Test
     public void equals_differentStatuses_returnsFalse() {
-        ExerciseTracker other = tracker.copy();
+        ExerciseList other = tracker.copy();
         other.markExercise(Index.fromZeroBased(1), true);
         assertFalse(tracker.equals(other));
     }
@@ -112,18 +113,18 @@ public class ExerciseTrackerTest {
 
     @Test
     public void calculateProgress_worksCorrectly() {
-        ExerciseTracker exerciseTracker = new ExerciseTracker();
+        ExerciseList exerciseList = new ExerciseList();
 
         // Initially 0% done
-        assertEquals(0.0, exerciseTracker.calculateProgress());
+        assertEquals(0.0, exerciseList.calculateProgress());
 
         // Mark first exercise done
-        exerciseTracker.markExercise(INDEX_FIRST_LAB, true);
-        assertEquals(1.0 / ExerciseTracker.NUMBER_OF_EXERCISES * 100, exerciseTracker.calculateProgress());
+        exerciseList.markExercise(INDEX_FIRST_LAB, true);
+        assertEquals(1.0 / ExerciseList.NUMBER_OF_EXERCISES * 100, exerciseList.calculateProgress());
 
         // Mark second exercise done
-        exerciseTracker.markExercise(INDEX_SECOND_LAB, true);
-        assertEquals(2.0 / ExerciseTracker.NUMBER_OF_EXERCISES * 100, exerciseTracker.calculateProgress());
+        exerciseList.markExercise(INDEX_SECOND_LAB, true);
+        assertEquals(2.0 / ExerciseList.NUMBER_OF_EXERCISES * 100, exerciseList.calculateProgress());
     }
 
     // -------------------------------------------------------------------------
@@ -132,7 +133,7 @@ public class ExerciseTrackerTest {
 
     @Test
     public void copy_createsIndependentClone() {
-        ExerciseTracker copy = tracker.copy();
+        ExerciseList copy = tracker.copy();
         assertTrue(tracker.equals(copy));
 
         // Modify copy, original should remain unchanged
@@ -146,8 +147,8 @@ public class ExerciseTrackerTest {
 
     @Test
     public void compareTo_returnsCorrectOrder() {
-        ExerciseTracker t1 = new ExerciseTracker();
-        ExerciseTracker t2 = new ExerciseTracker();
+        ExerciseList t1 = new ExerciseList();
+        ExerciseList t2 = new ExerciseList();
 
         t2.markExercise(Index.fromZeroBased(0), true);
         assertTrue(t2.compareTo(t1) > 0);

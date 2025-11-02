@@ -1,28 +1,28 @@
-package seedu.address.model.person.predicates;
+package seedu.address.model.person.predicates.findpredicates;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.person.Person;
 
 
+
 /**
- * Tests that a {@code Person}'s {@code StudentId} matches any of the keywords given.
+ * Tests that a {@code Person}'s {@code Email} matches any of the keywords given.
  */
-public class StudentIdContainsKeywordsPredicate implements Predicate<Person> {
+public class EmailContainsKeywordsPredicate extends FindPredicate {
     private final List<String> keywords;
 
-    public StudentIdContainsKeywordsPredicate(List<String> keywords) {
+    public EmailContainsKeywordsPredicate(List<String> keywords) {
         this.keywords = keywords;
     }
 
     @Override
     public boolean test(Person person) {
-        String id = person.getStudentId().toString().toLowerCase();
+        String email = person.getEmail().toString().toLowerCase();
         return keywords.stream()
                 .map(String::toLowerCase)
-                .anyMatch(id::contains);
+                .anyMatch(email::contains);
     }
 
     @Override
@@ -32,12 +32,22 @@ public class StudentIdContainsKeywordsPredicate implements Predicate<Person> {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof StudentIdContainsKeywordsPredicate)) {
+        if (!(other instanceof EmailContainsKeywordsPredicate)) {
             return false;
         }
 
-        StudentIdContainsKeywordsPredicate otherPredicate = (StudentIdContainsKeywordsPredicate) other;
+        EmailContainsKeywordsPredicate otherPredicate = (EmailContainsKeywordsPredicate) other;
         return keywords.equals(otherPredicate.keywords);
+    }
+
+    @Override
+    public List<String> getKeywords() {
+        return keywords;
+    }
+
+    @Override
+    public String successMessage() {
+        return " email";
     }
 
     @Override
@@ -45,3 +55,4 @@ public class StudentIdContainsKeywordsPredicate implements Predicate<Person> {
         return new ToStringBuilder(this).add("keywords", keywords).toString();
     }
 }
+

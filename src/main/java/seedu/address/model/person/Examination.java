@@ -7,7 +7,7 @@ import java.util.Optional;
  */
 public class Examination {
     private final String name;
-    private Optional<Boolean> passed;
+    private Optional<Boolean> isPassed;
 
     /**
      * Creates an Examination with the given name and no result yet.
@@ -16,28 +16,28 @@ public class Examination {
      */
     public Examination(String name) {
         this.name = name;
-        this.passed = Optional.empty(); // initially no result
+        this.isPassed = Optional.empty(); // initially no result
     }
 
     /**
      * Marks the exam as passed.
      */
     public void markPassed() {
-        this.passed = Optional.of(true);
+        this.isPassed = Optional.of(true);
     }
 
     /**
      * Marks the exam as failed.
      */
     public void markFailed() {
-        this.passed = Optional.of(false);
+        this.isPassed = Optional.of(false);
     }
 
     /**
      * Returns whether the exam was passed (Optional.empty() if not graded yet).
      */
     public Optional<Boolean> isPassed() {
-        return passed;
+        return isPassed;
     }
 
     /**
@@ -45,7 +45,7 @@ public class Examination {
      */
     @Override
     public String toString() {
-        return String.format("%s: %s", name, passed.map(p -> {
+        return String.format("%s: %s", name, isPassed.map(p -> {
             if (p) {
                 return "Passed";
             } else {
@@ -60,17 +60,15 @@ public class Examination {
             return true;
         }
 
-        if (!(obj instanceof Examination)) {
+        if (!(obj instanceof Examination other)) {
             return false;
         }
-
-        Examination other = (Examination) obj;
 
         if (!this.name.equals(other.name)) {
             return false;
         }
 
-        return this.passed.equals(other.passed);
+        return this.isPassed.equals(other.isPassed);
     }
 
     public String getName() {

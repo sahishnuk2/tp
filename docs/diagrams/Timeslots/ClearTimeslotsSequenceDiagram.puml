@@ -1,0 +1,84 @@
+@startuml
+!include ../style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":ClearTimeslotsCommandParser" as ClearTimeslotsCommandParser LOGIC_COLOR
+participant "c:ClearTimeslotsCommand" as ClearTimeslotsCommand LOGIC_COLOR
+participant ":CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+end box
+
+box Storage STORAGE_COLOR_T1
+participant "storage:Storage" as Storage STORAGE_COLOR
+end box
+
+[-> LogicManager : execute("clear-timeslots")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("clear-timeslots")
+activate AddressBookParser
+
+create ClearTimeslotsCommandParser
+AddressBookParser -> ClearTimeslotsCommandParser : new ClearTimeslotsCommandParser()
+activate ClearTimeslotsCommandParser
+
+AddressBookParser -> ClearTimeslotsCommandParser : parse("")
+activate ClearTimeslotsCommandParser
+
+create ClearTimeslotsCommand
+ClearTimeslotsCommandParser -> ClearTimeslotsCommand : new ClearTimeslotsCommand()
+activate ClearTimeslotsCommand
+
+ClearTimeslotsCommand --> ClearTimeslotsCommandParser
+deactivate ClearTimeslotsCommandParser
+destroy ClearTimeslotsCommandParser
+
+AddressBookParser --> LogicManager : c
+deactivate AddressBookParser
+
+LogicManager -> ClearTimeslotsCommand : execute(model)
+activate ClearTimeslotsCommand
+
+ClearTimeslotsCommand -> Model : saveAddressBook()
+activate Model
+Model --> ClearTimeslotsCommand
+deactivate Model
+
+ClearTimeslotsCommand -> Model : clearTimeslots()
+activate Model
+Model --> ClearTimeslotsCommand
+deactivate Model
+
+create CommandResult
+ClearTimeslotsCommand -> CommandResult : new CommandResult(message)
+activate CommandResult
+CommandResult --> ClearTimeslotsCommand
+deactivate CommandResult
+
+ClearTimeslotsCommand --> LogicManager : result
+deactivate ClearTimeslotsCommand
+
+' --- LogicManager persists changes to disk via Storage (matches implementation in LogicManager) ---
+LogicManager -> Storage : saveAddressBook(model.getAddressBook())
+activate Storage
+Storage --> LogicManager
+deactivate Storage
+
+alt model instanceof ModelManager
+    LogicManager -> Storage : saveTimeslots(((ModelManager) model).getTimeslots())
+    activate Storage
+    Storage --> LogicManager
+    deactivate Storage
+end
+
+[<-- LogicManager
+deactivate LogicManager
+
+scale 1.5
+@enduml

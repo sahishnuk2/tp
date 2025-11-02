@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import seedu.address.model.AddressBook;
-import seedu.address.model.person.ExerciseTracker;
+import seedu.address.model.person.ExerciseList;
 import seedu.address.model.person.LabList;
 import seedu.address.model.person.Person;
 
@@ -32,7 +32,7 @@ public class TypicalPersons {
             .withTags("upcomingConsultation")
             .withGithubUsername("Alice")
             .withLabAttendanceList(new LabList().toString())
-            .withExerciseTracker(new ExerciseTracker().toString())
+            .withExerciseList(new ExerciseList().toString())
             .build();
 
     public static final Person BENSON = new PersonBuilder().withStudentId("A1231231X")
@@ -41,7 +41,7 @@ public class TypicalPersons {
             .withPhone("98765432")
             .withGithubUsername("Benson")
             .withLabAttendanceList(new LabList().toString())
-            .withExerciseTracker(new ExerciseTracker().toString())
+            .withExerciseList(new ExerciseList().toString())
             .withTags("hadConsultation").build();
 
     public static final Person CARL = new PersonBuilder().withStudentId("A1231232X")
@@ -51,7 +51,7 @@ public class TypicalPersons {
 
             .withGithubUsername("Carl")
             .withLabAttendanceList(new LabList().toString())
-            .withExerciseTracker(new ExerciseTracker().toString())
+            .withExerciseList(new ExerciseList().toString())
             .build();
 
     public static final Person DANIEL = new PersonBuilder().withStudentId("A1231233X")
@@ -62,7 +62,7 @@ public class TypicalPersons {
             .withGithubUsername("Daniel")
             .withTags("upcomingConsultation")
             .withLabAttendanceList(new LabList().toString())
-            .withExerciseTracker(new ExerciseTracker().toString())
+            .withExerciseList(new ExerciseList().toString())
             .build();
 
     public static final Person ELLE = new PersonBuilder().withStudentId("A1231234X")
@@ -72,7 +72,7 @@ public class TypicalPersons {
 
             .withGithubUsername("Elle")
             .withLabAttendanceList(new LabList().toString())
-            .withExerciseTracker(new ExerciseTracker().toString())
+            .withExerciseList(new ExerciseList().toString())
             .build();
 
     public static final Person FIONA = new PersonBuilder().withStudentId("A1231235X")
@@ -82,7 +82,7 @@ public class TypicalPersons {
 
             .withGithubUsername("Fiona")
             .withLabAttendanceList(new LabList().toString())
-            .withExerciseTracker(new ExerciseTracker().toString())
+            .withExerciseList(new ExerciseList().toString())
             .build();
 
     public static final Person GEORGE = new PersonBuilder().withStudentId("A1231236X")
@@ -92,7 +92,7 @@ public class TypicalPersons {
 
             .withGithubUsername("George")
             .withLabAttendanceList(new LabList().toString())
-            .withExerciseTracker(new ExerciseTracker().toString())
+            .withExerciseList(new ExerciseList().toString())
             .build();
 
     // Manually added
@@ -102,7 +102,7 @@ public class TypicalPersons {
             .withEmail("stefan@example.com")
             .withGithubUsername("Hoon")
             .withLabAttendanceList(new LabList().toString())
-            .withExerciseTracker(new ExerciseTracker().toString())
+            .withExerciseList(new ExerciseList().toString())
             .build();
 
     public static final Person IDA = new PersonBuilder().withStudentId("A1231238X")
@@ -111,7 +111,7 @@ public class TypicalPersons {
             .withEmail("hans@example.com")
             .withGithubUsername("Ida")
             .withLabAttendanceList(new LabList().toString())
-            .withExerciseTracker(new ExerciseTracker().toString())
+            .withExerciseList(new ExerciseList().toString())
             .build();
 
     // Manually added - Person's details found in {@code CommandTestUtil}
@@ -122,7 +122,7 @@ public class TypicalPersons {
             .withTags(VALID_TAG_FRIEND)
             .withGithubUsername(VALID_GITHUB_USERNAME_AMY)
             .withLabAttendanceList(new LabList().toString())
-            .withExerciseTracker(new ExerciseTracker().toString())
+            .withExerciseList(new ExerciseList().toString())
             .build();
 
     public static final Person BOB = new PersonBuilder().withStudentId("A1231240X")
@@ -132,7 +132,7 @@ public class TypicalPersons {
             .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
             .withGithubUsername(VALID_GITHUB_USERNAME_BOB)
             .withLabAttendanceList(new LabList().toString())
-            .withExerciseTracker(new ExerciseTracker().toString())
+            .withExerciseList(new ExerciseList().toString())
             .build();
 
     public static final String KEYWORD_MATCHING_MEIER = "Meier"; // A keyword that matches MEIER

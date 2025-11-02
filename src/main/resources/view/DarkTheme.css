@@ -368,17 +368,21 @@
     -fx-font-weight: bold;
 }
 
-.lab-attended, .exercise-done, .exam-pass {
+/* GREEN statuses */
+.exercise-green, .lab-green, .exam-green {
     -fx-text-fill: white;
-    -fx-background-color: #2ecc71;  /* Green */
+    -fx-background-color: #1e8449;
 }
 
-.lab-not-attended, .exercise-not-done, .exam-not-graded {
+/* GREY statuses */
+.exercise-grey, .lab-grey, .exam-grey {
     -fx-text-fill: white;
-    -fx-background-color: #454545;  /* Black */
+    -fx-background-color: #454545;
 }
 
-.lab-absent, .exercise-overdue, .exam-fail {
+/* RED statuses */
+.exercise-red, .lab-red, .exam-red {
     -fx-text-fill: white;
-    -fx-background-color: #e74c3c;  /* Black */
+    -fx-background-color: #e74c3c;
 }
+

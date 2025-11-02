@@ -1,0 +1,56 @@
+@startuml
+!include ../style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor MODEL_COLOR
+skinparam classBackgroundColor MODEL_COLOR
+
+package UI as UIPackage {
+    class PersonCard UI_COLOR
+}
+
+package Model as ModelPackage {
+    interface Trackable <<interface>>
+    interface GradeTracker <<interface>>
+    interface ExerciseTracker <<interface>>
+    interface LabAttendanceList <<interface>>
+
+    enum TrackerColour <<enumeration>>
+    class Person
+    class ExerciseList
+    class LabList
+    class GradeMap
+}
+
+PersonCard *--> Person
+PersonCard --- Trackable: displays
+
+Trackable <|-- GradeTracker
+Trackable <|-- ExerciseTracker
+Trackable <|-- LabAttendanceList
+
+GradeMap ..|> GradeTracker
+ExerciseList ..|> ExerciseTracker
+LabList ..|> LabAttendanceList
+
+Person *--> ExerciseList
+Person *--> LabList
+Person *--> GradeMap
+Trackable ..> TrackerColour
+
+note right of Trackable
+Represents any data structure
+that can be visualized with
+labels and colour statuses.
+end note
+
+note right of PersonCard
+Responsible for rendering
+trackable data as coloured labels
+on the student card UI.
+end note
+
+note bottom of TrackerColour
+Enum with GREEN, GREY, and RED
+values used for display styling.
+end note
+@enduml

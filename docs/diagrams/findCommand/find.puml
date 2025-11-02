@@ -20,45 +20,44 @@ activate LogicManager
 LogicManager -> AddressBookParser : parseCommand("find <KEYWORD> [selectors]")
 activate AddressBookParser
 
+' hand off to the concrete parser
 create FindCommandParser
 AddressBookParser -> FindCommandParser
 activate FindCommandParser
 
-FindCommandParser --> AddressBookParser
-deactivate FindCommandParser
+' parse + build combined predicate (keywords from preamble, presence-only selectors)
+FindCommandParser -> FindCommandParser : parse args\nvalidate selectors\nbuild combined predicate
 
-AddressBookParser -> FindCommandParser : parse("<KEYWORD> [selectors]")
-activate FindCommandParser
-
+' construct the command
 create FindCommand
-FindCommandParser -> FindCommand
+FindCommandParser -> FindCommand : new(combinedPredicate)
 activate FindCommand
-
 FindCommand --> FindCommandParser :
 deactivate FindCommand
 
+' return command to caller
 FindCommandParser --> AddressBookParser : f
 deactivate FindCommandParser
-'Hidden arrow to position the destroy marker below the end of the activation bar.
 FindCommandParser -[hidden]-> AddressBookParser
 destroy FindCommandParser
 
+' bubble command back to Logic
 AddressBookParser --> LogicManager : f
 deactivate AddressBookParser
 
+' execute and update the model
 LogicManager -> FindCommand : execute(m)
 activate FindCommand
 
-FindCommand -> Model : getFilteredPersonList()
+FindCommand -> Model : updateFilteredPersonList(predicate)
 activate Model
-
 Model --> FindCommand
 deactivate Model
 
+' produce result
 create CommandResult
 FindCommand -> CommandResult
 activate CommandResult
-
 CommandResult --> FindCommand
 deactivate CommandResult
 

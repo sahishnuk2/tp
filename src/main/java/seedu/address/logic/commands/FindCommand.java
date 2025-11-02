@@ -2,13 +2,10 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.function.Predicate;
-
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.model.Model;
-import seedu.address.model.person.Person;
-
+import seedu.address.model.person.predicates.findpredicates.FindPredicate;
 
 
 /**
@@ -26,9 +23,9 @@ public class FindCommand extends Command {
             + "Parameters: KEYWORD [MORE_KEYWORDS]... [i/] [n/] [p/] [e/] [g/] [t/]\n"
             + "Example: " + COMMAND_WORD + " alice bob A1231234B i/ n/\n";
 
-    private final Predicate<Person> predicate;
+    private final FindPredicate predicate;
 
-    public FindCommand(Predicate<Person> predicate) {
+    public FindCommand(FindPredicate predicate) {
         this.predicate = predicate;
     }
 
@@ -36,8 +33,10 @@ public class FindCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.updateFilteredPersonList(predicate);
+        // Include a human-readable summary of which fields were searched.
         return new CommandResult(
-                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW
+                        + "\nSearching for " + predicate.successMessage(), model.getFilteredPersonList().size()));
     }
 
     @Override

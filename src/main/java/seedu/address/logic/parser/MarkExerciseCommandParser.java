@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EXERCISE_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
+import static seedu.address.logic.parser.ParserUtil.validateFields;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.core.index.MultiIndex;
@@ -23,12 +24,15 @@ public class MarkExerciseCommandParser implements Parser<MarkExerciseCommand> {
      * @throws ParseException if user input is invalid
      */
     public MarkExerciseCommand parse(String args) throws ParseException {
+        ParserUtil.verifyNoUnwantedPrefixes(args, PREFIX_EXERCISE_INDEX, PREFIX_STATUS);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_EXERCISE_INDEX, PREFIX_STATUS);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_EXERCISE_INDEX, PREFIX_STATUS);
         MultiIndex personIndex;
         Index exerciseIndex;
         boolean status;
         String statusString;
+        validateFields(argMultimap, MarkExerciseCommand.MESSAGE_USAGE, PREFIX_EXERCISE_INDEX, PREFIX_STATUS);
         try {
             exerciseIndex = ParserUtil.parseExerciseIndex(
                     argMultimap.getValue(PREFIX_EXERCISE_INDEX).orElseThrow(() -> new ParseException(

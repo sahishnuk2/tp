@@ -18,13 +18,32 @@
     -fx-background-color: derive(#1d1d1d, 20%);
 }
 
-#add, #list, #markLab{
-   -fx-background-color: #515658;
-
+#help,
+#find,
+#sort,
+#edit,
+#clear,
+#markEx,
+#setWeek,
+#unblockTimeslot,
+#clearTimeslots,
+#getConsultations,
+#exit {
+  -fx-background-color: #3c3e3f;
 }
 
-#help, #delete, #find, #markEx {
--fx-background-color: #3c3e3f;
+
+#list,
+#filter,
+#add,
+#delete,
+#markLab,
+#grade,
+#blockTimeslot,
+#addConsultation,
+#getTimeslots,
+#undo {
+  -fx-background-color: #515658;
 }
 
 .scroll-pane {

@@ -10,7 +10,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.Timeslots;
 import seedu.address.model.person.Email;
-import seedu.address.model.person.ExerciseTracker;
+import seedu.address.model.person.ExerciseList;
 import seedu.address.model.person.GithubUsername;
 import seedu.address.model.person.GradeMap;
 import seedu.address.model.person.LabList;
@@ -30,34 +30,34 @@ public class SampleDataUtil {
         return new Person[] {
             new Person(new StudentId("A1231230B"), new Name("Alex Yeoh"), new Phone("87438807"),
                     new Email("alexyeoh@example.com"),
-                    getTagSet("friends"),
+                    getTagSet("Smart"),
                     new GithubUsername("AlexYeoh"),
-                    new ExerciseTracker(), new LabList(), new GradeMap()),
+                    new ExerciseList(), new LabList(), new GradeMap()),
             new Person(new StudentId("A1231231B"), new Name("Bernice Yu"), new Phone("99272758"),
                     new Email("berniceyu@example.com"),
-                    getTagSet("colleagues", "friends"),
+                    getTagSet("Consulting", "Struggling"),
                     new GithubUsername("BerniceYu"),
-                    new ExerciseTracker(), new LabList(), new GradeMap()),
+                    new ExerciseList(), new LabList(), new GradeMap()),
             new Person(new StudentId("A1231232B"), new Name("Charlotte Oliveiro"), new Phone("93210283"),
                     new Email("charlotte@example.com"),
-                    getTagSet("neighbours"),
+                    getTagSet(),
                     new GithubUsername("CharlotteOliveiro"),
-                    new ExerciseTracker(), new LabList(), new GradeMap()),
+                    new ExerciseList(), new LabList(), new GradeMap()),
             new Person(new StudentId("A1231233B"), new Name("David Li"), new Phone("91031282"),
                     new Email("lidavid@example.com"),
-                    getTagSet("family"),
+                    getTagSet(),
                     new GithubUsername("DavidLi"),
-                    new ExerciseTracker(), new LabList(), new GradeMap()),
+                    new ExerciseList(), new LabList(), new GradeMap()),
             new Person(new StudentId("A1231234B"), new Name("Irfan Ibrahim"), new Phone("92492021"),
                     new Email("irfan@example.com"),
-                    getTagSet("classmates"),
+                    getTagSet("Consulting"),
                     new GithubUsername("IrfanIbrahim"),
-                    new ExerciseTracker(), new LabList(), new GradeMap()),
+                    new ExerciseList(), new LabList(), new GradeMap()),
             new Person(new StudentId("A1231235B"), new Name("Roy Balakrishnan"), new Phone("92624417"),
                     new Email("royb@example.com"),
-                    getTagSet("colleagues"),
+                    getTagSet("Struggling"),
                     new GithubUsername("RoyBalakrishnan"),
-                    new ExerciseTracker(), new LabList(), new GradeMap())
+                    new ExerciseList(), new LabList(), new GradeMap())
         };
     }
 
@@ -165,7 +165,7 @@ public class SampleDataUtil {
 
                 sample.addTimeslot(new Timeslot(base.plusDays(2).atTime(11, 30), base.plusDays(2).atTime(12, 30)));
 
-                sample.addTimeslot(new Timeslot(base.plusDays(3).atTime(7, 30), base.plusDays(3).atTime(9, 0)));
+                sample.addTimeslot(new Timeslot(base.plusDays(3).atTime(8, 30), base.plusDays(3).atTime(9, 0)));
                 sample.addTimeslot(new Timeslot(base.plusDays(3).atTime(17, 30), base.plusDays(3).atTime(18, 30)));
 
                 sample.addTimeslot(new Timeslot(base.plusDays(4).atTime(14, 30), base.plusDays(4).atTime(16, 30)));

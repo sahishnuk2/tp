@@ -104,7 +104,7 @@ public class PersonTest {
                 + ", github username=" + ALICE.getGithubUsername()
                 + ", exerciseStatuses=" + ALICE.getExerciseTracker()
                 + ", lab attendance list=" + ALICE.getLabAttendanceList()
-                + ", gradeMap=" + ALICE.getGradeMap()
+                + ", gradeTracker=" + ALICE.getGradeTracker()
                 + "}";
         assertEquals(expected, ALICE.toString());
     }

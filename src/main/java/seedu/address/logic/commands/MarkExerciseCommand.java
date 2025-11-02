@@ -1,7 +1,7 @@
 package seedu.address.logic.commands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.model.person.ExerciseTracker.NUMBER_OF_EXERCISES;
+import static seedu.address.model.person.ExerciseList.NUMBER_OF_EXERCISES;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class MarkExerciseCommand extends MultiIndexCommand {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Marks the exercise status of one or more persons "
             + "identified by their index numbers in the last person listing.\n"
             + "Parameters: INDEX (must be a positive integer or range X:Y) "
-            + "ei/EXERCISEINDEX s/STATUS\n"
+            + "ei/EXERCISE_NUMBER s/STATUS\n"
             + "Example: " + COMMAND_WORD + " 1:3 ei/1 s/y \n"
             + "Example: " + COMMAND_WORD + " 2 ei/3 s/y";
 
@@ -35,18 +35,14 @@ public class MarkExerciseCommand extends MultiIndexCommand {
     public static final String MESSAGE_INDEX_OUT_OF_BOUNDS =
             "The exercise index provided is invalid, index must be between 0 to 9 (inclusive)";
 
-    private static final int HIGHEST_INDEX = NUMBER_OF_EXERCISES - 1;
-
     private final MultiIndex studentIndex;
     private final Index exerciseIndex;
     private final boolean isDone;
     private final List<Person> alreadyMarkedPersons = new ArrayList<>();
-    private String action;
+    private final String action;
 
     /**
-     * @param studentIndex indices of students to be marked
-     * @param exerciseIndex exercise number to mark
-     * @param isDone status to mark the exercise with
+     * Constructs a command to mark an exercise as done or not done.
      */
     public MarkExerciseCommand(MultiIndex studentIndex, Index exerciseIndex, boolean isDone) {
         super(studentIndex);
@@ -54,36 +50,37 @@ public class MarkExerciseCommand extends MultiIndexCommand {
         this.studentIndex = studentIndex;
         this.exerciseIndex = exerciseIndex;
         this.isDone = isDone;
-        this.action = isDone ? "done" : "not done";
+        this.action = isDone ? "done" : "not done"; // define action string
     }
 
     /**
-     * Executes the mark exercise command.
-     * Validates the exercise index before delegating to the parent class's execute method.
-     *
-     * @param model The model containing the person list and address book state.
-     * @return A CommandResult containing the outcome of the command execution.
-     * @throws CommandException If the exercise index is out of bounds or if the command fails during execution.
+     * Executes the command after validating the exercise index.
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        // Validate exercise index BEFORE calling super.execute()
+        // ensure exercise index is within bounds
         if (exerciseIndex.getZeroBased() < 0 || exerciseIndex.getZeroBased() >= NUMBER_OF_EXERCISES) {
-            throw new CommandException(String.format(MESSAGE_INDEX_OUT_OF_BOUNDS, HIGHEST_INDEX));
+            throw new CommandException(MESSAGE_INDEX_OUT_OF_BOUNDS);
         }
+        // delegate to parent to handle iteration over student indices
         return super.execute(model);
     }
 
+    /**
+     * Applies marking action to a single student.
+     */
     @Override
     protected Person applyActionToPerson(Model model, Person personToEdit) throws CommandException {
         ExerciseTracker updatedExerciseTracker = personToEdit.getExerciseTracker().copy();
+
         try {
-            updatedExerciseTracker.markExercise(exerciseIndex, isDone);
+            updatedExerciseTracker.markExercise(exerciseIndex, isDone); // mark exercise as done/undone
         } catch (IllegalStateException e) {
-            alreadyMarkedPersons.add(personToEdit);
+            alreadyMarkedPersons.add(personToEdit); // record if already marked
             return null;
         }
 
+        // create updated person with modified tracker
         Person updatedPerson = new Person(
                 personToEdit.getStudentId(),
                 personToEdit.getName(),
@@ -93,52 +90,64 @@ public class MarkExerciseCommand extends MultiIndexCommand {
                 personToEdit.getGithubUsername(),
                 updatedExerciseTracker,
                 personToEdit.getLabAttendanceList(),
-                personToEdit.getGradeMap()
+                personToEdit.getGradeTracker()
         );
 
-        model.setPerson(personToEdit, updatedPerson);
+        model.setPerson(personToEdit, updatedPerson); // update model
         return updatedPerson;
     }
 
+    /**
+     * Builds the final feedback message for the user.
+     */
     @Override
     protected CommandResult buildResult(List<Person> updatedPersons) {
         return new CommandResult(generateResponseMessage(alreadyMarkedPersons, updatedPersons));
     }
 
+    /**
+     * Generates response message summarizing the command result.
+     */
     private String generateResponseMessage(List<Person> alreadyMarkedPersons, List<Person> personsEdited) {
         String editedNames = personsEdited.stream()
                 .map(Person::getNameAndID)
-                .collect(Collectors.joining(", "));
+                .collect(Collectors.joining(", ")); // collect names of edited persons
 
-        String alreadyMarkedMessage = compileAlreadyMarkedMessage(alreadyMarkedPersons);
+        String alreadyMarkedMessage = compileAlreadyMarkedMessage(alreadyMarkedPersons); // message for duplicates
         StringBuilder message = new StringBuilder();
 
         if (!alreadyMarkedMessage.isEmpty()) {
-            message.append(alreadyMarkedMessage).append("\n");
+            message.append(alreadyMarkedMessage).append("\n"); // add duplicate info first
         }
 
         if (!personsEdited.isEmpty()) {
             String successMessage = String.format(MESSAGE_MARK_EXERCISE_SUCCESS,
-                    exerciseIndex.getZeroBased(), action, editedNames);
+                    exerciseIndex.getZeroBased(), action, editedNames); // add success message
             message.append(successMessage);
         }
 
-        return message.toString().trim();
+        return message.toString().trim(); // remove trailing newline
     }
 
+    /**
+     * Builds message for students whose exercises were already marked.
+     */
     private String compileAlreadyMarkedMessage(List<Person> alreadyMarkedPersons) {
         if (alreadyMarkedPersons.isEmpty()) {
-            return "";
+            return ""; // no message if none already marked
         }
 
         String names = alreadyMarkedPersons.stream()
                 .map(Person::getNameAndID)
-                .collect(Collectors.joining(", "));
+                .collect(Collectors.joining(", ")); // collect names
 
         return String.format(MESSAGE_FAILURE_ALREADY_MARKED,
-                exerciseIndex.getZeroBased(), action, names);
+                exerciseIndex.getZeroBased(), action, names); // return formatted warning
     }
 
+    /**
+     * Checks equality based on student indices, exercise index, and status.
+     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -152,6 +161,6 @@ public class MarkExerciseCommand extends MultiIndexCommand {
         MarkExerciseCommand otherCommand = (MarkExerciseCommand) other;
         return studentIndex.equals(otherCommand.studentIndex)
                 && exerciseIndex.equals(otherCommand.exerciseIndex)
-                && isDone == otherCommand.isDone;
+                && isDone == otherCommand.isDone; // compare key fields
     }
 }

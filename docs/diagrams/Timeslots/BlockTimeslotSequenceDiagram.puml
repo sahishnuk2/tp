@@ -1,0 +1,89 @@
+@startuml
+!include ../style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":BlockTimeslotCommandParser" as BlockTimeslotCommandParser LOGIC_COLOR
+participant "c:BlockTimeslotCommand" as BlockTimeslotCommand LOGIC_COLOR
+participant ":CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+end box
+
+box Storage STORAGE_COLOR_T1
+participant "storage:Storage" as Storage STORAGE_COLOR
+end box
+
+[-> LogicManager : execute("block-timeslot ts/.. te/..")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("block-timeslot ...")
+activate AddressBookParser
+
+create BlockTimeslotCommandParser
+AddressBookParser -> BlockTimeslotCommandParser : new BlockTimeslotCommandParser()
+activate BlockTimeslotCommandParser
+
+AddressBookParser -> BlockTimeslotCommandParser : parse("ts/... te/...")
+activate BlockTimeslotCommandParser
+
+create BlockTimeslotCommand
+BlockTimeslotCommandParser -> BlockTimeslotCommand : new BlockTimeslotCommand()
+activate BlockTimeslotCommand
+
+BlockTimeslotCommand --> BlockTimeslotCommandParser
+deactivate BlockTimeslotCommandParser
+destroy BlockTimeslotCommandParser
+
+AddressBookParser --> LogicManager : c
+deactivate AddressBookParser
+
+LogicManager -> BlockTimeslotCommand : execute(model)
+activate BlockTimeslotCommand
+
+BlockTimeslotCommand -> Model : hasTimeslot(t)
+activate Model
+Model --> BlockTimeslotCommand : false
+deactivate Model
+
+BlockTimeslotCommand -> Model : saveAddressBook()
+activate Model
+Model --> BlockTimeslotCommand
+deactivate Model
+
+BlockTimeslotCommand -> Model : addTimeslot(t)
+activate Model
+Model --> BlockTimeslotCommand
+deactivate Model
+
+create CommandResult
+BlockTimeslotCommand -> CommandResult : new CommandResult(message)
+activate CommandResult
+CommandResult --> BlockTimeslotCommand
+deactivate CommandResult
+
+BlockTimeslotCommand --> LogicManager : result
+deactivate BlockTimeslotCommand
+
+' --- LogicManager persists changes to disk via Storage ---
+LogicManager -> Storage : saveAddressBook(model.getAddressBook())
+activate Storage
+Storage --> LogicManager
+deactivate Storage
+
+alt model instanceof ModelManager
+    LogicManager -> Storage : saveTimeslots(((ModelManager)model).getTimeslots())
+    activate Storage
+    Storage --> LogicManager
+    deactivate Storage
+end
+
+[<-- LogicManager
+deactivate LogicManager
+
+scale 1.5
+@enduml

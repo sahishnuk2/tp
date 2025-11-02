@@ -9,11 +9,18 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class GithubUsername {
 
-    public static final String MESSAGE_CONSTRAINTS = "GitHub usernames can take any values, and it should not be blank";
+    public static final String MESSAGE_CONSTRAINTS = "GitHub usernames must be 1–39 characters long "
+            + "and may include letters, numbers, and hyphens. "
+            + "They cannot start or end with a hyphen or contain consecutive hyphens.";
 
     /*
      * The first character of the username must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
+     *
+     * Must be 1 to 39 characters long
+     * Can only contain letters (A–Z, a–z), digits (0–9), and hyphens (-)
+     * Cannot start or end with a hyphen
+     * Cannot contain consecutive hyphens (“--”)
      */
     public static final String VALIDATION_REGEX = "^(?!.*--)(?!-)[a-zA-Z0-9-]{1,39}(?<!-)$";
 

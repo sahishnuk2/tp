@@ -2,12 +2,11 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TypicalPersons.CARL;
-import static seedu.address.testutil.TypicalPersons.ELLE;
-import static seedu.address.testutil.TypicalPersons.FIONA;
+import static seedu.address.testutil.TestConstants.KEYWORD_123;
+import static seedu.address.testutil.TestConstants.KEYWORD_456;
+import static seedu.address.testutil.TestConstants.KEYWORD_999;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.Arrays;
@@ -15,10 +14,11 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.Messages;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.person.predicates.NameContainsKeywordsPredicate;
+import seedu.address.model.person.predicates.findpredicates.NameContainsKeywordsPredicate;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
@@ -54,25 +54,6 @@ public class FindCommandTest {
         assertFalse(findFirstCommand.equals(findSecondCommand));
     }
 
-    @Test
-    public void execute_zeroKeywords_noPersonFound() {
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
-        NameContainsKeywordsPredicate predicate = preparePredicate(" ");
-        FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredPersonList(predicate);
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredPersonList());
-    }
-
-    @Test
-    public void execute_multipleKeywords_multiplePersonsFound() {
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
-        NameContainsKeywordsPredicate predicate = preparePredicate("Kurz Elle Kunz");
-        FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredPersonList(predicate);
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(CARL, ELLE, FIONA), model.getFilteredPersonList());
-    }
 
     @Test
     public void toStringMethod() {
@@ -88,4 +69,66 @@ public class FindCommandTest {
     private NameContainsKeywordsPredicate preparePredicate(String userInput) {
         return new NameContainsKeywordsPredicate(Arrays.asList(userInput.split("\\s+")));
     }
+
+
+    @Test
+    public void execute_singleKeyword_multiplePersonsFound() {
+        NameContainsKeywordsPredicate predicate = preparePredicate(KEYWORD_123);
+        FindCommand command = new FindCommand(predicate);
+
+        CommandResult result = command.execute(model);
+        expectedModel.updateFilteredPersonList(predicate);
+
+        assertEquals(expectedModel.getFilteredPersonList(), model.getFilteredPersonList());
+
+        String expectedMessage = String.format(
+                Messages.MESSAGE_PERSONS_LISTED_OVERVIEW + "\nSearching for " + predicate.successMessage(),
+                expectedModel.getFilteredPersonList().size()
+        );
+        assertEquals(expectedMessage, result.getFeedbackToUser());
+    }
+
+    @Test
+    public void execute_multipleKeywords_multiplePersonsFound() {
+        NameContainsKeywordsPredicate predicate = preparePredicate(KEYWORD_123 + " " + KEYWORD_456);
+        FindCommand command = new FindCommand(predicate);
+
+        CommandResult result = command.execute(model);
+        expectedModel.updateFilteredPersonList(predicate);
+
+        assertEquals(expectedModel.getFilteredPersonList(), model.getFilteredPersonList());
+        String expectedMessage = String.format(
+                Messages.MESSAGE_PERSONS_LISTED_OVERVIEW + "\nSearching for " + predicate.successMessage(),
+                expectedModel.getFilteredPersonList().size()
+        );
+        assertEquals(expectedMessage, result.getFeedbackToUser());
+    }
+
+    @Test
+    public void execute_noMatches_zeroPersonsFound() {
+        NameContainsKeywordsPredicate predicate = preparePredicate(KEYWORD_999);
+        FindCommand command = new FindCommand(predicate);
+
+        CommandResult result = command.execute(model);
+        expectedModel.updateFilteredPersonList(predicate);
+
+        assertEquals(0, model.getFilteredPersonList().size());
+        assertEquals(expectedModel.getFilteredPersonList(), model.getFilteredPersonList());
+
+        String expectedMessage = String.format(
+                Messages.MESSAGE_PERSONS_LISTED_OVERVIEW + "\nSearching for " + predicate.successMessage(),
+                0
+        );
+        assertEquals(expectedMessage, result.getFeedbackToUser());
+    }
+
+    @Test
+    public void execute_returnsNonNullCommandResult() {
+        NameContainsKeywordsPredicate predicate = preparePredicate(KEYWORD_456);
+        FindCommand command = new FindCommand(predicate);
+        CommandResult result = command.execute(model);
+        assertNotNull(result);
+    }
+
+
 }

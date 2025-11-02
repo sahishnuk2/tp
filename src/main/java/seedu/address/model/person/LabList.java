@@ -1,5 +1,8 @@
 package seedu.address.model.person;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents a collection of lab attendance records for a student across all lab sessions.
  */
@@ -152,5 +155,27 @@ public class LabList implements LabAttendanceList {
     @Override
     public int compareTo(LabAttendanceList other) {
         return Double.compare(this.calculateLabAttendance(), other.calculateLabAttendance());
+    }
+    @Override
+    public List<TrackerColour> getTrackerColours() {
+        List<TrackerColour> colours = new ArrayList<>();
+        for (LabAttendance lab : labs) {
+            String status = lab.getStatus();
+            TrackerColour colour = switch (status) {
+            case "Y" -> TrackerColour.GREEN;
+            case "A" -> TrackerColour.RED;
+            default -> TrackerColour.GREY; // "N"
+            };
+            colours.add(colour);
+        }
+        return colours;
+    }
+    @Override
+    public List<String> getLabels() {
+        List<String> labels = new ArrayList<>();
+        for (int i = 0; i < NUMBER_OF_LABS; i++) {
+            labels.add("L" + (i + 1));
+        }
+        return labels;
     }
 }
