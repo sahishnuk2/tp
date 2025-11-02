@@ -77,7 +77,9 @@ public class EditCommand extends MultiIndexCommand {
         if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
-
+        if (personToEdit.equals(editedPerson)) {
+            throw new CommandException("No changes were made, all fields are identical.");
+        }
         model.setPerson(personToEdit, editedPerson);
         return editedPerson;
     }
