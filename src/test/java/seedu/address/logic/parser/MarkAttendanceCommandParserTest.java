@@ -1,7 +1,6 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_GITHUB_USERNAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LAB_NUMBER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -85,7 +84,7 @@ public class MarkAttendanceCommandParserTest {
 
     @Test
     public void parse_invalidIndex_parseException() {
-        String expectedMessage = "Student " + MESSAGE_INVALID_INDEX ;
+        String expectedMessage = "Student " + MESSAGE_INVALID_INDEX;
 
         assertParseFailure(parser, 0
                 + " " + PREFIX_LAB_NUMBER + validLabNumber.getOneBased() + " " + PREFIX_STATUS + "y", expectedMessage);
@@ -104,7 +103,8 @@ public class MarkAttendanceCommandParserTest {
         String invalidRange = "2:1";
 
         assertParseFailure(parser, invalidRange
-                + " " + PREFIX_LAB_NUMBER + validLabNumber.getOneBased() + " " + PREFIX_STATUS + "y", String.format(expectedMessage, invalidRange));
+                + " " + PREFIX_LAB_NUMBER + validLabNumber.getOneBased()
+                + " " + PREFIX_STATUS + "y", String.format(expectedMessage, invalidRange));
 
     }
 
@@ -112,14 +112,18 @@ public class MarkAttendanceCommandParserTest {
     public void parse_invalidStatus_parseException() {
         String expectedMessage = MESSAGE_INVALID_STATUS;
 
+        // Empty status
         assertParseFailure(parser, INDEX_FIRST_PERSON.getOneBased()
-                + " " + PREFIX_LAB_NUMBER + validLabNumber.getOneBased() + " " + PREFIX_STATUS + "", expectedMessage);
+                + " " + PREFIX_LAB_NUMBER + validLabNumber.getOneBased()
+                + " " + PREFIX_STATUS, expectedMessage);
 
         assertParseFailure(parser, INDEX_FIRST_PERSON.getOneBased()
-                + " " + PREFIX_LAB_NUMBER + validLabNumber.getOneBased() + " " + PREFIX_STATUS + "x", expectedMessage);
+                + " " + PREFIX_LAB_NUMBER + validLabNumber.getOneBased()
+                + " " + PREFIX_STATUS + "x", expectedMessage);
 
         assertParseFailure(parser, INDEX_FIRST_PERSON.getOneBased()
-                + " " + PREFIX_LAB_NUMBER + validLabNumber.getOneBased() + " " + PREFIX_STATUS + "   ", expectedMessage);
+                + " " + PREFIX_LAB_NUMBER + validLabNumber.getOneBased()
+                + " " + PREFIX_STATUS + "   ", expectedMessage);
     }
 
     @Test
@@ -131,8 +135,8 @@ public class MarkAttendanceCommandParserTest {
                 + " " + PREFIX_NAME + " Ed", String.format(expectedMessage, PREFIX_NAME));
 
         assertParseFailure(parser, INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_LAB_NUMBER
-                + validLabNumber.getOneBased() + " " + PREFIX_GITHUB_USERNAME + " Ed" + " " + PREFIX_STATUS + "y"
-                , String.format(expectedMessage, PREFIX_GITHUB_USERNAME));
+                + validLabNumber.getOneBased() + " " + PREFIX_GITHUB_USERNAME + " Ed" + " " + PREFIX_STATUS + "y",
+                String.format(expectedMessage, PREFIX_GITHUB_USERNAME));
     }
 
     @Test
