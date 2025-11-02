@@ -20,7 +20,7 @@ public class AddConsultationCommandParserTest {
     private final AddConsultationCommandParser parser = new AddConsultationCommandParser();
 
     @Test
-    public void parse_validIsoInput_success(){
+    public void parse_validIsoInput_success() {
         String input = " ts/2025-10-04T10:00:00 te/2025-10-04T11:00:00 n/John Doe";
         LocalDateTime start = LocalDateTime.parse("2025-10-04T10:00:00", DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         LocalDateTime end = LocalDateTime.parse("2025-10-04T11:00:00", DateTimeFormatter.ISO_LOCAL_DATE_TIME);
@@ -76,7 +76,8 @@ public class AddConsultationCommandParserTest {
         String badStart = " ts/not-a-date te/2025-10-04T11:00:00 n/John";
         String badEnd = " ts/2025-10-04T10:00:00 te/also-bad n/John";
 
-        String expectedMessage = "Invalid datetime: either wrong format or an impossible calendar date \n(for example, '30 Feb' does not exist). ";
+        String expectedMessage = "Invalid datetime: either wrong format or an impossible calendar date"
+                + " (for example, '30 Feb' does not exist). ";
 
         assertParseFailure(parser, badStart, expectedMessage);
         assertParseFailure(parser, badEnd, expectedMessage);

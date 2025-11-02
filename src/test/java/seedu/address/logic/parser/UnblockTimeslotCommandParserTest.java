@@ -4,13 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.UnblockTimeslotCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.timeslot.Timeslot;
-
-import java.time.LocalDateTime;
 
 /**
  * Tests for {@link UnblockTimeslotCommandParser}.
