@@ -170,7 +170,7 @@ For example, a green tracker indicates satisfactory progress, while a red one hi
 
 * Accepted datetime formats for command parameters (i.e. START_DATETIME & END_DATETIME):
     * ISO_LOCAL_DATE_TIME: `2023-10-01T09:00:00`
-    * Human-friendly: `d MMM uuuu, HH:mm` (e.g. `4 Oct 2025, 10:00`) or `d MMM uuuu HH:mm` (e.g. `4 Oct 2025 10:00`)
+    * Human-friendly: `d MMM yyyy, HH:mm` (e.g. `4 Oct 2025, 10:00`) or `d MMM yyyy HH:mm` (e.g. `4 Oct 2025 10:00`)
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines
 as space characters surrounding line-breaks may be omitted when copied over to the application.
@@ -375,7 +375,7 @@ block-timeslot ts/START_DATETIME te/END_DATETIME
 ```
 
 **Examples:**
-- Blocking out a timeslot on 4 October 2025 from 10am to 1pm: \
+- Blocking out a timeslot on 4 October 2025 from 10am to 1pm: 
     * `block-timeslot ts/2025-10-04T10:00:00 te/2025-10-04T13:00:00`
     * `block-timeslot ts/4 Oct 2025, 10:00 te/4 Oct 2025, 13:00`
     * `block-timeslot ts/4 Oct 2025 10:00 te/4 Oct 2025 13:00`
@@ -397,7 +397,7 @@ unblock-timeslot ts/START_DATETIME te/END_DATETIME
 ```
 
 **Examples:**
-- Unblocking a timeslot on 4 October 2025 from 10am to 1pm: \
+- Unblocking a timeslot on 4 October 2025 from 10am to 1pm: 
     * `unblock-timeslot ts/2025-10-04T10:00:00 te/2025-10-04T13:00:00`
     * `unblock-timeslot ts/4 Oct 2025, 10:00 te/4 Oct 2025, 13:00`
     * `unblock-timeslot ts/4 Oct 2025 10:00 te/4 Oct 2025 13:00`
@@ -427,7 +427,7 @@ add-consultation ts/START_DATETIME te/END_DATETIME n/STUDENT_NAME
 ```
 
 **Examples:**
-- Adding a consultation timeslot with John Doe on 4 October 2025 from 10am to 1pm: \
+- Adding a consultation timeslot with John Doe on 4 October 2025 from 10am to 1pm: 
     * `add-consultation ts/2025-10-04T10:00:00 te/2025-10-04T13:00:00 n/John Doe`
     * `add-consultation ts/4 Oct 2025, 10:00 te/4 Oct 2025, 13:00 n/John Doe`
     * `add-consultation ts/4 Oct 2025 10:00 te/4 Oct 2025 13:00 n/John Doe`
@@ -457,9 +457,8 @@ clear-timeslots
 
 <box type="warning">
 
-**Caution:**
-This will permanently remove all stored timeslots. There is no multi-step undo for timeslot clearing;
-use immediately after a mistaken action if your environment supports undo of other operations.
+**Caution:** This action permanently removes all stored timeslots. You can restore them by running `undo` as the very next command. If any other data-modifying command runs first, the removal cannot be undone.
+
 </box>
 
 ---
