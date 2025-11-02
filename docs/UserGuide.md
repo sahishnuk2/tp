@@ -744,7 +744,7 @@ exit
 There is no need to save manually.
 
 **Q**: Can I edit on the data file directly without using commands?
-**A**: LambdaLab data is saved automatically as a JSON file `[JAR file location]/data/LambdaLab.json`.
+**A**: LambdaLab data is saved automatically as a JSON file `[JAR file location]/data/lambdalab.json`.
 Advanced users are welcome to update data directly by editing that data file.
 <box type="warning">
 
@@ -761,14 +761,14 @@ Furthermore, certain edits can cause the LambdaLab to behave in unexpected ways 
 1. Locate your data file on your current computer:
     - Navigate to the folder where your LambdaLab `.jar` file is located.
     - Look for a folder named `data`.
-    - Inside, you'll find a file called `LambdaLab.json` and a file called `timeslots.json` -- these contain all your student records and timeslot data respectively.
+    - Inside, you'll find a file called `lambdalab.json` and a file called `timeslots.json` -- these contain all your student records and timeslot data respectively.
 2. Install LambdaLab on your new computer:
     - Download the `.jar` file and place it in your desired folder.
     - Run it once to generate the initial file structure.
 3. Transfer your data:
-    - Copy the `LambdaLab.json` and `timeslots.json` files from your old computer.
+    - Copy the `lambdalab.json` and `timeslots.json` files from your old computer.
     - On your new computer, navigate to `[JAR file location]/data/`.
-    - Replace the empty `LambdaLab.json` and `timeslots.json` files with your copied file.
+    - Replace the empty `lambdalab.json` and `timeslots.json` files with your copied file.
 4. Restart LambdaLab on your new computer to see all your student data.
    <box type="tip">
    Tip: You can also backup your data regularly by copying the two `.json` files to a secure location (e.g., cloud storage, USB drive).
@@ -784,7 +784,7 @@ to determine which labs and exercises are currently active. Assuming that exerci
 in week 3, you may use [`set-week` command](#set-week) once every week to auto-update the status of past exercises and labs.
 
 **Q**: Can I export my student data to a spreadsheet?<br>
-**A**: Currently, data is stored in JSON format in the `data/LambdaLab.json` and `data/timeslots.json` file. Advanced users can manually convert
+**A**: Currently, data is stored in JSON format in the `data/lambdalab.json` and `data/timeslots.json` file. Advanced users can manually convert
 this to a spreadsheet format using external tools.
 
 **Q**: What should I do if a student's information changes (e.g., github username or email)?<br>
