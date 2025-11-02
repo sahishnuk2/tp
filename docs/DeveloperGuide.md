@@ -795,7 +795,17 @@ testers are expected to do more *exploratory* testing.
     3. Test case: `edit 1:3 t/outstanding` <br>
        Expected: In the displayed student list, the first 3 students' tags are replaced with the `outstanding` tag.
 
-2. Editing a student with invalid fields
+2. Editing a student with same data
+
+    1. Prerequisites: Ensure there is a student with name: `Alex` and phone number: `87438807`.
+
+    2. Test case: `edit 1 p/87438807` <br>
+       Expected: Error message indicating identical fields.
+
+    3. Test case: `edit 1 n/Alex` <br>
+       Expected: Error message indicating identical fields.
+
+3. Editing a student with invalid fields
 
     1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 
@@ -805,7 +815,7 @@ testers are expected to do more *exploratory* testing.
     3. Test case: `edit 0 p/98123456` <br>
        Expected: Error message indicating invalid `Student Index`.
 
-3. Editing with no fields specified
+4. Editing with no fields specified
 
     1. Test case: `edit 1`<br>
        Expected: Error message indicating at least one field needs to be provided.
