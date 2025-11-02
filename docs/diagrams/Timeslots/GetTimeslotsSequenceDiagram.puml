@@ -1,5 +1,5 @@
 @startuml
-!include style.puml
+!include ../style.puml
 skinparam ArrowFontStyle plain
 
 box Logic LOGIC_COLOR_T1
@@ -99,4 +99,6 @@ end
 
 [<-- LogicManager
 deactivate LogicManager
+
+scale 1.5
 @enduml
