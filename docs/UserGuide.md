@@ -31,11 +31,11 @@ spreadsheets or GUI apps.
 - [Clear](#clearing-all-entries-clear)
 
 2.1.2. [On labs, exercises, and examinations](#on-labs-exercises-and-examinations)
-- [Marka](#marking-a-students-lab-attendance-marka)
-- [Marke](#marking-a-students-exercise-for-completion-marke)
-- [Grade](#marking-a-students-exam-as-passed-or-failed-grade)
+- [Marka](#marking-lab-attendance-for-students-marka)
+- [Marke](#marking-exercise-for-completion-for-students-marke)
+- [Grade](#marking-exam-as-passed-or-failed-for-students-grade)
 
-2.1.3. [On timeslot/consultation](#on-timeslotconsultation)
+2.1.3. [On timeslot and consultation](#on-timeslot-and-consultation)
 - [Block-timeslot](#blocking-a-timeslot-block-timeslot)
 - [Unblock-timeslot](#unblocking-a-timeslot-unblock-timeslot)
 - [Add-consultation](#adding-a-consultation-add-consultation)
@@ -53,7 +53,7 @@ spreadsheets or GUI apps.
 - [Filter](#filtering-students-filter)
 - [Sort](#sorting-students-sort)
 
-2.2.2. [Of timeslot/consultation](#of-timeslotconsultation)
+2.2.2. [Of timeslot and consultation](#of-timeslot-and-consultation)
 - [Get-timeslots](#retrieving-timeslot-ranges-get-timeslots)
 - [Get-consultations](#retrieving-consultations-only-get-consultations)
 
@@ -130,16 +130,17 @@ spreadsheets or GUI apps.
 ![Ui.png](images/Ui.png)
 
 ## Trackers  
-These trackers provide a visual overview of each student’s progress in terms of **lab attendance**,
+![Trackers.png](images/Trackers.png)
+These are trackers that provides a visual overview of each student’s progress in terms of **lab attendance**,
 **exercise completion**, and **examination performance (on a pass/fail basis)**.
 
 Each tracker uses colour indicators to represent a student’s current status in a clear and intuitive way:
 
-| **Category** | **Green** | **Grey** | **Red** |
-|:--------------|:-----------|:-----------|:-----------|
-| **Lab** | Attended | Not conducted yet | Absent |
+| **Category** | **Green** | **Grey**      | **Red** |
+|:--------------|:-----------|:--------------|:-----------|
+| **Lab** | Attended | Not conducted | Absent |
 | **Exercise** | Completed | Not conducted | Overdue |
-| **Exam** | Passed | Not graded | Failed |
+| **Exam** | Passed | Not graded    | Failed |
 
 This system allows Teaching Assistants to quickly assess how students are performing at a glance.  
 For example, a green tracker indicates satisfactory progress, while a red one highlights areas needing attention 
@@ -162,7 +163,7 @@ For example, a green tracker indicates satisfactory progress, while a red one hi
   e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/modelStudent`, `t/modelStudent t/NOIgold` etc.
 
 * Parameters can be in any order.<br>
-  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+  e.g. if the command specifies `n/NAME p/PHONE`, `p/PHONE n/NAME` is also acceptable.
 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
@@ -218,7 +219,7 @@ You can use this command to edit an existing student's information in LambdaLab.
 
 **Format:**
 ```
-edit INDEX [i/STUDENT ID] [n/NAME] [p/PHONE] [e/EMAIL] [g/GITHUB USERNAME] [t/TAG]…​
+edit INDEX [i/STUDENT_ID] [n/NAME] [p/PHONE] [e/EMAIL] [g/GITHUB_USERNAME] [t/TAG]…​
 ```
 
 **Examples:**
@@ -278,7 +279,7 @@ clear
 
 ### On labs, exercises, and examinations
 
-#### Marking a student's lab attendance: `marka`
+#### Marking lab attendance for students: `marka`
 
 You can use this command to record whether selected students attended or were absent for a particular lab.
 
@@ -302,7 +303,7 @@ marka INDEX l/LAB_NUMBER s/STATUS
 
 <br>
 
-#### Marking a student's exercise for completion: `marke`
+#### Marking exercise for completion for students: `marke`
 
 You can use this command to record or update whether selected students have completed a particular exercise.
 
@@ -325,7 +326,7 @@ marke INDEX ei/EXERCISE_INDEX s/STATUS
 
 <br>
 
-#### Marking a Student’s Exam as Passed or Failed: `grade`
+#### Marking exam as passed or failed for students: `grade`
 The `grade` command allows you to mark one or more students as **passed** or **failed** for a specific exam.  
 It supports **multi-index input**, letting you update multiple students’ grades in a single command.
 
@@ -361,7 +362,7 @@ grade INDEX... en/EXAM_NAME s/STATUS
 | `final`             | Final Exam |
 ---
 
-### On timeslot/consultation
+### On timeslot and consultation
 
 #### Blocking a timeslot: `block-timeslot`
 
@@ -465,7 +466,7 @@ use immediately after a mistaken action if your environment supports undo of oth
 
 ## Data-visualisation commands
 
-### On student data
+### Of student data
 
 #### Listing students: `list`
 
@@ -589,7 +590,7 @@ chosen criterion might not stay in their original order.
 
 ---
 
-### On timeslot/consultation
+### Of timeslot and consultation
 
 #### Retrieving timeslot ranges: `get-timeslots`
 
@@ -604,7 +605,7 @@ get-timeslots
 
 **Tip:** Use `get-timeslots` to see your full schedule and `get-consultations` for an uncluttered view of your consultation schedule.
 
-A GUI similar to the below will appear upon entering of the command.
+A GUI similar to the image below will appear upon entering of the command.
 <br>
 
 ![Timetable window](images/timetableWindow.png)
@@ -679,7 +680,9 @@ The `set-week` command allows you to update the **current teaching week** in Lam
 This helps the system automatically manage time-sensitive features such as **exercise due dates** and **lab attendances**.
 
 **Format:**
+```
 set-week WEEK_NUMBER
+```
 
 **Examples:**
 - Sets the current teaching week to Week 5: `set-week 5`.
@@ -747,19 +750,17 @@ Furthermore, certain edits can cause the LambdaLab to behave in unexpected ways 
 1. Locate your data file on your current computer:
     - Navigate to the folder where your LambdaLab `.jar` file is located.
     - Look for a folder named `data`.
-    - Inside, you'll find a file called `LambdaLab.json` - this contains all your student records.
-    - Another file you'll find is one called `timeslots.json` - this contains all the timeslots you have recorded
+    - Inside, you'll find a file called `LambdaLab.json` and a file called `timeslots.json` -- these contain all your student records and timeslot data respectively.
 2. Install LambdaLab on your new computer:
     - Download the `.jar` file and place it in your desired folder.
     - Run it once to generate the initial file structure.
 3. Transfer your data:
-    - Copy the `LambdaLab.json` file from your old computer.
+    - Copy the `LambdaLab.json` and `timeslots.json` files from your old computer.
     - On your new computer, navigate to `[JAR file location]/data/`.
-    - Replace the empty `LambdaLab.json` file with your copied file.
-    - Repeat these steps for `timeslots.json`
+    - Replace the empty `LambdaLab.json` and `timeslots.json` files with your copied file.
 4. Restart LambdaLab on your new computer to see all your student data.
    <box type="tip">
-   Tip: You can also backup your data regularly by copying the `LambdaLab.json` file to a secure location (e.g., cloud storage, USB drive).
+   Tip: You can also backup your data regularly by copying the two `.json` files to a secure location (e.g., cloud storage, USB drive).
    </box>
 
 **Q**: Can I track multiple tutorial groups in LambdaLab?<br>
@@ -772,7 +773,7 @@ to determine which labs and exercises are currently active. Assuming that exerci
 in week 3, you may use [`set-week` command](#set-week) once every week to auto-update the status of past exercises and labs.
 
 **Q**: Can I export my student data to a spreadsheet?<br>
-**A**: Currently, data is stored in JSON format in the `data/LambdaLab.json` file. Advanced users can manually convert
+**A**: Currently, data is stored in JSON format in the `data/LambdaLab.json` and `data/timeslots.json` file. Advanced users can manually convert
 this to a spreadsheet format using external tools.
 
 **Q**: What should I do if a student's information changes (e.g., github username or email)?<br>
@@ -817,20 +818,20 @@ lab sessions to maintain accurate records.
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **Add**    | `add i/STUDENT_ID n/NAME p/PHONE e/EMAIL g/GITHUB_USERNAME [t/TAG]…` <br> e.g., `add i/A1234567X n/James Ho p/22224444 e/jamesho@example.com g/JamesHo t/friend`
-**Edit**   | `edit INDEX [i/STUDENT ID] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GITHUB USERNAME] [t/TAG]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Edit**   | `edit INDEX [i/STUDENT_ID] [n/NAME] [p/PHONE] [e/EMAIL] [g/GITHUB_USERNAME] [t/TAG]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Clear**  | `clear`
-**Mark Attendance** | `marka INDEX l/LABNUMBER s/STATUS` <br> e.g. `marka 2 l/7 s/y`
-**Mark Exercise** | `marke INDEX ei/EXERCISENUMBER s/STATUSLETTER` <br> e.g. `marke 2 ei/7 s/n`
-**Grade**| `grade INDEX en/EXAMNAME sc/SCORE` <br> e.g., `grade 2 en/midterm s/y`
+**Mark Attendance** | `marka INDEX l/LAB_NUMBER s/STATUS` <br> e.g. `marka 2 l/7 s/y`
+**Mark Exercise** | `marke INDEX ei/EXERCISE_INDEX s/STATUS` <br> e.g. `marke 2 ei/7 s/n`
+**Grade**| `grade INDEX en/EXAM_NAME s/STATUS` <br> e.g., `grade 2 en/midterm s/y`
 **Block timeslot** | `block-timeslot ts/START_DATETIME te/END_DATETIME` <br> e.g. `block-timeslot ts/2025-10-04T10:00:00 te/2025-10-04T13:00:00`
 **Unblock timeslot** | `unblock-timeslot ts/START_DATETIME te/END_DATETIME` <br> e.g. `unblock-timeslot ts/2025-10-04T10:00:00 te/2025-10-04T13:00:00`
 **Add consultation** | `add-consultation ts/START_DATETIME te/END_DATETIME n/STUDENT_NAME` <br> e.g., `add-consultation ts/2025-10-04T10:00:00 te/2025-10-04T11:00:00 n/John Doe`
 **Clear timeslots** | `clear-timeslots`
 **List**   | `list`
 **Find**   | `find KEYWORD [MORE_KEYWORDS] [i/] [n/] [p/] [e/] [g/] [t/]`<br> e.g., `find James Jake`
-**Filter** | `filter [l/LABNUMBER s/STATUS]... [ei/EXERCISEINDEX s/STATUS]... [la/COMPARISON]` <br> e.g., `filter l/7 s/y`
-**Sort**    | `sort c/SORT_CRITERION` <br> e.g., `sort c/name`
+**Filter** | `filter [l/LABNUMBER s/STATUS]... [ei/EXERCISE_INDEX s/STATUS]... [la/COMPARISON]` <br> e.g., `filter l/7 s/y`
+**Sort**    | `sort c/CRITERION` <br> e.g., `sort c/name`
 **Get timeslots** | `get-timeslots` 
 **Get consultations** | `get-consultations`
 **Help**   | `help`
@@ -842,25 +843,24 @@ Action     | Format, Examples
 
 ## Parameter Summary
 
-| **Parameter**       | **Description**                                  | **Prefix**                                      | **Constraint**                                                                                                            | **Used in**                                              |
-|---------------------|--------------------------------------------------|-------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
-| **INDEX**           | Index of student in the displayed list           | *(no prefix — written before other parameters)* | Must be a positive integer between 1 and maximum number of students in the list.                                          | `edit`, `delete`, `marka`, `marke`, `grade`              |
-| **STUDENT_ID**       | Student's matriculation number                   | `i/`                                            | Must follow NUS Student ID format (e.g., A1234567X)                                                                       | `add`, `edit`                                            |
-| **NAME**            | Student's full name                              | `n/`                                            | Can contain letters and spaces                                                                                            | `add`, `edit`, `add-consultation`                        |
-| **PHONE**           | Student's phone number                           | `p/`                                            | Must be a valid phone number                                                                                              | `add`, `edit`                                            |
-| **EMAIL**           | Student's email address                          | `e/`                                            | Must be a valid email format                                                                                              | `add`, `edit`                                            |
-| **GITHUB_USERNAME** | Student's GitHub username                        | `g/`                                            | Must be a valid GitHub username                                                                                           | `add`, `edit`                                            |
-| **TAG**             | Optional label(s) for categorizing students      | `t/`                                            | Must be alphanumeric with no spaces or special characters; can have multiple tags                                         | `add`, `edit`                                            |
-| **LAB_NUMBER**      | Specific lab session to mark attendance for      | `l/`                                            | Must be an integer between 1–10 (inclusive)                                                                               | `marka`, `filter`                                        |
-| **EXERCISE_NUMBER**  | Specific exercise number to mark                 | `ei/`                                           | Must be an integer between 0–9 (inclusive)                                                                                | `marke`, `filter`                                        |
-| **WEEK_NUMBER**      | Current week of the semester                     | *(no prefix — written directly after command)*  | Must be an integer between 0–13 (inclusive)                                                                               | `set-week`                                               |
-| **EXAM_NAME**       | Name of the exam to record or update a grade for | `en/`                                           | Must be one of: `pe0`, `pe1`, `midterm`, `pe2`, or `final`<br/> This parameter is case-insensitive.                         | `grade`                                                  |
-| **STATUS**          | Generic status                                   | `s/`                                            | Refer to the commands' status usage <br/> This parameter is case-insensitive.                                               | `marka`, `marke`, `filter` `grade`                       |
-| **KEYWORD**         | Search term(s) for finding students              | *(no prefix — written directly after command)*  | Can be one or more words <br/> This parameter is case-insensitive.                                                          | `find`                                                   |
-| **SORT_CRITERION**   | Criterion for sorting students                   | `c/`                                            | Must be one of: `name`, `id`, `lab`, or `ex` <br/> This parameter is case-insensitive.                                    | `sort`                                                   |
-| **COMPARISON**      | Percentage of labs attended to filter by         | `la/`                                           | Must contain one of the following operators: `==`, `>=`, `<=`, `>`, `<` followed by an integer from 0-100                 | `filter`                                                 |
-| **START_DATETIME**  | Starting datetime of the timeslot                | `ts/`                                           | Must be in ISO_LOCAL_DATE_TIME (`2023-10-01T09:00:00`) or human-friendly format (`4 Oct 2025, 10:00`, `4 Oct 2025 10:00`) | `block-timeslot`, `unblock-timeslot`, `add-consultation` |
-| **END_DATETIME**    | Ending datetime of the timeslot                  | `te/`                                           | Must be in ISO_LOCAL_DATE_TIME (`2023-10-01T09:00:00`) or human-friendly format (`4 Oct 2025, 10:00`, `4 Oct 2025 10:00`) | `block-timeslot`, `unblock-timeslot`, `add-consultation` |
-| **STUDENT_NAME**    | Name of student for consultation                 | `n/`                                            | Student's name to be associated with the consultation timeslot                                                            | `add-consultation`                                       |
-
+| **Parameter**       | **Description**                                   | **Prefix**                                      | **Constraint**                                                                                                                                         | **Used in**                                              |
+|---------------------|---------------------------------------------------|-------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
+| **INDEX**           | Index of student in the displayed list            | *(no prefix — written before other parameters)* | Must be a positive integer between 1 and maximum number of students in the list.                                                                       | `edit`, `delete`, `marka`, `marke`, `grade`              |
+| **STUDENT_ID**       | Student's matriculation number                    | `i/`                                            | Must follow NUS Student ID format (e.g., A1234567X)                                                                                                    | `add`, `edit`                                            |
+| **NAME**            | Student's full name                               | `n/`                                            | Alphanumeric characters and spaces only; cannot be blank                                                                                               | `add`, `edit`, `add-consultation`                        |
+| **PHONE**           | Student's phone number                            | `p/`                                            | Numbers only; at least 3 digits long                                                                                                                   | `add`, `edit`                                            |
+| **EMAIL**           | Student's email address                           | `e/`                                            | Must be in format `local-part@domain` where local-part contains alphanumeric and special characters (`+_.-`); domain ends with at least 2 characters   | `add`, `edit`                                            |
+| **GITHUB_USERNAME** | Student's GitHub username                         | `g/`                                            | 1–39 characters; letters, numbers, and hyphens only; cannot start/end with hyphen or have consecutive hyphens                                          | `add`, `edit`                                            |
+| **TAG**             | Optional label(s) for categorizing students       | `t/`                                            | Alphanumeric only; no spaces or special characters; can have multiple tags                                                                             | `add`, `edit`                                            |
+| **LAB_NUMBER**      | Specific lab session to mark attendance for       | `l/`                                            | Must be an integer between 1–10 (inclusive)                                                                                                            | `marka`, `filter`                                        |
+| **EXERCISE_INDEX**  | Specific exercise number to mark                  | `ei/`                                           | Must be an integer between 0–9 (inclusive)                                                                                                             | `marke`, `filter`                                        |
+| **WEEK_NUMBER**     | Current week of the semester                      | *(no prefix — written directly after command)*  | Must be an integer between 0–13 (inclusive)                                                                                                            | `set-week`                                               |
+| **EXAM_NAME**       | Name of the exam to record or update a grade for  | `en/`                                           | Must be one of: `pe1`, `midterm`, `pe2`, or `final`                                                                                                    | `grade`                                                  |
+| **STATUS**          | Status indicator for various commands             | `s/`                                            | `y` (yes/done/passed) or `n` (no/not done/failed) — case-insensitive; specific meaning depends on command context                                      | `marka`, `marke`, `filter`, `grade`                      |
+| **KEYWORD**         | Search term(s) for finding students               | *(no prefix — written directly after command)*  | One or more words; case-insensitive                                                                                                                    | `find`                                                   |
+| **CRITERION**       | Criterion for sorting students                    | `c/`                                            | Must be one of: `name`, `id`, `lab`, or `ex` — case-insensitive                                                                                        | `sort`                                                   |
+| **COMPARISON**      | Percentage of labs attended to filter by          | `la/`                                           | Operators (`==`, `>=`, `<=`, `>`, `<`) followed by an integer from 0–100 and a `%` sign (e.g., `>50%`)                                                 | `filter`                                                 |
+| **START_DATETIME**  | Starting datetime of the timeslot                 | `ts/`                                           | ISO format (`2023-10-01T09:00:00`) or human-friendly (`4 Oct 2025, 10:00` or `4 Oct 2025 10:00`)                                                       | `block-timeslot`, `unblock-timeslot`, `add-consultation` |
+| **END_DATETIME**    | Ending datetime of the timeslot                   | `te/`                                           | ISO format (`2023-10-01T09:00:00`) or human-friendly (`4 Oct 2025, 10:00` or `4 Oct 2025 10:00`)                                                       | `block-timeslot`, `unblock-timeslot`, `add-consultation` |
+| **STUDENT_NAME**    | Name of student for consultation                  | `n/`                                            | Alphanumeric characters and spaces only; does not need to match an existing student record                                                             | `add-consultation`                                       |
 
