@@ -480,7 +480,6 @@ public class TimeslotsWindow {
 
                     // Student name label placed below the time label
                     String studentText = ct.getStudentName();
-                    // allow student name to break at spaces if necessary
                     Label studentLbl = new Label(studentText.contains(" ")
                         ? studentText.replace(" ", "\n")
                         : studentText);
@@ -488,6 +487,18 @@ public class TimeslotsWindow {
                     studentLbl.layoutXProperty().bind(xBind.add(18));
                     // Keep student label positioned directly below the time label even after the time label wraps.
                     studentLbl.layoutYProperty().bind(timeLbl.layoutYProperty().add(timeLbl.heightProperty()).add(2));
+
+                    // Constrain label max widths to the block width (minus padding) and enable wrapping
+                    timeLbl.maxWidthProperty().bind(consultBlock.widthProperty().subtract(12));
+                    timeLbl.setWrapText(true);
+                    studentLbl.maxWidthProperty().bind(consultBlock.widthProperty().subtract(12));
+                    studentLbl.setWrapText(true);
+
+                    // Show labels only when the block is wide enough; show icon for moderately narrow blocks.
+                    timeLbl.visibleProperty().bind(consultBlock.widthProperty().greaterThan(40));
+                    studentLbl.visibleProperty().bind(consultBlock.widthProperty().greaterThan(40));
+                    icon.visibleProperty().bind(consultBlock.widthProperty().greaterThan(16));
+                    // ----------------------------------------------------------------
 
                     timeline.getChildren().addAll(consultBlock, icon, timeLbl, studentLbl);
                     // Ensure labels and icon are rendered above the block.
