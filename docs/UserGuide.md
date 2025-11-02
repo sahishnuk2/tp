@@ -321,7 +321,8 @@ marke INDEX ei/EXERCISE_INDEX s/STATUS
 
 <box type="warning">
 
-**Caution:** If an exercise is already marked with the same status, the command will show a message indicating it was already marked.
+**Caution:** Attempting to re-mark an exercise with the same status will trigger a message indicating it was already marked.
+
 </box>
 
 <br>
@@ -350,7 +351,7 @@ grade INDEX... en/EXAM_NAME s/STATUS
 <box type="warning">
 
 **Caution:**
-- The exam name must match one of the valid exams listed below — entering an invalid one will cause an error.
+The exam name must match one of the valid exams listed below — entering an invalid one will cause an error.
   </box>
 
 | **Valid Exam Name** | **Description** |
