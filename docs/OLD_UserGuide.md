@@ -69,7 +69,7 @@ spreadsheets or GUI apps.
 3. Copy the `.jar` file to the folder you want to use as the _home folder_ for your LambdaLab.
 
 4. Open a command terminal, `cd` into the folder you put the `.jar` file in, and use the `java -jar addressbook.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note that the app contains some sample data and the layout
+   When you enter the command, a GUI similar to the image below will appear in a few seconds. Note that the app contains some sample data and the layout
    is explained in coloured boxes.<br>
    ![Ui](images/Ui.png)
 
