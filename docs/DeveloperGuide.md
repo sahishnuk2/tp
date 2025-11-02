@@ -167,17 +167,16 @@ This section describes some noteworthy details on how certain features are imple
 
 ### Feature: Storing, Adding And Managing Timeslots
 
-### Implementation overview
+#### Overview
 The Timeslots feature is implemented as a set of commands that parse user input into command objects, interact with the Model to read or mutate the stored timeslots, and return a CommandResult. Commands are implemented following the existing Command/Parser pattern used across the codebase (AddressBookParser -> XCommandParser -> XCommand). Some commands are read-only (e.g. get-timeslots) while others modify state (e.g. block-timeslot, unblock-timeslot, add-consultation, clear-timeslots).
 
-### Data model
+#### Implementation
 - Timeslot: stores start and end LocalDateTime; used for generic blocked timeslots.
 - ConsultationTimeslot: extends Timeslot and includes an associated student name; serialized to JSON with an explicit studentName field.
 - Timeslots are stored in a Timeslots collection inside ModelManager and are persisted by Storage (JsonTimeslotsStorage).
 
 <puml src="diagrams/Timeslots/TimeslotsClassDiagram.puml" width="820" />
 
-### Command flow
 Typical lifecycle for a timeslot command:
 1. User input → AddressBookParser creates the specific CommandParser.
 2. Parser validates prefixes/arguments and constructs a Command instance (e.g., BlockTimeslotCommand).
@@ -202,17 +201,12 @@ Sequence diagrams:
 
 <puml src="diagrams/Timeslots/GetTimeslotsSequenceDiagram.puml" width="820" />
 
-### Persistence & UI
+#### Persistence & UI
 - Persistence: LogicManager is responsible for writing persistent files. After a successful command execution, LogicManager saves the address book and, if available, timeslots via StorageManager.saveAddressBook(...) and StorageManager.saveTimeslots(...).
 - UI scheduling: Some commands (e.g., get-timeslots) produce a timeslot ranges payload inside CommandResult. When present, LogicManager schedules the UI update using Platform.runLater(() -> TimeslotsWindow.showTimetable(...)). This call:
   - Is performed asynchronously on the JavaFX thread to avoid blocking command execution.
   - Is guarded in LogicManager with a try/catch to ignore IllegalStateException in headless environments (unit tests).
   - Is only invoked when CommandResult contains non-empty timeslot ranges.
-
-### Validation and error handling
-- Argument parsing: CommandParsers validate required prefixes (ts/ and te/) and perform flexible datetime parsing (ISO and human-friendly formats). Parsers throw ParseException with user-facing messages on invalid format.
-- Command execution: Commands validate business rules (e.g., no overlapping timeslots, consultations with duplicate student/time). On violation a CommandException is thrown with a clear message.
-- Persistence errors: LogicManager translates IO or permission errors (IOException, AccessDeniedException) from Storage into CommandException so callers can surface the error to users.
 
 ### Feature: Undo Command
 
