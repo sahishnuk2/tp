@@ -174,8 +174,7 @@ For example, a green tracker indicates satisfactory progress, while a red one hi
 
 * Accepted datetime formats for command parameters (i.e. START_DATETIME & END_DATETIME):
     * ISO_LOCAL_DATE_TIME: `2023-10-01T09:00:00`
-    * Human-friendly (Case-insensitive): `d MMM yyyy, HH:mm` (e.g. `4 Oct 2025, 10:00`) or `d MMM yyyy HH:mm` (e.g. `4 Oct 2025 10:00`)
-
+    * Human-friendly (case-insensitive): `d MMM yyyy, HH:mm` (e.g. `4 Oct 2025, 10:00`) or `d MMM yyyy HH:mm` (e.g. `4 Oct 2025 10:00`)
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines
 as space characters surrounding line-breaks may be omitted when copied over to the application.
