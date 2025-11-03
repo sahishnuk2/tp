@@ -37,6 +37,10 @@ BlockTimeslotCommand --> BlockTimeslotCommandParser
 deactivate BlockTimeslotCommandParser
 destroy BlockTimeslotCommandParser
 
+' End constructor activation for created command so execute(model) shows as a separate activation.
+BlockTimeslotCommand <-- BlockTimeslotCommandParser
+deactivate BlockTimeslotCommand
+
 AddressBookParser --> LogicManager : c
 deactivate AddressBookParser
 
