@@ -12,6 +12,7 @@ public class GetConsultationsCommandParser implements Parser<GetConsultationsCom
 
     @Override
     public GetConsultationsCommand parse(String args) throws ParseException {
+        ParserUtil.verifyNoUnwantedPrefixes(args);
         String trimmedArgs = args.trim();
         if (!trimmedArgs.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,

@@ -69,6 +69,7 @@ public class UnblockTimeslotCommandParser implements Parser<UnblockTimeslotComma
 
     @Override
     public UnblockTimeslotCommand parse(String args) throws ParseException {
+        ParserUtil.verifyNoUnwantedPrefixes(args, CliSyntax.PREFIX_TIMESLOT_START, CliSyntax.PREFIX_TIMESLOT_END);
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
                 CliSyntax.PREFIX_TIMESLOT_START, CliSyntax.PREFIX_TIMESLOT_END);
 

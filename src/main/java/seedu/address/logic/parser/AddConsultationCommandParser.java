@@ -28,6 +28,8 @@ public class AddConsultationCommandParser implements Parser<AddConsultationComma
 
     @Override
     public AddConsultationCommand parse(String args) throws ParseException {
+        ParserUtil.verifyNoUnwantedPrefixes(args,
+                CliSyntax.PREFIX_TIMESLOT_START, CliSyntax.PREFIX_TIMESLOT_END, CliSyntax.PREFIX_NAME);
         // include the name prefix so "n/..." is parsed separately (otherwise it becomes part of end datetime)
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
                 CliSyntax.PREFIX_TIMESLOT_START, CliSyntax.PREFIX_TIMESLOT_END, CliSyntax.PREFIX_NAME);
