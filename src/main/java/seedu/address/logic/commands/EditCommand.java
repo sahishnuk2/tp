@@ -8,12 +8,14 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENTID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.MultiIndex;
 import seedu.address.commons.util.CollectionUtil;
@@ -58,9 +60,13 @@ public class EditCommand extends MultiIndexCommand {
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This student already exists in LambdaLab.";
     public static final String MESSAGE_MULTIPLE_ID_EDIT_ERROR = "MultiIndex can only be used to edit tags.";
-    public static final String MESSAGE_NO_CHANGES_MADE = "No changes were made, all fields are identical.";
+    public static final String MESSAGE_NO_CHANGES_MADE = "No changes were made to the following student(s): \n %s";
 
     private final EditPersonDescriptor editPersonDescriptor;
+
+    private final List<Person> unchangedPersons = new ArrayList<>();
+    private final List<Person> editedPersons = new ArrayList<>();
+
 
     /**
      * @param multiIndex of the persons in the filtered person list to edit
@@ -75,12 +81,17 @@ public class EditCommand extends MultiIndexCommand {
     @Override
     protected Person applyActionToPerson(Model model, Person personToEdit) throws CommandException {
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
-
+        if (!editPersonDescriptor.isAnyFieldEdited()) {
+            throw new CommandException(MESSAGE_NOT_EDITED);
+        }
         if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
         if (personToEdit.equals(editedPerson)) {
-            throw new CommandException(MESSAGE_NO_CHANGES_MADE);
+            unchangedPersons.add(editedPerson);
+            return null; //signals multiindex command to not add the person
+        } else {
+            editedPersons.add(editedPerson);
         }
         model.setPerson(personToEdit, editedPerson);
         return editedPerson;
@@ -92,8 +103,29 @@ public class EditCommand extends MultiIndexCommand {
         for (Person p : updatedPersons) {
             sb.append(Messages.format(p)).append("\n");
         }
-        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, sb.toString().trim()));
+
+        String unchangedMsg = compileUnchangedPersons(unchangedPersons);
+        String editedMsg = updatedPersons.isEmpty()
+                ? ""
+                : String.format(MESSAGE_EDIT_PERSON_SUCCESS, sb.toString().trim());
+
+        String feedback = unchangedMsg.isEmpty()
+                ? editedMsg
+                : unchangedMsg + editedMsg;
+
+        return new CommandResult(feedback);
     }
+
+    private String compileUnchangedPersons(List<Person> unchangedPersons) {
+        if (unchangedPersons.isEmpty()) {
+            return "";
+        }
+        String names = unchangedPersons.stream()
+                .map(Person::getNameAndID)
+                .collect(Collectors.joining(", "));
+        return String.format(MESSAGE_NO_CHANGES_MADE, names) + "\n";
+    }
+
 
     /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}

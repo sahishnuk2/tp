@@ -47,7 +47,7 @@ spreadsheets or GUI apps.
 
 <div style="margin-left: 20px; line-height: 1.2;">
 
-2.2.1. [Of student data](#of-student-data)
+2.2.1. [On student data](#on-student-data-1)
 - [List](#listing-students-list)
 - [Find](#finding-students-find)
 - [Filter](#filtering-students-filter)
@@ -500,7 +500,7 @@ clear-timeslots
 
 ## Data-visualisation commands
 
-### Of student data
+### On student data
 
 #### Listing students: `list`
 
@@ -587,7 +587,7 @@ filter [l/LAB_NUMBER s/STATUS]... [ei/EXERCISE_INDEX s/STATUS]... [la/COMPARISON
 <box type="warning">
 
 **Caution:** Each `l/` must be followed by its own `s/`, and each `ei/` must be followed by its own `s/`.
-Missing or misplaced `s/` parts will be rejected.
+Extra `s/`s are not allowed. If any of these rules are violated, the entire command fails with an error.
 </box>
 
 <br>

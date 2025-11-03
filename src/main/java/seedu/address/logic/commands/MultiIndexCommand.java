@@ -45,7 +45,6 @@ public abstract class MultiIndexCommand extends Command {
                 .toList();
         for (Person person : personsToUpdate) {
             Person editedPerson = applyActionToPerson(model, person);
-
             if (editedPerson != null) {
                 updatedPersons.add(editedPerson);
             }
@@ -74,7 +73,7 @@ public abstract class MultiIndexCommand extends Command {
     /**
      * Applies the command's specific action to the given person.
      * @param model The model to update.
-     * @param person The person to modify.
+     * @param person The person to modify, which will be added into the updatedPersons list
      * @return The updated {@code Person} if modified, or {@code null} if unchanged.
      * @throws CommandException If an operation fails.
      */

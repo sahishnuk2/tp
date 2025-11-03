@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.stage.Stage?>
+<?import javafx.scene.control.TextField?>
 
 <fx:root resizable="true" title="Help" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <icons>
@@ -53,7 +54,7 @@
                                     <VBox id="help">
                                         <children>
                                             <Label text="Command: help" />
-                                            <Label text="Format: help" />
+                                            <TextField text="Format: help" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Opens this Help window and links to the User Guide." wrapText="true" />
                                         </children>
                                         <padding>
@@ -67,7 +68,7 @@
                                     <VBox id="list">
                                         <children>
                                             <Label text="Command: list" />
-                                            <Label text="Format: list" />
+                                            <TextField text="Format: list" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Displays all student records." wrapText="true" />
                                         </children>
                                         <padding>
@@ -81,7 +82,7 @@
                                     <VBox id="find">
                                         <children>
                                             <Label text="Command: find" />
-                                            <Label text="Format: find KEYWORD [MORE_KEYWORDS]... [i/] [n/] [p/] [e/] [g/] [t/]" />
+                                            <TextField text="Format: find KEYWORD [MORE_KEYWORDS]... [i/] [n/] [p/] [e/] [g/] [t/]" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Searches by keywords; empty selectors (if present) limit which fields are searched." wrapText="true" />
                                         </children>
                                         <padding>
@@ -92,7 +93,7 @@
                                     <VBox id="filter">
                                         <children>
                                             <Label text="Command: filter" />
-                                            <Label text="Format: filter [l/LAB_NUMBER s/y|n]... [ei/EXERCISE_INDEX s/y|n]... [la/COMPARISON]" />
+                                            <TextField text="Format: filter [l/LAB_NUMBER s/y|n]... [ei/EXERCISE_INDEX s/y|n]... [la/COMPARISON]" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Filters by lab attendance, exercise status, and/or lab-attendance threshold; combined with AND." wrapText="true" />
                                         </children>
                                         <padding>
@@ -103,7 +104,7 @@
                                     <VBox id="sort">
                                         <children>
                                             <Label text="Command: sort" />
-                                            <Label text="Format: sort c/SORTCRITERION" />
+                                            <TextField text="Format: sort c/SORTCRITERION" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Sorts the displayed list (e.g., by name)." wrapText="true" />
                                         </children>
                                         <padding>
@@ -114,7 +115,7 @@
                                     <VBox id="add">
                                         <children>
                                             <Label text="Command: add"/>
-                                            <Label text="Format: add i/STUDENTID n/NAME p/PHONE e/EMAIL g/GITHUB_USERNAME [t/TAG]…"/>
+                                            <TextField text="Format: add i/STUDENTID n/NAME p/PHONE e/EMAIL g/GITHUB_USERNAME [t/TAG]…" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Adds a student; tags are optional and repeatable." wrapText="true"/>
                                         </children>
                                         <padding>
@@ -128,7 +129,7 @@
                                     <VBox id="edit">
                                         <children>
                                             <Label text="Command: edit"/>
-                                            <Label text="Format: edit INDEX [i/STUDENT ID] [n/NAME] [p/PHONE] [e/EMAIL] [g/GITHUB USERNAME] [t/TAG]…"/>
+                                            <TextField text="Format: edit INDEX [i/STUDENT ID] [n/NAME] [p/PHONE] [e/EMAIL] [g/GITHUB USERNAME] [t/TAG]…" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Updates the fields of the student at the given index." wrapText="true"/>
                                         </children>
                                         <padding>
@@ -142,7 +143,7 @@
                                     <VBox id="delete">
                                         <children>
                                             <Label text="Command: delete" />
-                                            <Label text="Format: delete INDEX" />
+                                            <TextField text="Format: delete INDEX" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Deletes the student at the specified index." wrapText="true" />
                                         </children>
                                         <padding>
@@ -156,7 +157,7 @@
                                     <VBox id="clear">
                                         <children>
                                             <Label text="Command: clear" />
-                                            <Label text="Format: clear" />
+                                            <TextField text="Format: clear" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Clears all students from the app." wrapText="true" />
                                         </children>
                                         <padding>
@@ -170,7 +171,7 @@
                                     <VBox id="markLab">
                                         <children>
                                             <Label text="Command: marka" />
-                                            <Label text="Format: marka INDEX l/LAB_NUMBER s/y|n" />
+                                            <TextField text="Format: marka INDEX l/LAB_NUMBER s/y|n" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Marks lab attendance for the selected student(s)." wrapText="true" />
                                         </children>
                                         <padding>
@@ -181,7 +182,7 @@
                                     <VBox id="markEx">
                                         <children>
                                             <Label text="Command: marke" />
-                                            <Label text="Format: marke INDEX ei/EXERCISE_INDEX s/y|n" />
+                                            <TextField text="Format: marke INDEX ei/EXERCISE_INDEX s/y|n" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Marks exercise as done or not done for the selected student(s)." wrapText="true" />
                                         </children>
                                         <padding>
@@ -192,7 +193,7 @@
                                     <VBox id="grade">
                                         <children>
                                             <Label text="Command: grade" />
-                                            <Label text="Format: grade INDEX en/EXAMNAME sc/SCORE" />
+                                            <TextField text="Format: grade INDEX en/EXAMNAME sc/SCORE" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Records a score for a named assessment." wrapText="true" />
                                         </children>
                                         <padding>
@@ -203,7 +204,7 @@
                                     <VBox id="setWeek">
                                         <children>
                                             <Label text="Command: set-week" />
-                                            <Label text="Format: set-week WEEK_NUMBER" />
+                                            <TextField text="Format: set-week WEEK_NUMBER" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Sets the current teaching week for trackers." wrapText="true" />
                                         </children>
                                         <padding>
@@ -214,7 +215,7 @@
                                     <VBox id="blockTimeslot">
                                         <children>
                                             <Label text="Command: block-timeslot" />
-                                            <Label text="Format: block-timeslot ts/START_DATETIME te/END_DATETIME" />
+                                            <TextField text="Format: block-timeslot ts/START_DATETIME te/END_DATETIME" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Adds a blocked timeslot to your schedule." wrapText="true" />
                                         </children>
                                         <padding>
@@ -225,7 +226,7 @@
                                     <VBox id="unblockTimeslot">
                                         <children>
                                             <Label text="Command: unblock-timeslot" />
-                                            <Label text="Format: unblock-timeslot ts/START_DATETIME te/END_DATETIME" />
+                                            <TextField text="Format: unblock-timeslot ts/START_DATETIME te/END_DATETIME" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Removes or trims blocked timeslots overlapping the range." wrapText="true" />
                                         </children>
                                         <padding>
@@ -236,7 +237,7 @@
                                     <VBox id="addConsultation">
                                         <children>
                                             <Label text="Command: add-consultation" />
-                                            <Label text="Format: add-consultation ts/START_DATETIME te/END_DATETIME n/STUDENT_NAME" />
+                                            <TextField text="Format: add-consultation ts/START_DATETIME te/END_DATETIME n/STUDENT_NAME" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Adds a consultation timeslot for a student." wrapText="true" />
                                         </children>
                                         <padding>
@@ -247,7 +248,7 @@
                                     <VBox id="clearTimeslots">
                                         <children>
                                             <Label text="Command: clear-timeslots" />
-                                            <Label text="Format: clear-timeslots" />
+                                            <TextField text="Format: clear-timeslots" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Clears all stored timeslots and consultations." wrapText="true" />
                                         </children>
                                         <padding>
@@ -258,7 +259,7 @@
                                     <VBox id="getTimeslots">
                                         <children>
                                             <Label text="Command: get-timeslots" />
-                                            <Label text="Format: get-timeslots" />
+                                            <TextField text="Format: get-timeslots" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Shows merged blocked timeslot ranges." wrapText="true" />
                                         </children>
                                         <padding>
@@ -269,7 +270,7 @@
                                     <VBox id="getConsultations">
                                         <children>
                                             <Label text="Command: get-consultations" />
-                                            <Label text="Format: get-consultations" />
+                                            <TextField text="Format: get-consultations" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Shows consultation timeslots only." wrapText="true" />
                                         </children>
                                         <padding>
@@ -280,7 +281,7 @@
                                     <VBox id="undo">
                                         <children>
                                             <Label text="Command: undo" />
-                                            <Label text="Format: undo" />
+                                            <TextField text="Format: undo" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Reverts the most recent data-modifying command." wrapText="true" />
                                         </children>
                                         <padding>
@@ -291,7 +292,7 @@
                                     <VBox id="exit">
                                         <children>
                                             <Label text="Command: exit" />
-                                            <Label text="Format: exit" />
+                                            <TextField text="Format: exit" editable="false" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 1; "/>
                                             <Label text="Description: Exits the application." wrapText="true" />
                                         </children>
                                         <padding>
