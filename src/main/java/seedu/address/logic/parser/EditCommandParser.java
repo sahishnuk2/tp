@@ -37,30 +37,45 @@ public class EditCommandParser implements Parser<EditCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_STUDENTID, PREFIX_NAME,
                 PREFIX_PHONE, PREFIX_EMAIL, PREFIX_TAG, PREFIX_GITHUB_USERNAME);
+
         verifyNoUnwantedPrefixes(args, PREFIX_STUDENTID, PREFIX_NAME,
                 PREFIX_PHONE, PREFIX_EMAIL, PREFIX_TAG, PREFIX_GITHUB_USERNAME);
+
         MultiIndex index;
         ParserUtil.validateFields(argMultimap, EditCommand.MESSAGE_USAGE);
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_STUDENTID, PREFIX_NAME,
                 PREFIX_PHONE, PREFIX_EMAIL, PREFIX_GITHUB_USERNAME);
+
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
+
         if (argMultimap.getValue(PREFIX_STUDENTID).isPresent()) {
             editPersonDescriptor.setStudentId(ParserUtil.parseStudentId(argMultimap.getValue(PREFIX_STUDENTID).get()));
         }
+
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
             editPersonDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
         }
+
         if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
             editPersonDescriptor.setPhone(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get()));
         }
+
         if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
             editPersonDescriptor.setEmail(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get()));
         }
+
         if (argMultimap.getValue(PREFIX_GITHUB_USERNAME).isPresent()) {
             editPersonDescriptor.setGithubUsername(ParserUtil
                     .parseGithubUsername(argMultimap.getValue(PREFIX_GITHUB_USERNAME).get()));
         }
+
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
+
+        if (!editPersonDescriptor.isAnyFieldEdited()) {
+            throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
+        }
+
+
         try {
             index = ParserUtil.parseMultiIndex(argMultimap.getPreamble());
         } catch (InvalidIndexException iie) {
@@ -68,6 +83,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), pe);
         }
+
         if (!index.isSingle()) {
             if (argMultimap.getValue(PREFIX_STUDENTID).isPresent()
                     || argMultimap.getValue(PREFIX_NAME).isPresent()
@@ -77,9 +93,7 @@ public class EditCommandParser implements Parser<EditCommand> {
                 throw new ParseException("Only tags can be edited for multiple students.");
             }
         }
-        if (!editPersonDescriptor.isAnyFieldEdited()) {
-            throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
-        }
+
         return new EditCommand(index, editPersonDescriptor);
     }
 
