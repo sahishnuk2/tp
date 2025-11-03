@@ -30,6 +30,7 @@ skinparam MaxMessageSize 100
 
 box Logic LOGIC_COLOR_T1
 participant "logic:LogicManager" as LogicManager LOGIC_COLOR
+participant "parser:AddressBookParser" as AddressBookParser LOGIC_COLOR
 participant "command:GradeCommand" as GradeCommand LOGIC_COLOR
 participant "r:CommandResult" as CommandResult LOGIC_COLOR
 end box
@@ -42,6 +43,16 @@ end box
 
 [-> LogicManager : execute("grade 1:3 en/midterm s/y")
 activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand(args)
+activate AddressBookParser
+
+AddressBookParser -> AddressBookParser : parseGradeCommand(args)
+activate AddressBookParser
+create GradeCommand
+AddressBookParser -> GradeCommand
+AddressBookParser --> LogicManager : GradeCommand
+deactivate AddressBookParser
 
 LogicManager -> GradeCommand : execute(model)
 activate GradeCommand
