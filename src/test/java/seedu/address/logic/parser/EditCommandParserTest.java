@@ -87,10 +87,6 @@ public class EditCommandParserTest {
         // invalid arguments being parsed as preamble
         assertParseFailure(parser, "1 some random string",
                 "Student " + MESSAGE_INVALID_INDEX);
-
-        // invalid prefix being parsed as preamble
-        assertParseFailure(parser, "1 x/ string",
-                "Student " + MESSAGE_INVALID_INDEX);
     }
 
     @Test

@@ -17,7 +17,7 @@ public class Phone {
      * Allows an optional '+' at the start, followed by digits or hyphens.
      * The phone number must be at least 3 characters long and cannot start with a hyphen.
      */
-    public static final String VALIDATION_REGEX = "^(?!-)\\+?[\\d-]{2,}$";
+    public static final String VALIDATION_REGEX = "^(?!-)\\+?[\\d-]{3,}$";
 
 
     public final String value;
