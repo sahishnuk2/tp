@@ -20,7 +20,6 @@ public class GradeCommandParser implements Parser<GradeCommand> {
 
     public static final String MESSAGE_INVALID_EXAM_NAME_FORMAT =
             "Exam name is invalid! Exam name must be one of %s";
-    public static final String EMPTY_PREFIX_FORMAT = "Prefix %s : has empty value!";
 
     @Override
     public GradeCommand parse(String userInput) throws ParseException {
@@ -41,7 +40,6 @@ public class GradeCommandParser implements Parser<GradeCommand> {
 
         // Parse the "exam name" field (en/)
         examName = argumentMultimap.getValue(PREFIX_EXAM_NAME).orElse("");
-
         // Parse the index or range of indices (e.g., "1" or "1:3") found before the prefixes
         try {
             studentIndex = ParserUtil.parseMultiIndex(argumentMultimap.getPreamble());
