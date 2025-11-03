@@ -169,7 +169,7 @@ public class ParserUtil {
         String trimmedStudentId = studentId.trim();
         validateFieldLength(studentId);
         if (!StudentId.isValidStudentId(trimmedStudentId)) {
-            throw new ParseException("Invalid format! " + StudentId.MESSAGE_CONSTRAINTS);
+            throw new ParseException(StudentId.MESSAGE_CONSTRAINTS);
         }
         return new StudentId(trimmedStudentId);
     }
@@ -185,7 +185,7 @@ public class ParserUtil {
         String trimmedName = name.trim();
         validateFieldLength(name);
         if (!Name.isValidName(trimmedName)) {
-            throw new ParseException("Invalid format! " + Name.MESSAGE_CONSTRAINTS);
+            throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
         return new Name(trimmedName);
     }
@@ -201,7 +201,7 @@ public class ParserUtil {
         String trimmedPhone = phone.trim();
         validateFieldLength(phone);
         if (!Phone.isValidPhone(trimmedPhone)) {
-            throw new ParseException("Invalid format! " + Phone.MESSAGE_CONSTRAINTS);
+            throw new ParseException(Phone.MESSAGE_CONSTRAINTS);
         }
         return new Phone(trimmedPhone);
     }
@@ -217,7 +217,7 @@ public class ParserUtil {
         String trimmedEmail = email.trim();
         validateFieldLength(email);
         if (!Email.isValidEmail(trimmedEmail)) {
-            throw new ParseException("Invalid format! " + Email.MESSAGE_CONSTRAINTS);
+            throw new ParseException(Email.MESSAGE_CONSTRAINTS);
         }
         return new Email(trimmedEmail);
     }
@@ -233,7 +233,7 @@ public class ParserUtil {
         String trimmedTag = tag.trim();
         validateFieldLength(tag);
         if (!Tag.isValidTagName(trimmedTag)) {
-            throw new ParseException("Invalid format! " + Tag.MESSAGE_CONSTRAINTS);
+            throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
         }
         return new Tag(trimmedTag);
     }
@@ -261,7 +261,7 @@ public class ParserUtil {
         validateFieldLength(githubUsername);
         String trimmedGithubUsername = githubUsername.trim();
         if (!GithubUsername.isValidGithubUsername(trimmedGithubUsername)) {
-            throw new ParseException("Invalid format! " + GithubUsername.MESSAGE_CONSTRAINTS);
+            throw new ParseException(GithubUsername.MESSAGE_CONSTRAINTS);
         }
         return new GithubUsername(trimmedGithubUsername);
     }
