@@ -49,8 +49,8 @@ import seedu.address.model.tag.Tag;
  * Contains utility methods used for parsing strings in the various *Parser classes.
  */
 public class ParserUtil {
-    public static final String MESSAGE_INVALID_RANGE = "Multi-Index must be in the format of X:Y such that"
-            + " both X and Y are numbers greater than 0 and"
+    public static final String MESSAGE_INVALID_RANGE = "Multi-Index must be in the format of X:Y, such that"
+            + " both X and Y are numbers greater than 0, and"
             + " X is less than or equal to Y.";
     public static final String MESSAGE_INVALID_INDEX = "Student index must be a number that is greater than 0";
     public static final String MESSAGE_INVALID_STATUS = "Status input must be Y or N";
