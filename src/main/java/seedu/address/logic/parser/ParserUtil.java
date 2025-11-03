@@ -426,6 +426,7 @@ public class ParserUtil {
         ArgumentMultimap exerciseMultimap =
                 ArgumentTokenizer.tokenize(exerciseIndexString, PREFIX_STATUS);
         exerciseMultimap.verifyNoDuplicatePrefixesFor(PREFIX_STATUS);
+        verifyNoUnwantedPrefixes(exerciseIndexString, PREFIX_STATUS);
         Optional<String> statusString = exerciseMultimap.getValue(PREFIX_STATUS);
 
         Index exerciseNumber = parseExerciseIndex(exerciseMultimap.getPreamble());
