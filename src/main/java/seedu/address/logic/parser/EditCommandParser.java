@@ -64,7 +64,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         try {
             index = ParserUtil.parseMultiIndex(argMultimap.getPreamble());
         } catch (InvalidIndexException iie) {
-            throw new ParseException("Student " + iie.getMessage());
+            throw new ParseException(iie.getMessage());
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), pe);
         }

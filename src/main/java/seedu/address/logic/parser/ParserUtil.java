@@ -50,7 +50,7 @@ import seedu.address.model.tag.Tag;
  */
 public class ParserUtil {
 
-    public static final String MESSAGE_INVALID_INDEX = "Index must be a number that is greater than 0";
+    public static final String MESSAGE_INVALID_INDEX = "Student index must be a number that is greater than 0";
     public static final String MESSAGE_INVALID_STATUS = "Status input must be Y or N";
     private static final String MESSAGE_INVALID_EXERCISE_INDEX =
             "Exercise index is invalid! It must be between 0 and "

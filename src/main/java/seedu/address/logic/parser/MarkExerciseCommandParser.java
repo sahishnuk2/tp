@@ -51,7 +51,7 @@ public class MarkExerciseCommandParser implements Parser<MarkExerciseCommand> {
         try {
             personIndex = ParserUtil.parseMultiIndex(argMultimap.getPreamble());
         } catch (InvalidIndexException iie) {
-            throw new ParseException("Student " + iie.getMessage());
+            throw new ParseException(iie.getMessage());
         }
         status = ParserUtil.parseStatus(statusString.trim().toUpperCase());
         return new MarkExerciseCommand(personIndex, exerciseIndex, status);
