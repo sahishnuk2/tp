@@ -84,7 +84,7 @@ public class MarkAttendanceCommandParserTest {
 
     @Test
     public void parse_invalidIndex_parseException() {
-        String expectedMessage = "Student " + MESSAGE_INVALID_INDEX;
+        String expectedMessage = MESSAGE_INVALID_INDEX;
 
         assertParseFailure(parser, 0
                 + " " + PREFIX_LAB_NUMBER + validLabNumber.getOneBased() + " " + PREFIX_STATUS + "y", expectedMessage);
@@ -99,12 +99,11 @@ public class MarkAttendanceCommandParserTest {
 
     @Test
     public void parse_invalidIndexRange_parseException() {
-        String expectedMessage = "Student " + MESSAGE_INVALID_MULTIINDEX_BOUNDS;
         String invalidRange = "2:1";
 
         assertParseFailure(parser, invalidRange
                 + " " + PREFIX_LAB_NUMBER + validLabNumber.getOneBased()
-                + " " + PREFIX_STATUS + "y", String.format(expectedMessage, invalidRange));
+                + " " + PREFIX_STATUS + "y", String.format(MESSAGE_INVALID_MULTIINDEX_BOUNDS, invalidRange));
 
     }
 
