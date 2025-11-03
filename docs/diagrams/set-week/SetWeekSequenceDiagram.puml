@@ -22,7 +22,7 @@ end box
 [-> LogicManager : execute("set-week 4")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand("set-week 4")
+LogicManager -> AddressBookParser : parseCommand(...)
 activate AddressBookParser
 
 create SetWeekCommandParser
@@ -32,7 +32,7 @@ activate SetWeekCommandParser
 SetWeekCommandParser --> AddressBookParser
 deactivate SetWeekCommandParser
 
-AddressBookParser -> SetWeekCommandParser : parse("set-week 4")
+AddressBookParser -> SetWeekCommandParser : parse(...)
 activate SetWeekCommandParser
 
 create Week
