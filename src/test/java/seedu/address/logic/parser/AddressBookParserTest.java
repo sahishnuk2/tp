@@ -11,24 +11,33 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_LAB;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.MultiIndex;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.AddConsultationCommand;
+import seedu.address.logic.commands.BlockTimeslotCommand;
 import seedu.address.logic.commands.ClearCommand;
+import seedu.address.logic.commands.ClearTimeslotsCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.ExitCommand;
+import seedu.address.logic.commands.GetConsultationsCommand;
+import seedu.address.logic.commands.GetTimeslotCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.MarkAttendanceCommand;
 import seedu.address.logic.commands.SortCommand;
+import seedu.address.logic.commands.UnblockTimeslotCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.sortcriterion.NameSortCriterion;
 import seedu.address.model.person.sortcriterion.SortCriterion;
+import seedu.address.model.timeslot.ConsultationTimeslot;
+import seedu.address.model.timeslot.Timeslot;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
@@ -48,13 +57,52 @@ public class AddressBookParserTest {
     public void parseCommand_addConsultation() throws Exception {
         // ensure add-consultation command is recognized by the parser
         String input = "add-consultation ts/2025-10-04T10:00:00 te/2025-10-04T11:00:00 n/John";
-        assertTrue(parser.parseCommand(input) instanceof AddConsultationCommand);
+        AddConsultationCommand cmd = (AddConsultationCommand) parser.parseCommand(input);
+        ConsultationTimeslot expectedTs = new ConsultationTimeslot(
+                LocalDateTime.of(2025, 10, 4, 10, 0),
+                LocalDateTime.of(2025, 10, 4, 11, 0),
+                "John");
+        assertEquals(new AddConsultationCommand(expectedTs), cmd);
+    }
+
+    @Test
+    public void parseCommand_blockTimeslot() throws Exception {
+        String input = "block-timeslot ts/2025-10-04T10:00:00 te/2025-10-04T11:00:00";
+        BlockTimeslotCommand cmd = (BlockTimeslotCommand) parser.parseCommand(input);
+        Timeslot expected = new Timeslot(LocalDateTime.of(2025, 10, 4, 10, 0),
+                LocalDateTime.of(2025, 10, 4, 11, 0));
+        assertEquals(new BlockTimeslotCommand(expected), cmd);
+    }
+
+    @Test
+    public void parseCommand_unblockTimeslot() throws Exception {
+        String input = "unblock-timeslot ts/2025-10-04T10:00:00 te/2025-10-04T11:00:00";
+        UnblockTimeslotCommand cmd = (UnblockTimeslotCommand) parser.parseCommand(input);
+        Timeslot expected = new Timeslot(LocalDateTime.of(2025, 10, 4, 10, 0),
+                LocalDateTime.of(2025, 10, 4, 11, 0));
+        assertEquals(new UnblockTimeslotCommand(expected), cmd);
+    }
+
+    @Test
+    public void parseCommand_getTimeslotsAndConsultations() throws Exception {
+        // get-timeslots (no args)
+        GetTimeslotCommand gtCmd = (GetTimeslotCommand) parser.parseCommand(GetTimeslotCommand.COMMAND_WORD);
+        assertEquals(new GetTimeslotCommand(), gtCmd);
+        // get-consultations (no args)
+        GetConsultationsCommand gcCmd = (GetConsultationsCommand) parser.parseCommand(GetConsultationsCommand.COMMAND_WORD);
+        assertEquals(new GetConsultationsCommand(), gcCmd);
     }
 
     @Test
     public void parseCommand_clear() throws Exception {
         assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD) instanceof ClearCommand);
         assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD + " 3") instanceof ClearCommand);
+    }
+
+    @Test
+    public void parseCommand_clearTimeslots() throws Exception {
+        ClearTimeslotsCommand cmd = (ClearTimeslotsCommand) parser.parseCommand(ClearTimeslotsCommand.COMMAND_WORD);
+        assertEquals(new ClearTimeslotsCommand(), cmd);
     }
 
     @Test
