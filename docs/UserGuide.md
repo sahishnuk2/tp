@@ -206,9 +206,11 @@ add i/STUDENT_ID n/NAME p/PHONE e/EMAIL g/GITHUB_USERNAME [t/TAG]…​
 
 <box type="warning">
 
-**Caution:** Each student must have a unique student ID. Attempting to add a student with an existing student ID
+**Caution:** 
+- Each student must have a unique student ID. Attempting to add a student with an existing student ID
 will result in an error: "This student already exists in LambdaLab". However, students can have the same name/phone number/email/github username
 as long as their student IDs are different.
+- All fields of the student, including the tags, are limited to 100 characters.
 </box>
 
 <br>
