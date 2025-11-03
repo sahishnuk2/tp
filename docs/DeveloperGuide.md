@@ -790,6 +790,10 @@ testers are expected to do more *exploratory* testing.
     3. Test case: `edit 1:3 t/outstanding` <br>
        Expected: In the displayed student list, the first 3 students' tags are replaced with the `outstanding` tag.
 
+   4. Test case: `edit 1:3 n/Danielle` <br>
+      Expected: Error message stating "Only tags can be edited for multiple students."
+
+
 2. Editing a student with same data
 
     1. Prerequisites: Ensure there is a student with name: `Alex` and phone number: `87438807`.
@@ -809,6 +813,10 @@ testers are expected to do more *exploratory* testing.
 
     3. Test case: `edit 0 p/98123456` <br>
        Expected: Error message indicating invalid `Student Index`.
+   4. Test case: `edit 1 p/+652-923-112-34-`<br>
+       Expected: Error message indicating invalid `Phone Number`  format
+   5. Test case: `edit 1 n/wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww`<br>
+   Expected: Error message indicating that student input fields cannot exceed 50 characters.
 
 4. Editing with no fields specified
 

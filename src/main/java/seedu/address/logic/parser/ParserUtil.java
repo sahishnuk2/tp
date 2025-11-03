@@ -73,8 +73,8 @@ public class ParserUtil {
             "Missing appropriate operator for comparison, one of ==, >=, <=, >, < should follow la/";
     private static final String MESSAGE_INVALID_PERCENTAGE =
             "Attendance percentage must be an integer between 0 and 100.";
-    private static final int MAXIMUM_FIELD_LENGTH = 100;
-    private static final String MESSAGE_FIELD_TOO_LONG = "Student information fields cannot exceed 100 characters";
+    private static final int MAXIMUM_FIELD_LENGTH = 50;
+    private static final String MESSAGE_FIELD_TOO_LONG = "Student information fields cannot exceed 50 characters";
 
     /**
      * @param input a string that is either in the "X:Y" or "X" form
@@ -91,7 +91,6 @@ public class ParserUtil {
             return new MultiIndex(parseIndex(input));
         }
     }
-
     /**
      * Parses a range input like "2:5" into a MultiIndex.
      * */
@@ -110,7 +109,6 @@ public class ParserUtil {
 
         return new MultiIndex(lower, upper);
     }
-
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.

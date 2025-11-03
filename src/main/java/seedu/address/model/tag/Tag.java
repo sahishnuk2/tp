@@ -9,9 +9,10 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Tag {
     public static final String MESSAGE_CONSTRAINTS =
-            "Tag names should contain only alphanumeric characters and hyphens (-), with no spaces.";
-    public static final String VALIDATION_REGEX = "[\\p{Alnum}-]+";
-
+            "Tag names should contain only alphanumeric characters.\n"
+                    + "Hyphens can be used optionally, but only between the characters.\n"
+                    + "Examples: 'model-student', 'week-2-consult', 'need-PECS-help'\n";
+    public static final String VALIDATION_REGEX = "^[\\p{Alnum}]+(?:-[\\p{Alnum}]+)*$";
 
     public final String tagName;
 

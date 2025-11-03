@@ -129,6 +129,10 @@ spreadsheets or GUI apps.
 
 ![Ui.png](images/Ui.png)
 
+<box type="warning">
+
+**Caution:** Reducing the window size may affect the User Interface's display of information.
+</box>
 ## Trackers  
 ![Trackers.png](images/Trackers.png)
 These are trackers that provides a visual overview of each student’s progress in terms of **lab attendance**,
@@ -195,9 +199,9 @@ add i/STUDENT_ID n/NAME p/PHONE e/EMAIL g/GITHUB_USERNAME [t/TAG]…​
 ```
 
 **Examples:**
-- Adds a student with student ID `A1234567X`, name `John Doe`, phone number `98765432`, email `johnd@example.com`, and GitHub username `JohnDoe`: `add i/A1234567X n/John Doe p/98765432 e/johnd@example.com g/JohnDoe`.
-- Adds the same student but with an optional tag `modelStudent` included: `add i/A1234567X n/John Doe p/98765432 e/johnd@example.com g/JohnDoe t/modelStudent`.
-- Adds the same student with parameters in different order: `add g/JohnDoe i/A1234567X p/98765432 t/modelStudent n/John Doe e/johnd@example.com`.
+- Adds a student with student ID `A1234567X`, name `John Doe`, phone number `+65-98765432`, email `johnd@example.com`, and GitHub username `JohnDoe`: `add i/A1234567X n/John Doe p/+65-98765432 e/johnd@example.com g/JohnDoe`.
+- Adds the same student but with an optional tag `modelStudent` included: `add i/A1234567X n/John Doe p/+65-98765432 e/johnd@example.com g/JohnDoe t/modelStudent`.
+- Adds the same student with parameters in different order: `add g/JohnDoe i/A1234567X p/+65-98765432 t/modelStudent n/John Doe e/johnd@example.com`.
 
 <box type="tip">
 
@@ -206,9 +210,11 @@ add i/STUDENT_ID n/NAME p/PHONE e/EMAIL g/GITHUB_USERNAME [t/TAG]…​
 
 <box type="warning">
 
-**Caution:** Each student must have a unique student ID. Attempting to add a student with an existing student ID
+**Caution:** 
+- Each student must have a unique student ID. Attempting to add a student with an existing student ID
 will result in an error: "This student already exists in LambdaLab". However, students can have the same name/phone number/email/github username
 as long as their student IDs are different.
+- All fields of the student, including the tags, are limited to 50 characters.
 </box>
 
 <br>
@@ -225,6 +231,7 @@ edit INDEX [i/STUDENT_ID] [n/NAME] [p/PHONE] [e/EMAIL] [g/GITHUB_USERNAME] [t/TA
 **Examples:**
 - Edits the phone number and email address of the 1st student to be `91234567` and `johndoe@example.com`: `edit 1 p/91234567 e/johndoe@example.com`.
 - Edits the name of the 2nd student to be `Betsy Crower` and clears all existing tags: `edit 2 n/Betsy Crower t/`.
+- Edits the tag of the 1st to 3rd student to be `Struggling` : `edit 1:3 t/struggling`
 
 <box type="tip">
 
@@ -234,8 +241,10 @@ updated to the input values.
 
 <box type="warning">
 
-**Caution:** When editing tags, the existing tags of the student will be removed (i.e., adding of tags is not cumulative).
+**Caution:** 
+- When editing tags, the existing tags of the student will be removed (i.e., adding of tags is not cumulative).
 You can remove all the student's tags by typing `t/` without specifying any tags after it.
+- Simultaneous editing of multiple students is only enabled for tags.
 </box>
 
 <br>
@@ -821,6 +830,7 @@ lab sessions to maintain accurate records.
 4. **If your Operating System (OS) is in Chinese or other non-English language**, you may encounter command format errors
    using human-friendly format for datetime parameters. The remedy is to use ISO_LOCAL_DATE_TIME format (e.g. `2023-10-01T09:00:00`
    for 1st Oct, 2023, 9:00AM) only.
+5. Minimising the window may cause some distortions of the user interface. Hence, the app is best used at full screen.
 ---
 
 # Summary
@@ -855,24 +865,24 @@ Action     | Format, Examples
 
 ## Parameter Summary
 
-| **Parameter**       | **Description**                                   | **Prefix**                                      | **Constraint**                                                                                                                                       | **Used in**                                              |
-|---------------------|---------------------------------------------------|-------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
-| **INDEX**           | Index of student in the displayed list            | *(no prefix — written before other parameters)* | Must be a positive integer between 1 and maximum number of students in the list.                                                                     | `edit`, `delete`, `marka`, `marke`, `grade`              |
-| **STUDENT_ID**       | Student's matriculation number                    | `i/`                                            | Must follow NUS Student ID format (e.g., A1234567X)                                                                                                  | `add`, `edit`                                            |
-| **NAME**            | Student's full name                               | `n/`                                            | Alphanumeric characters and spaces only; cannot be blank                                                                                             | `add`, `edit`, `add-consultation`                        |
-| **PHONE**           | Student's phone number                            | `p/`                                            | Numbers only; at least 3 digits long                                                                                                                 | `add`, `edit`                                            |
-| **EMAIL**           | Student's email address                           | `e/`                                            | Must be in format `local-part@domain` where local-part contains alphanumeric and special characters (`+_.-`); domain ends with at least 2 characters | `add`, `edit`                                            |
-| **GITHUB_USERNAME** | Student's GitHub username                         | `g/`                                            | 1–39 characters; letters, numbers, and hyphens only; cannot start/end with hyphen or have consecutive hyphens                                        | `add`, `edit`                                            |
-| **TAG**             | Optional label(s) for categorizing students       | `t/`                                            | Alphanumeric only; no spaces or special characters; can have multiple tags                                                                           | `add`, `edit`                                            |
-| **LAB_NUMBER**      | Specific lab session to mark attendance for       | `l/`                                            | Must be an integer between 1–10 (inclusive)                                                                                                          | `marka`, `filter`                                        |
-| **EXERCISE_INDEX**  | Specific exercise number to mark                  | `ei/`                                           | Must be an integer between 0–9 (inclusive)                                                                                                           | `marke`, `filter`                                        |
-| **WEEK_NUMBER**     | Current week of the semester                      | *(no prefix — written directly after command)*  | Must be an integer between 0–13 (inclusive)                                                                                                          | `set-week`                                               |
-| **EXAM_NAME**       | Name of the exam to record or update a grade for  | `en/`                                           | Must be one of: `pe1`, `midterm`, `pe2`, or `final`                                                                                                  | `grade`                                                  |
-| **STATUS**          | Status indicator for various commands             | `s/`                                            | `y` (yes/done/passed) or `n` (no/not done/failed) — case-insensitive; specific meaning depends on command context                                    | `marka`, `marke`, `filter`, `grade`                      |
-| **KEYWORD**         | Search term(s) for finding students               | *(no prefix — written directly after command)*  | One or more words; case-insensitive                                                                                                                  | `find`                                                   |
-| **CRITERION**       | Criterion for sorting students                    | `c/`                                            | Must be one of: `name`, `id`, `lab`, or `ex` — case-insensitive                                                                                      | `sort`                                                   |
-| **COMPARISON**      | Percentage of labs attended to filter by          | `la/`                                           | Operators (`==`, `>=`, `<=`, `>`, `<`) followed by an integer from 0–100 and a `%` sign (e.g., `>50%`)                                               | `filter`                                                 |
-| **START_DATETIME**  | Starting datetime of the timeslot                 | `ts/`                                           | ISO format (`2023-10-01T09:00:00`) or human-friendly (`4 Oct 2025, 10:00` or `4 Oct 2025 10:00`) - Cannot be between 00:00 to 08:00 (exclusive)  | `block-timeslot`, `unblock-timeslot`, `add-consultation` |
-| **END_DATETIME**    | Ending datetime of the timeslot                   | `te/`                                           | ISO format (`2023-10-01T09:00:00`) or human-friendly (`4 Oct 2025, 10:00` or `4 Oct 2025 10:00`) - Cannot be between 00:00 to 08:00 (exclusive)  | `block-timeslot`, `unblock-timeslot`, `add-consultation` |
-| **STUDENT_NAME**    | Name of student for consultation                  | `n/`                                            | Alphanumeric characters and spaces only; does not need to match an existing student record                                                           | `add-consultation`                                       |
+| **Parameter**       | **Description**                                  | **Prefix**                                      | **Constraint**                                                                                                                                                        | **Used in**                                              |
+|---------------------|--------------------------------------------------|-------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
+| **INDEX**           | Index of student in the displayed list           | *(no prefix — written before other parameters)* | Must be a positive integer between 1 and maximum number of students in the list.                                                                                      | `edit`, `delete`, `marka`, `marke`, `grade`              |
+| **STUDENT_ID**      | Student's matriculation number                   | `i/`                                            | Must follow NUS Student ID format (e.g., A1234567X)                                                                                                                   | `add`, `edit`                                            |
+| **NAME**            | Student's full name                              | `n/`                                            | Alphanumeric characters and spaces only; cannot be blank                                                                                                              | `add`, `edit`, `add-consultation`                        |
+| **PHONE**           | Student's phone number                           | `p/`                                            | Phone numbers may include an optional country code (e.g. +65-), followed by at least 3 digits. The digits following the country code may be separated by hyphens (-). | `add`, `edit`                                            |
+| **EMAIL**           | Student's email address                          | `e/`                                            | Must be in format `local-part@domain` where local-part contains alphanumeric and special characters (`+_.-`); domain ends with at least 2 characters                  | `add`, `edit`                                            |
+| **GITHUB_USERNAME** | Student's GitHub username                        | `g/`                                            | 1–39 characters; letters, numbers, and hyphens only; cannot start/end with hyphen or have consecutive hyphens                                                         | `add`, `edit`                                            |
+| **TAG**             | Optional label(s) for categorizing students      | `t/`                                            | Only allows alphanumeric characters. Hyphens are allowed only between characters.                                                                                     | `add`, `edit`                                            |
+| **LAB_NUMBER**      | Specific lab session to mark attendance for      | `l/`                                            | Must be an integer between 1–10 (inclusive)                                                                                                                           | `marka`, `filter`                                        |
+| **EXERCISE_INDEX**  | Specific exercise number to mark                 | `ei/`                                           | Must be an integer between 0–9 (inclusive)                                                                                                                            | `marke`, `filter`                                        |
+| **WEEK_NUMBER**     | Current week of the semester                     | *(no prefix — written directly after command)*  | Must be an integer between 0–13 (inclusive)                                                                                                                           | `set-week`                                               |
+| **EXAM_NAME**       | Name of the exam to record or update a grade for | `en/`                                           | Must be one of: `pe1`, `midterm`, `pe2`, or `final`                                                                                                                   | `grade`                                                  |
+| **STATUS**          | Status indicator for various commands            | `s/`                                            | `y` (yes/done/passed) or `n` (no/not done/failed) — case-insensitive; specific meaning depends on command context                                                     | `marka`, `marke`, `filter`, `grade`                      |
+| **KEYWORD**         | Search term(s) for finding students              | *(no prefix — written directly after command)*  | One or more words; case-insensitive                                                                                                                                   | `find`                                                   |
+| **CRITERION**       | Criterion for sorting students                   | `c/`                                            | Must be one of: `name`, `id`, `lab`, or `ex` — case-insensitive                                                                                                       | `sort`                                                   |
+| **COMPARISON**      | Percentage of labs attended to filter by         | `la/`                                           | Operators (`==`, `>=`, `<=`, `>`, `<`) followed by an integer from 0–100 and a `%` sign (e.g., `>50%`)                                                                | `filter`                                                 |
+| **START_DATETIME**  | Starting datetime of the timeslot                | `ts/`                                           | ISO format (`2023-10-01T09:00:00`) or human-friendly (`4 Oct 2025, 10:00` or `4 Oct 2025 10:00`) - Cannot be between 00:00 to 08:00 (exclusive)                       | `block-timeslot`, `unblock-timeslot`, `add-consultation` |
+| **END_DATETIME**    | Ending datetime of the timeslot                  | `te/`                                           | ISO format (`2023-10-01T09:00:00`) or human-friendly (`4 Oct 2025, 10:00` or `4 Oct 2025 10:00`) - Cannot be between 00:00 to 08:00 (exclusive)                       | `block-timeslot`, `unblock-timeslot`, `add-consultation` |
+| **STUDENT_NAME**    | Name of student for consultation                 | `n/`                                            | Alphanumeric characters and spaces only; does not need to match an existing student record                                                                            | `add-consultation`                                       |
 

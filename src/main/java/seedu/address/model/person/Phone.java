@@ -9,15 +9,11 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Phone {
     public static final String MESSAGE_CONSTRAINTS =
-            "Phone numbers may start with an optional '+', followed by digits or hyphens. "
-                    + "They must be at least 3 characters long and cannot start with a hyphen. "
-                    + "Example: +65-9123-4567";
+            "Phone numbers may include an optional country code (e.g. +65-), followed by at least 3 digits. \n"
+                    + "The digits following the country code may be separated by hyphens (-).\n"
+                    + "Examples: +65-9123-4567, +1-800-1234, 9123-4567, 98765432";
 
-    /*
-     * Allows an optional '+' at the start, followed by digits or hyphens.
-     * The phone number must be at least 3 characters long and cannot start with a hyphen.
-     */
-    public static final String VALIDATION_REGEX = "^(?!-)\\+?[\\d-]{3,}$";
+    public static final String VALIDATION_REGEX = "^(\\+\\d{1,3}-)?(?!.*--)(?!-)(?:\\d+-?){2,}\\d$";
 
 
     public final String value;
