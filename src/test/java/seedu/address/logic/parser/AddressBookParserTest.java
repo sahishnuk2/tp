@@ -89,7 +89,8 @@ public class AddressBookParserTest {
         GetTimeslotCommand gtCmd = (GetTimeslotCommand) parser.parseCommand(GetTimeslotCommand.COMMAND_WORD);
         assertEquals(new GetTimeslotCommand(), gtCmd);
         // get-consultations (no args)
-        GetConsultationsCommand gcCmd = (GetConsultationsCommand) parser.parseCommand(GetConsultationsCommand.COMMAND_WORD);
+        GetConsultationsCommand gcCmd = (GetConsultationsCommand) parser
+                .parseCommand(GetConsultationsCommand.COMMAND_WORD);
         assertEquals(new GetConsultationsCommand(), gcCmd);
     }
 
