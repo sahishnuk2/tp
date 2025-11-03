@@ -553,7 +553,7 @@ filter [l/LAB_NUMBER s/STATUS]... [ei/EXERCISE_INDEX s/STATUS]... [la/COMPARISON
 <box type="warning">
 
 **Caution:** Each `l/` must be followed by its own `s/`, and each `ei/` must be followed by its own `s/`.
-Missing or misplaced `s/` parts will be rejected.
+Extra `s/`s are not allowed. If any of these rules are violated, the entire command fails with an error.
 </box>
 
 <br>
