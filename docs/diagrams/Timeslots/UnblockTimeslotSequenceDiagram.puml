@@ -14,21 +14,17 @@ box Model MODEL_COLOR_T1
 participant "m:Model" as Model MODEL_COLOR
 end box
 
-box Storage STORAGE_COLOR_T1
-participant "storage:Storage" as Storage STORAGE_COLOR
-end box
-
-[-> LogicManager : execute("unblock-timeslot ts/.. te/..")
+[-> LogicManager : execute("unblock-timeslot")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand("unblock-timeslot ...")
+LogicManager -> AddressBookParser : parseCommand()
 activate AddressBookParser
 
 create UnblockTimeslotCommandParser
 AddressBookParser -> UnblockTimeslotCommandParser : new UnblockTimeslotCommandParser()
 activate UnblockTimeslotCommandParser
 
-AddressBookParser -> UnblockTimeslotCommandParser : parse("ts/... te/...")
+AddressBookParser -> UnblockTimeslotCommandParser : parse()
 activate UnblockTimeslotCommandParser
 
 create UnblockTimeslotCommand
@@ -56,12 +52,12 @@ activate Model
 Model --> UnblockTimeslotCommand
 deactivate Model
 
-UnblockTimeslotCommand -> Model : removeTimeslot(s) [for each]
+UnblockTimeslotCommand -> Model : removeTimeslot(s)
 activate Model
 Model --> UnblockTimeslotCommand
 deactivate Model
 
-UnblockTimeslotCommand -> Model : addTimeslot(t) [for each]
+UnblockTimeslotCommand -> Model : addTimeslot(t)
 activate Model
 Model --> UnblockTimeslotCommand
 deactivate Model
@@ -75,21 +71,10 @@ deactivate CommandResult
 UnblockTimeslotCommand --> LogicManager : result
 deactivate UnblockTimeslotCommand
 
-' --- LogicManager persists changes to disk via Storage (matches LogicManager behaviour) ---
-LogicManager -> Storage : saveAddressBook(model.getAddressBook())
-activate Storage
-Storage --> LogicManager
-deactivate Storage
-
-alt model instanceof ModelManager
-    LogicManager -> Storage : saveTimeslots(((ModelManager) model).getTimeslots())
-    activate Storage
-    Storage --> LogicManager
-    deactivate Storage
-end
+' --- Persistence omitted for compactness ---
+' LogicManager -> Storage : saveAddressBook(...) and saveTimeslots(...) removed.
 
 [<-- LogicManager
 deactivate LogicManager
 
-scale 2.5
 @enduml

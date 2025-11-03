@@ -14,27 +14,19 @@ box Model MODEL_COLOR_T1
 participant "m:Model" as Model MODEL_COLOR
 end box
 
-box Storage STORAGE_COLOR_T1
-participant "storage:Storage" as Storage STORAGE_COLOR
-end box
-
-box UI UI_COLOR_T1
-participant "TimeslotsWindow" as TimeslotsWindow UI_COLOR
-end box
-
 participant "Platform" as Platform
 
 [-> LogicManager : execute("get-timeslots")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand("get-timeslots")
+LogicManager -> AddressBookParser : parseCommand()
 activate AddressBookParser
 
 create GetTimeslotCommandParser
 AddressBookParser -> GetTimeslotCommandParser : new GetTimeslotCommandParser()
 activate GetTimeslotCommandParser
 
-AddressBookParser -> GetTimeslotCommandParser : parse("")
+AddressBookParser -> GetTimeslotCommandParser : parse()
 activate GetTimeslotCommandParser
 
 create GetTimeslotCommand
@@ -66,39 +58,10 @@ deactivate CommandResult
 GetTimeslotCommand --> LogicManager : result
 deactivate GetTimeslotCommand
 
-' --- Persist state (matches LogicManager implementation) ---
-LogicManager -> Storage : saveAddressBook(model.getAddressBook())
-activate Storage
-Storage --> LogicManager
-deactivate Storage
-
-alt model instanceof ModelManager
-    LogicManager -> Storage : saveTimeslots(((ModelManager)model).getTimeslots())
-    activate Storage
-    Storage --> LogicManager
-    deactivate Storage
-end
-
-' --- Show UI only if command produced timeslot ranges ---
-alt commandResult.getTimeslotRanges() != null && not empty
-    opt schedule UI via JavaFX
-        LogicManager -> Platform : runLater(showTimetable(ranges, allTimeslots))
-        activate Platform
-        Platform -> TimeslotsWindow : showTimetable(ranges, allTimeslots)
-        activate TimeslotsWindow
-        TimeslotsWindow --> Platform : shown
-        deactivate TimeslotsWindow
-        Platform --> LogicManager : scheduled
-        deactivate Platform
-    end
-    note right of LogicManager
-      LogicManager wraps call in try/catch and ignores
-      IllegalStateException (e.g., FX not initialized in tests).
-    end note
-end
+' --- Persistence & UI scheduling omitted to keep diagram compact ---
+' Persistence (saveAddressBook / saveTimeslots) and Platform.runLater UI calls removed.
 
 [<-- LogicManager
 deactivate LogicManager
 
-scale 2.5
 @enduml
