@@ -32,10 +32,14 @@ GradeMap ..|> GradeTracker
 ExerciseList ..|> ExerciseTracker
 LabList ..|> LabAttendanceList
 
-Person *--> ExerciseList
-Person *--> LabList
-Person *--> GradeMap
+' Person now depends on interfaces instead of concrete classes
+Person *--> GradeTracker
+Person *--> ExerciseTracker
+Person *--> LabAttendanceList
+
 Trackable ..> TrackerColour
+
+
 
 note right of Trackable
 Represents any data structure
