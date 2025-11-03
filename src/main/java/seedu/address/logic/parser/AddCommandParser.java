@@ -41,7 +41,8 @@ public class AddCommandParser implements Parser<AddCommand> {
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         }
-
+        ParserUtil.verifyNoUnwantedPrefixes(args, PREFIX_STUDENTID, PREFIX_NAME,
+                PREFIX_PHONE, PREFIX_EMAIL, PREFIX_GITHUB_USERNAME, PREFIX_TAG);
         argMultimap.verifyNoDuplicatePrefixesFor(
                 PREFIX_STUDENTID, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_GITHUB_USERNAME);
         StudentId studentId = ParserUtil.parseStudentId(argMultimap.getValue(PREFIX_STUDENTID).get());

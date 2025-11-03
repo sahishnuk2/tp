@@ -2,6 +2,12 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_GITHUB_USERNAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENTID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.logic.commands.SetWeekCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -15,6 +21,8 @@ public class SetWeekCommandParser implements Parser<SetWeekCommand> {
     @Override
     public SetWeekCommand parse(String args) throws ParseException {
         requireNonNull(args);
+
+        ParserUtil.verifyNoUnwantedPrefixes(args);
 
         Week currentWeek;
 
