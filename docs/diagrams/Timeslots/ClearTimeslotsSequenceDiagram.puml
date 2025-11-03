@@ -21,7 +21,7 @@ LogicManager -> AddressBookParser : parseCommand()
 activate AddressBookParser
 
 create ClearTimeslotsCommandParser
-AddressBookParser -> ClearTimeslotsCommandParser : new ClearTimeslotsCommandParser()
+AddressBookParser -> ClearTimeslotsCommandParser
 activate ClearTimeslotsCommandParser
 AddressBookParser <-- ClearTimeslotsCommandParser
 deactivate ClearTimeslotsCommandParser
@@ -30,7 +30,7 @@ AddressBookParser -> ClearTimeslotsCommandParser : parse()
 activate ClearTimeslotsCommandParser
 
 create ClearTimeslotsCommand
-ClearTimeslotsCommandParser -> ClearTimeslotsCommand : new ClearTimeslotsCommand()
+ClearTimeslotsCommandParser -> ClearTimeslotsCommand
 activate ClearTimeslotsCommand
 
 ClearTimeslotsCommand --> ClearTimeslotsCommandParser

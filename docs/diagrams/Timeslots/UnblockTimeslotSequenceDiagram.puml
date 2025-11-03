@@ -21,7 +21,7 @@ LogicManager -> AddressBookParser : parseCommand()
 activate AddressBookParser
 
 create UnblockTimeslotCommandParser
-AddressBookParser -> UnblockTimeslotCommandParser : new UnblockTimeslotCommandParser()
+AddressBookParser -> UnblockTimeslotCommandParser
 activate UnblockTimeslotCommandParser
 AddressBookParser <-- UnblockTimeslotCommandParser
 deactivate UnblockTimeslotCommandParser
@@ -30,7 +30,7 @@ AddressBookParser -> UnblockTimeslotCommandParser : parse()
 activate UnblockTimeslotCommandParser
 
 create UnblockTimeslotCommand
-UnblockTimeslotCommandParser -> UnblockTimeslotCommand : new UnblockTimeslotCommand()
+UnblockTimeslotCommandParser -> UnblockTimeslotCommand
 activate UnblockTimeslotCommand
 
 UnblockTimeslotCommand --> UnblockTimeslotCommandParser
