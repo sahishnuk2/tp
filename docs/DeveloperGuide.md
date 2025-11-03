@@ -788,6 +788,9 @@ testers are expected to do more *exploratory* testing.
 
     3. Test case: `edit 1:3 t/outstanding` <br>
        Expected: In the displayed student list, the first 3 students' tags are replaced with the `outstanding` tag.
+   4. Test case: `edit 1:3 n/Danielle` <br>
+      Expected: Error message stating "Only tags can be edited for multiple students."
+
 
 2. Editing a student with same data
 
@@ -808,6 +811,8 @@ testers are expected to do more *exploratory* testing.
 
     3. Test case: `edit 0 p/98123456` <br>
        Expected: Error message indicating invalid `Student Index`.
+   4. Test case: `edit 1 p/+652-923-112-34-`
+       Expected: Error message indicating invalid `Phone Number`  format
 
 4. Editing with no fields specified
 
