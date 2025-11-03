@@ -166,7 +166,7 @@ The `Model` component,
 
 **API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
 
-<puml src="diagrams/StorageClassDiagram.puml" width="550" />
+<puml src="diagrams/StorageClassDiagram.puml" width="820" />
 
 The `Storage` component,
 * can save address book data, user preferences, and timeslot data in JSON format and read them back into model objects.
@@ -389,19 +389,6 @@ cases. Users typically need to undo only their most recent action, and the simpl
 benefits of a full undo/redo stack. The minimal memory overhead and straightforward logic make this approach ideal for
 a student project with limited development time.
 
-#### Future enhancements
-* **Multiple undo levels:** Implement a full history stack (Alternative 2) to support undoing multiple commands in
-  sequence. This would involve storing a list of states and maintaining a current state pointer.
-
-* **Redo functionality:** Allow users to redo commands that were undone. This would require preserving the "future"
-  states after an undo operation until a new modifying command is executed.
-
-* **Selective undo:** Allow undoing specific commands in history rather than just the most recent one. This would
-  require implementing Alternative 3 with command-specific undo logic.
-
-* **Undo command confirmation:** For destructive commands like `clear`, prompt the user to confirm before executing,
-  reducing the need for undo in the first place.
-
 ### Feature: Multi-Index Input Support
 
 #### Overview
@@ -488,7 +475,7 @@ For each tracker, the `PersonCard`:
 
 This design cleanly separates **model data** from **UI rendering**, ensuring that any future updates to how data is displayed require no changes to the model logic.
 
-<puml src="diagrams/Trackable/TrackableClassDiagram.puml" width="800" />
+<puml src="diagrams/Trackable/TrackableClassDiagram.puml" width="820" />
 
 #### Example
 Each student card displays their current progress in three areas:
