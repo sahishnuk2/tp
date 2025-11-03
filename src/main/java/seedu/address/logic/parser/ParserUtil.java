@@ -50,8 +50,8 @@ import seedu.address.model.tag.Tag;
  */
 public class ParserUtil {
     public static final String MESSAGE_INVALID_RANGE = "Multi-Index must be in the format of X:Y such that"
-            + " X is greater than or equal to Y,"
-            + " and both X and Y are numbers are greater than 0.";
+            + " both X and Y are numbers greater than 0 and"
+            + " X is less than or equal to Y.";
     public static final String MESSAGE_INVALID_INDEX = "Student index must be a number that is greater than 0";
     public static final String MESSAGE_INVALID_STATUS = "Status input must be Y or N";
     public static final String MESSAGE_INVALID_LAB_INDEX =
