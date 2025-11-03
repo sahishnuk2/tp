@@ -52,13 +52,16 @@ import seedu.address.model.tag.Tag;
  */
 public class ParserUtil {
 
-    public static final String MESSAGE_INVALID_INDEX = "index must be a number greater than 0";
+    public static final String MESSAGE_INVALID_INDEX = "Student index must be a number that is greater than 0";
     public static final String MESSAGE_INVALID_STATUS = "Status input must be Y or N";
+    public static final String MESSAGE_INVALID_LAB_INDEX =
+            "Lab index is invalid! It must be between 1 and " + LabList.NUMBER_OF_LABS + " (inclusive).";
+    public static final String MESSAGE_INVALID_MULTIINDEX_BOUNDS =
+            "%s is invalid! Lower bound cannot be greater than upper bound";
+    public static final String MESSAGE_INVALID_PREFIX = "Invalid prefix(s) found: %s";
     private static final String MESSAGE_INVALID_EXERCISE_INDEX =
             "Exercise index is invalid! It must be between 0 and "
                     + (ExerciseList.NUMBER_OF_EXERCISES - 1) + " (inclusive).";
-    private static final String MESSAGE_INVALID_LAB_INDEX =
-            "Lab index is invalid! It must be between 1 and " + LabList.NUMBER_OF_LABS + " (inclusive).";
     private static final String MESSAGE_INVALID_FILTER_EXERCISE_STATUS =
             "Exercise status must be Y, N or O";
     private static final String MESSAGE_INVALID_FILTER_LAB_STATUS =
@@ -68,13 +71,12 @@ public class ParserUtil {
     private static final String MESSAGE_MISSING_LAB_STATUS =
             "Lab index must always be followed by lab status";
     private static final String MESSAGE_EMPTY_INPUT = "Input string is empty!";
-    private static final String MESSAGE_INVALID_MULTIINDEX_BOUNDS =
-            "%s is invalid! Lower bound cannot be greater than upper bound";
     private static final String MESSAGE_MISSING_OPERATOR =
             "Missing appropriate operator for comparison, one of ==, >=, <=, >, < should follow la/";
     private static final String MESSAGE_INVALID_PERCENTAGE =
             "Attendance percentage must be an integer between 0 and 100.";
-    private static final String MESSAGE_INVALID_PREFIX = "Invalid prefix(s) found: %s";
+    private static final int MAXIMUM_FIELD_LENGTH = 100;
+    private static final String MESSAGE_FIELD_TOO_LONG = "Student information fields cannot exceed 100 characters";
 
     /**
      * @param input a string that is either in the "X:Y" or "X" form
@@ -91,6 +93,7 @@ public class ParserUtil {
             return new MultiIndex(parseIndex(input));
         }
     }
+
     /**
      * Parses a range input like "2:5" into a MultiIndex.
      * */
@@ -109,6 +112,7 @@ public class ParserUtil {
 
         return new MultiIndex(lower, upper);
     }
+
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
@@ -168,6 +172,7 @@ public class ParserUtil {
     public static StudentId parseStudentId(String studentId) throws ParseException {
         requireNonNull(studentId);
         String trimmedStudentId = studentId.trim();
+        validateFieldLength(studentId);
         if (!StudentId.isValidStudentId(trimmedStudentId)) {
             throw new ParseException(StudentId.MESSAGE_CONSTRAINTS);
         }
@@ -183,6 +188,7 @@ public class ParserUtil {
     public static Name parseName(String name) throws ParseException {
         requireNonNull(name);
         String trimmedName = name.trim();
+        validateFieldLength(name);
         if (!Name.isValidName(trimmedName)) {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
@@ -198,6 +204,7 @@ public class ParserUtil {
     public static Phone parsePhone(String phone) throws ParseException {
         requireNonNull(phone);
         String trimmedPhone = phone.trim();
+        validateFieldLength(phone);
         if (!Phone.isValidPhone(trimmedPhone)) {
             throw new ParseException(Phone.MESSAGE_CONSTRAINTS);
         }
@@ -213,6 +220,7 @@ public class ParserUtil {
     public static Email parseEmail(String email) throws ParseException {
         requireNonNull(email);
         String trimmedEmail = email.trim();
+        validateFieldLength(email);
         if (!Email.isValidEmail(trimmedEmail)) {
             throw new ParseException(Email.MESSAGE_CONSTRAINTS);
         }
@@ -228,6 +236,7 @@ public class ParserUtil {
     public static Tag parseTag(String tag) throws ParseException {
         requireNonNull(tag);
         String trimmedTag = tag.trim();
+        validateFieldLength(tag);
         if (!Tag.isValidTagName(trimmedTag)) {
             throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
         }
@@ -254,6 +263,7 @@ public class ParserUtil {
      */
     public static GithubUsername parseGithubUsername(String githubUsername) throws ParseException {
         requireNonNull(githubUsername);
+        validateFieldLength(githubUsername);
         String trimmedGithubUsername = githubUsername.trim();
         if (!GithubUsername.isValidGithubUsername(trimmedGithubUsername)) {
             throw new ParseException(GithubUsername.MESSAGE_CONSTRAINTS);
@@ -301,6 +311,8 @@ public class ParserUtil {
             labs[i] = new Lab(i + 1, LabList.getCurrentWeek());
             if (status.equals("Y")) {
                 labs[i].markAsAttended();
+            } else if (!(status.equals("A") || status.equals("N"))) {
+                throw new ParseException(LabList.MESSAGE_CONSTRAINTS);
             }
         }
         return new LabList(labs);
@@ -581,6 +593,12 @@ public class ParserUtil {
 
         if (!unwantedPrefixes.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_PREFIX, String.join(", ", unwantedPrefixes)));
+        }
+    }
+
+    private static void validateFieldLength(String input) throws ParseException {
+        if (input.length() > MAXIMUM_FIELD_LENGTH) {
+            throw new ParseException(MESSAGE_FIELD_TOO_LONG);
         }
     }
 

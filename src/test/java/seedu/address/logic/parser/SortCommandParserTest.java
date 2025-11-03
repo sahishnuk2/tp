@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_DUPLICATE_FIELDS;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_LAB_NUMBER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SORT_CRITERION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
@@ -41,7 +42,7 @@ public class SortCommandParserTest {
     }
 
     @Test
-    public void parse_invalidSortCriterion_failure() {
+    public void parse_invalidSortCriterion_parseException() {
         String expectedMessage = SortCriterion.MESSAGE_CONSTRAINTS;
 
         // Invalid criterion keyword
@@ -50,7 +51,7 @@ public class SortCommandParserTest {
     }
 
     @Test
-    public void parse_missingCompulsoryField_failure() {
+    public void parse_missingCompulsoryField_parseException() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE);
 
         // No parameters at all
@@ -64,7 +65,7 @@ public class SortCommandParserTest {
     }
 
     @Test
-    public void parse_duplicateFields_failure() {
+    public void parse_duplicateFields_parseException() {
         String expectedMessage = MESSAGE_DUPLICATE_FIELDS + PREFIX_SORT_CRITERION;
 
         // Double criterion parameter
@@ -72,7 +73,29 @@ public class SortCommandParserTest {
                 expectedMessage);
         assertParseFailure(parser, " " + PREFIX_SORT_CRITERION + "name" + " " + PREFIX_SORT_CRITERION + "lab",
                 expectedMessage);
-        assertParseFailure(parser, " " + PREFIX_SORT_CRITERION + "name" + " " + PREFIX_STATUS + "lab",
-                "Invalid prefix(s) found: s/");
+
     }
+
+    @Test
+    public void parse_extraPrefix_parseException() {
+        assertParseFailure(parser, " " + PREFIX_SORT_CRITERION + "name" + " " + PREFIX_STATUS + "lab",
+                "Invalid prefix(s) found: " + PREFIX_STATUS);
+
+        assertParseFailure(parser, " " + PREFIX_SORT_CRITERION + "name" + " " + PREFIX_STATUS + "lab"
+                        + " " + PREFIX_STATUS + "lab",
+                "Invalid prefix(s) found: " + PREFIX_STATUS);
+
+        assertParseFailure(parser, " " + PREFIX_SORT_CRITERION + "name" + " " + PREFIX_STATUS + "lab"
+                        + " " + PREFIX_LAB_NUMBER + "1",
+                "Invalid prefix(s) found: " + PREFIX_LAB_NUMBER + ", " + PREFIX_STATUS);
+    }
+
+    @Test
+    public void parse_extraIndex_parseException() {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE);
+
+        assertParseFailure(parser, " 1 " + PREFIX_SORT_CRITERION + "email", expectedMessage);
+        assertParseFailure(parser, " 1:3 " + PREFIX_SORT_CRITERION + "email", expectedMessage);
+    }
+
 }

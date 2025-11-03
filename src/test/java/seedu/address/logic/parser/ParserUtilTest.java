@@ -1,10 +1,15 @@
 package seedu.address.logic.parser;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_LAB;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_LAB;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,24 +35,28 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Status;
 import seedu.address.model.person.StudentId;
+import seedu.address.model.person.sortcriterion.ExerciseSortCriterion;
+import seedu.address.model.person.sortcriterion.LabSortCriterion;
+import seedu.address.model.person.sortcriterion.NameSortCriterion;
+import seedu.address.model.person.sortcriterion.StudentIdSortCriterion;
 import seedu.address.model.tag.Tag;
 
 public class ParserUtilTest {
     private static final String INVALID_STUDENTID = "B010X";
     private static final String INVALID_NAME = "R@chel";
-    private static final String INVALID_PHONE = "+651234";
+    private static final String INVALID_PHONE = "+(65)-888";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
     private static final String INVALID_GITHUB_USERNAME = "--ab";
 
     private static final String VALID_STUDENTID = "A1231230T";
     private static final String VALID_NAME = "Rachel Walker";
-    private static final String VALID_PHONE = "123456";
+    private static final String VALID_PHONE = "+65-98156118";
     private static final String VALID_EMAIL = "rachel@example.com";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
     private static final String VALID_GITHUB_USERNAME = "TestUsername";
-    private static final String VALID_LAB_LIST = "L1: Y L2: N L3: N L4: N L5: N L6: N L7: Y L8: N L9: N L10: N ";
+    private static final String VALID_LAB_LIST = "L1: Y L2: A L3: A L4: N L5: N L6: N L7: Y L8: N L9: N L10: N ";
 
 
 
@@ -80,6 +89,7 @@ public class ParserUtilTest {
     @Test
     public void parseIndex_invalidInput_throwsParseException() {
         assertThrows(ParseException.class, () -> ParserUtil.parseIndex("10 a"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseIndex("   "));
     }
 
     @Test
@@ -95,6 +105,32 @@ public class ParserUtilTest {
 
         // Leading and trailing whitespaces
         assertEquals(INDEX_FIRST_PERSON, ParserUtil.parseIndex("  1  "));
+    }
+
+
+    @Test
+    public void parseLabIndex_validInput_success() throws InvalidIndexException {
+        assertEquals(INDEX_FIRST_LAB, ParserUtil.parseLabIndex("1"));
+
+        assertEquals(INDEX_FIRST_LAB, ParserUtil.parseLabIndex("  1  "));
+
+        assertEquals(INDEX_SECOND_LAB, ParserUtil.parseLabIndex("  2 "));
+    }
+
+    @Test
+    public void parseLabIndex_invalidInput_parseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseLabIndex(""));
+
+        assertThrows(ParseException.class, () -> ParserUtil.parseLabIndex("-1"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseLabIndex("0"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseLabIndex("11"));
+
+        assertThrows(ParseException.class, () -> ParserUtil.parseLabIndex("abc"));
+    }
+
+    @Test
+    public void parseLabIndex_null_nullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseLabIndex(null));
     }
 
     @Test
@@ -402,6 +438,58 @@ public class ParserUtilTest {
     public void parseAttendanceComparison_negativeOrTooLarge_throwsParseException() {
         assertThrows(ParseException.class, () -> ParserUtil.parseAttendanceComparison("-1%"));
         assertThrows(ParseException.class, () -> ParserUtil.parseAttendanceComparison("101%"));
+    }
+
+    @Test
+    public void verifyNoUnwantedPrefixes_validPrefixesOnly_success() {
+        assertDoesNotThrow(() -> ParserUtil.verifyNoUnwantedPrefixes("1 2 3", PREFIX_NAME, PREFIX_PHONE));
+
+        assertDoesNotThrow(() ->ParserUtil.verifyNoUnwantedPrefixes(
+                " n/John p/12345678", PREFIX_NAME, PREFIX_PHONE));
+
+        assertDoesNotThrow(() -> ParserUtil.verifyNoUnwantedPrefixes(
+                " n/John n/Jane p/12345678", PREFIX_NAME, PREFIX_PHONE));
+
+        assertDoesNotThrow(() -> ParserUtil.verifyNoUnwantedPrefixes(
+                "   n/John    p/12345678   ", PREFIX_NAME, PREFIX_PHONE));
+    }
+
+    @Test
+    public void verifyNoUnwantedPrefixes_extraPrefixes_parseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.verifyNoUnwantedPrefixes(
+                "1 2 3 l/1 ", PREFIX_NAME, PREFIX_PHONE));
+
+        assertThrows(ParseException.class, () ->ParserUtil.verifyNoUnwantedPrefixes(
+                " n/John p/12345678 e/sk@gmail.com", PREFIX_NAME, PREFIX_PHONE));
+
+        assertThrows(ParseException.class, () -> ParserUtil.verifyNoUnwantedPrefixes(
+                " n/John n/Jane ei/0 p/12345678", PREFIX_NAME, PREFIX_PHONE));
+
+        assertThrows(ParseException.class, () -> ParserUtil.verifyNoUnwantedPrefixes(
+                "   n/John    p/12345678 ei/0 l/0  ", PREFIX_NAME, PREFIX_PHONE));
+    }
+
+    @Test
+    public void parseSortCriterion_valid_success() throws ParseException {
+        assertEquals(new LabSortCriterion(), ParserUtil.parseSortCriterion("lab"));
+        assertEquals(new ExerciseSortCriterion(), ParserUtil.parseSortCriterion("ex"));
+        assertEquals(new NameSortCriterion(), ParserUtil.parseSortCriterion("name"));
+        assertEquals(new StudentIdSortCriterion(), ParserUtil.parseSortCriterion("id"));
+
+        assertEquals(new LabSortCriterion(), ParserUtil.parseSortCriterion("   lab   "));
+        assertEquals(new ExerciseSortCriterion(), ParserUtil.parseSortCriterion("  ex "));
+    }
+
+    @Test
+    public void parseSortCriterion_null_nullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseSortCriterion(null));
+    }
+
+    @Test
+    public void parseSortCriterion_invalidInput_success() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseSortCriterion(""));
+        assertThrows(ParseException.class, () -> ParserUtil.parseSortCriterion("   "));
+        assertThrows(ParseException.class, () -> ParserUtil.parseSortCriterion("height"));
     }
 
 }
