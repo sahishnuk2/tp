@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.EditCommand.MESSAGE_MULTIPLE_ID_EDIT_ERROR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_GITHUB_USERNAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -90,7 +91,7 @@ public class EditCommandParser implements Parser<EditCommand> {
                     || argMultimap.getValue(PREFIX_PHONE).isPresent()
                     || argMultimap.getValue(PREFIX_EMAIL).isPresent()
                     || argMultimap.getValue(PREFIX_GITHUB_USERNAME).isPresent()) {
-                throw new ParseException("Only tags can be edited for multiple students.");
+                throw new ParseException(MESSAGE_MULTIPLE_ID_EDIT_ERROR);
             }
         }
 

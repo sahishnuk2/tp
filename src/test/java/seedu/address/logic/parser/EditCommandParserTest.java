@@ -26,6 +26,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_STUDENTID_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.logic.commands.EditCommand.MESSAGE_MULTIPLE_ID_EDIT_ERROR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_GITHUB_USERNAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
@@ -64,11 +65,12 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_missingParts_failure() {
-        // no index specified
-        assertParseFailure(parser, VALID_NAME_AMY, EditCommand.MESSAGE_NOT_EDITED);
-
         // no field specified
+        assertParseFailure(parser, VALID_NAME_AMY, EditCommand.MESSAGE_NOT_EDITED);
         assertParseFailure(parser, "1", EditCommand.MESSAGE_NOT_EDITED);
+
+        // no index
+        assertParseFailure(parser, NAME_DESC_AMY, MESSAGE_INVALID_FORMAT);
 
         // no index and no field specified
         assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
@@ -228,5 +230,18 @@ public class EditCommandParserTest {
         EditCommand expectedCommand = new EditCommand(new MultiIndex(targetIndex), descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_multiindexInvalidFields_failure() {
+        assertParseFailure(parser,
+                INDEX_FIRST_PERSON.getOneBased() + ":" + INDEX_SECOND_PERSON.getOneBased()
+                        + " " + NAME_DESC_AMY,
+                MESSAGE_MULTIPLE_ID_EDIT_ERROR);
+
+        assertParseFailure(parser,
+                INDEX_FIRST_PERSON.getOneBased() + ":" + INDEX_SECOND_PERSON.getOneBased()
+                        + " " + GITHUB_USERNAME_DESC_AMY,
+                MESSAGE_MULTIPLE_ID_EDIT_ERROR);
     }
 }
