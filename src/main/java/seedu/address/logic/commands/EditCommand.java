@@ -57,7 +57,7 @@ public class EditCommand extends MultiIndexCommand {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Student(s):\n%1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This student already exists in LambdaLab.";
-    public static final String MESSAGE_MULTIPLE_ID_EDIT_ERROR = "Cannot edit student ID for multiple students.";
+    public static final String MESSAGE_MULTIPLE_ID_EDIT_ERROR = "MultiIndex can also be used to edit tags.";
     public static final String MESSAGE_NO_CHANGES_MADE = "No changes were made, all fields are identical.";
 
     private final EditPersonDescriptor editPersonDescriptor;

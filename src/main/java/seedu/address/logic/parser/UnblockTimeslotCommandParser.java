@@ -76,6 +76,11 @@ public class UnblockTimeslotCommandParser implements Parser<UnblockTimeslotComma
         // disallow duplicated ts/ or te/ prefixes
         argMultimap.verifyNoDuplicatePrefixesFor(CliSyntax.PREFIX_TIMESLOT_START, CliSyntax.PREFIX_TIMESLOT_END);
 
+        if (!argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    UnblockTimeslotCommand.MESSAGE_USAGE));
+        }
+
         String startStr = null;
         String endStr = null;
 
