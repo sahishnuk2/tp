@@ -30,6 +30,10 @@ public class SortCommandParser implements Parser<SortCommand> {
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_SORT_CRITERION);
 
+        if (!argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        }
+
         if (argMultimap.getValue(PREFIX_SORT_CRITERION).isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }

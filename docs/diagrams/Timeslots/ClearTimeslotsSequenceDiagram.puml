@@ -60,10 +60,10 @@ deactivate CommandResult
 ClearTimeslotsCommand --> LogicManager : result
 deactivate ClearTimeslotsCommand
 
-' --- Persistence omitted for compactness ---
-' LogicManager -> Storage : saveAddressBook(...) and saveTimeslots(...) removed.
+note right of LogicManager : Persistence (saveAddressBook / saveTimeslots) omitted.
 
 [<-- LogicManager
 deactivate LogicManager
 
+scale 1.5
 @enduml

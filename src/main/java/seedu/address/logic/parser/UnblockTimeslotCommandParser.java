@@ -40,6 +40,7 @@ public class UnblockTimeslotCommandParser implements Parser<UnblockTimeslotComma
     private static final String INVALID_DATETIME_MESSAGE =
             "Invalid datetime: either wrong format or an impossible calendar date \n"
             + "(for example, '30 Feb' does not exist). ";
+
     private static LocalDateTime parseFlexibleDateTime(String input) throws DateTimeParseException {
         Objects.requireNonNull(input);
         String trimmed = input.trim();
@@ -74,6 +75,11 @@ public class UnblockTimeslotCommandParser implements Parser<UnblockTimeslotComma
 
         // disallow duplicated ts/ or te/ prefixes
         argMultimap.verifyNoDuplicatePrefixesFor(CliSyntax.PREFIX_TIMESLOT_START, CliSyntax.PREFIX_TIMESLOT_END);
+
+        if (!argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    UnblockTimeslotCommand.MESSAGE_USAGE));
+        }
 
         String startStr = null;
         String endStr = null;
