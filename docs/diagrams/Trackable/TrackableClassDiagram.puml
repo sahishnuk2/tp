@@ -4,43 +4,51 @@ skinparam arrowThickness 1.1
 skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
 
+' Keep UI and Model in separate vertical layers
 package UI as UIPackage {
     class PersonCard UI_COLOR
 }
 
 package Model as ModelPackage {
+
+    ' Interfaces at the top of model layer
     interface Trackable <<interface>>
     interface GradeTracker <<interface>>
     interface ExerciseTracker <<interface>>
     interface LabAttendanceList <<interface>>
 
     enum TrackerColour <<enumeration>>
+
+    ' Concrete classes below interfaces
     class Person
     class ExerciseList
     class LabList
     class GradeMap
 }
 
+' --- UI dependencies ---
 PersonCard *--> Person
 PersonCard --- Trackable: displays
 
+' --- Tracker hierarchy ---
 Trackable <|-- GradeTracker
 Trackable <|-- ExerciseTracker
 Trackable <|-- LabAttendanceList
 
+' --- Model implementations ---
 GradeMap ..|> GradeTracker
 ExerciseList ..|> ExerciseTracker
 LabList ..|> LabAttendanceList
 
-' Person now depends on interfaces instead of concrete classes
+' --- Person depends on trackers ---
 Person *--> GradeTracker
 Person *--> ExerciseTracker
 Person *--> LabAttendanceList
 
+' --- Tracker colour ---
 Trackable ..> TrackerColour
 
-
-
+' --- Notes ---
 note right of Trackable
 Represents any data structure
 that can be visualized with
@@ -57,4 +65,11 @@ note bottom of TrackerColour
 Enum with GREEN, GREY, and RED
 values used for display styling.
 end note
+
+' --- Explicit placement hints to reduce crossing ---
+PersonCard -[hidden]down-> Person
+GradeTracker -[hidden]down-> GradeMap
+ExerciseTracker -[hidden]down-> ExerciseList
+LabAttendanceList -[hidden]down-> LabList
+
 @enduml

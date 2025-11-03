@@ -70,7 +70,7 @@ dependencies {
 }
 
 shadowJar {
-    archiveFileName = 'LambdaLab.jar'
+    archiveFileName = '[CS2103T-T09-3][LambdaLab].jar'
 }
 
 run {
