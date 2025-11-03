@@ -23,6 +23,8 @@ activate AddressBookParser
 create BlockTimeslotCommandParser
 AddressBookParser -> BlockTimeslotCommandParser : new BlockTimeslotCommandParser()
 activate BlockTimeslotCommandParser
+AddressBookParser <-- BlockTimeslotCommandParser
+deactivate BlockTimeslotCommandParser
 
 AddressBookParser -> BlockTimeslotCommandParser : parse()
 activate BlockTimeslotCommandParser

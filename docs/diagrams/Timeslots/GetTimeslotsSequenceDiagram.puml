@@ -24,6 +24,8 @@ activate AddressBookParser
 create GetTimeslotCommandParser
 AddressBookParser -> GetTimeslotCommandParser : new GetTimeslotCommandParser()
 activate GetTimeslotCommandParser
+AddressBookParser <-- GetTimeslotCommandParser
+deactivate GetTimeslotCommandParser
 
 AddressBookParser -> GetTimeslotCommandParser : parse()
 activate GetTimeslotCommandParser
