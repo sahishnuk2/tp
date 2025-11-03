@@ -131,7 +131,7 @@ spreadsheets or GUI apps.
 
 <box type="warning">
 
-**Caution:** Reducing the window size may affect the User Interface's display of information.
+**Caution:** Reducing the window size may affect the user interface's display of information.
 </box>
 
 ## Trackers  
@@ -264,11 +264,6 @@ delete INDEX
 **Examples:**
 - Deletes the 2nd student in the LambdaLab: `list` followed by `delete 2`.
 - Deletes the 1st student in the results of the `find` command: `find Betsy` followed by `delete 1`.
-
-<box type="tip">
-
-**Tip:** The index refers to the index number shown in the currently displayed student list.
-</box>
 
 <br>
 
@@ -516,11 +511,6 @@ list
 **Tip:** Use `list` after `find` or `filter` to show all students again.
 </box>
 
-<box type="warning">
-
-**Caution:** Any extra text after `list` is ignored and does not change what is shown.
-</box>
-
 <br>
 
 #### Finding students: `find`
@@ -536,7 +526,7 @@ find KEYWORD [MORE_KEYWORDS]... [i/] [n/] [p/] [e/] [g/] [t/]
 **Examples:**
 - Searches **all fields** for "alex" or "david": `find alex david`.
 - Searches **names only** for "alice": `find alice n/`.
-- Searches **Student ID** or **Name** for "A123" or "john": `find A123 john i/ n/`.
+- Searches **Student ID or Name** for "A123" or "john": `find A123 john i/ n/`.
 - Searches **tags only** for "lab1": `find lab1 t/`.
 
 <box type="tip">
@@ -720,7 +710,9 @@ The `set-week` command allows you to update the **current teaching week** in Lam
 This helps the system automatically manage time-sensitive features such as **exercise due dates** and **lab attendances**.
 
 **Format:**
+```
 set-week WEEK_NUMBER
+```
 
 **Examples:**
 - Setting the current teaching week to Week 5: `set-week 5`.
@@ -855,7 +847,7 @@ lab sessions to maintain accurate records.
 4. **If your Operating System (OS) is in Chinese or other non-English language**, you may encounter command format errors
    using human-friendly format for datetime parameters. The remedy is to use ISO_LOCAL_DATE_TIME format (e.g. `2023-10-01T09:00:00`
    for 1st Oct, 2023, 9:00AM) only.
-5. Minimising the window may cause some distortions of the user interface. Hence, the app is best used at full screen.
+5. **Minimizing the window** may cause some distortions of the user interface. Hence, the app is best used at full screen.
 ---
 
 # Summary
@@ -877,7 +869,7 @@ Action     | Format, Examples
 **Clear timeslots** | `clear-timeslots`
 **List**   | `list`
 **Find**   | `find KEYWORD [MORE_KEYWORDS] [i/] [n/] [p/] [e/] [g/] [t/]`<br> e.g., `find James Jake`
-**Filter** | `filter [l/LABNUMBER s/STATUS]... [ei/EXERCISE_INDEX s/STATUS]... [la/COMPARISON]` <br> e.g., `filter l/7 s/y`
+**Filter** | `filter [l/LAB_NUMBER s/STATUS]... [ei/EXERCISE_INDEX s/STATUS]... [la/COMPARISON]` <br> e.g., `filter l/7 s/y`
 **Sort**    | `sort c/CRITERION` <br> e.g., `sort c/name`
 **Get timeslots** | `get-timeslots` 
 **Get consultations** | `get-consultations`
