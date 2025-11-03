@@ -1,6 +1,32 @@
 @startuml
 !include ../style.puml
 skinparam ArrowFontStyle plain
+skinparam defaultFontSize 18
+skinparam ArrowFontSize 18
+skinparam ParticipantFontSize 18
+skinparam NoteFontSize 18
+skinparam BoxFontSize 18
+
+' --- Compact layout tweaks ---
+skinparam ParticipantPadding 5
+skinparam BoxPadding 5
+skinparam ArrowThickness 1
+skinparam ArrowColor Black
+skinparam LifelineStrategy solid
+skinparam LifelineStroke 1
+skinparam SequenceMessageAlign center
+skinparam SequenceLifeLineBorderColor Black
+skinparam SequenceLifeLineBorderThickness 0.5
+skinparam SequenceActorBorderThickness 0.5
+skinparam ParticipantMargin 5
+skinparam ParticipantSpacing 40
+skinparam SequenceDiagramPadding 5
+skinparam SequenceMessagePadding 3
+skinparam SequenceBoxBorderThickness 0.5
+skinparam SequenceGroupBorderThickness 0.5
+skinparam SequenceGroupPadding 3
+skinparam SequenceDividerFontSize 16
+skinparam MaxMessageSize 100
 
 box Logic LOGIC_COLOR_T1
 participant "logic:LogicManager" as LogicManager LOGIC_COLOR
@@ -19,11 +45,9 @@ activate LogicManager
 
 LogicManager -> GradeCommand : execute(model)
 activate GradeCommand
-note right: Inherited from MultiIndexCommand
 
 GradeCommand -> GradeCommand : super.execute(model)
-activate GradeCommand #LightGray
-note right: Executes MultiIndexCommand logic\n(loops through selected persons)
+activate GradeCommand
 
 GradeCommand -> Model : getFilteredPersonList()
 activate Model
@@ -32,8 +56,7 @@ deactivate Model
 
 loop For each person in the filtered person list
     GradeCommand -> GradeCommand : applyActionToPerson(model, person)
-    activate GradeCommand #LightBlue
-    note right: Overridden in GradeCommand
+    activate GradeCommand
 
     GradeCommand -> GradeMap : markExamPassed("midterm")
     activate GradeMap
@@ -49,11 +72,10 @@ loop For each person in the filtered person list
 end
 
 GradeCommand -> GradeCommand : buildResult(updatedPersons)
-activate GradeCommand #LightGreen
-note right: Overridden in GradeCommand
+activate GradeCommand
 
 create CommandResult
-GradeCommand -> CommandResult : new CommandResult("midterm marked as passed for: Alex Yeoh (A1231230B), Bernice Yu (A1231231B), Charlotte Oliveiro (A1231232B)")
+GradeCommand -> CommandResult
 activate CommandResult
 CommandResult --> GradeCommand
 deactivate CommandResult

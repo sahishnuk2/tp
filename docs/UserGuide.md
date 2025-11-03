@@ -133,8 +133,11 @@ spreadsheets or GUI apps.
 
 **Caution:** Reducing the window size may affect the User Interface's display of information.
 </box>
+
 ## Trackers  
+
 ![Trackers.png](images/Trackers.png)
+
 These are trackers that provides a visual overview of each student’s progress in terms of **lab attendance**,
 **exercise completion**, and **examination performance (on a pass/fail basis)**.
 
@@ -174,7 +177,7 @@ For example, a green tracker indicates satisfactory progress, while a red one hi
 
 * Accepted datetime formats for command parameters (i.e. START_DATETIME & END_DATETIME):
     * ISO_LOCAL_DATE_TIME: `2023-10-01T09:00:00`
-    * Human-friendly: `d MMM yyyy, HH:mm` (e.g. `4 Oct 2025, 10:00`) or `d MMM yyyy HH:mm` (e.g. `4 Oct 2025 10:00`)
+    * Human-friendly (case-insensitive): `d MMM yyyy, HH:mm` (e.g. `4 Oct 2025, 10:00`) or `d MMM yyyy HH:mm` (e.g. `4 Oct 2025 10:00`)
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines
 as space characters surrounding line-breaks may be omitted when copied over to the application.
@@ -423,6 +426,28 @@ unblock-timeslot ts/START_DATETIME te/END_DATETIME
 
 * If the unblock range is strictly inside a stored timeslot, the stored timeslot is split into two (before and after the unblock range).
 * If the unblock range overlaps one end of a stored timeslot, the stored timeslot is trimmed accordingly.
+
+Example: `unblock-timeslot ts/7 Nov 2025, 15:50 te/7 Nov 2025, 16:10`
+
+<table>
+<tr>
+<th> Before </th>
+<th> After </th>
+</tr>
+<tr>
+<td>
+
+![BeforeBlockTimeslot.png](images/BeforeBlockTimeslot.png)
+
+</td>
+<td>
+
+![AfterBlockTimeslot.png](images/AfterBlockTimeslot.png)
+
+</td>
+</tr>
+</table>
+
 </box>
 
 <br>
@@ -467,8 +492,8 @@ clear-timeslots
 
 <box type="warning">
 
-**Caution:** This action permanently removes all stored timeslots. You can restore them by running `undo` as the very next command. If any other data-modifying command runs first, the removal cannot be undone.
-
+**Caution:** If you have mistakenly performed this command, type `undo` and press Enter
+**immediately** before using another data-modifying command.
 </box>
 
 ---
@@ -882,7 +907,7 @@ Action     | Format, Examples
 | **KEYWORD**         | Search term(s) for finding students              | *(no prefix — written directly after command)*  | One or more words; case-insensitive                                                                                                                                   | `find`                                                   |
 | **CRITERION**       | Criterion for sorting students                   | `c/`                                            | Must be one of: `name`, `id`, `lab`, or `ex` — case-insensitive                                                                                                       | `sort`                                                   |
 | **COMPARISON**      | Percentage of labs attended to filter by         | `la/`                                           | Operators (`==`, `>=`, `<=`, `>`, `<`) followed by an integer from 0–100 and a `%` sign (e.g., `>50%`)                                                                | `filter`                                                 |
-| **START_DATETIME**  | Starting datetime of the timeslot                | `ts/`                                           | ISO format (`2023-10-01T09:00:00`) or human-friendly (`4 Oct 2025, 10:00` or `4 Oct 2025 10:00`) - Cannot be between 00:00 to 08:00 (exclusive)                       | `block-timeslot`, `unblock-timeslot`, `add-consultation` |
-| **END_DATETIME**    | Ending datetime of the timeslot                  | `te/`                                           | ISO format (`2023-10-01T09:00:00`) or human-friendly (`4 Oct 2025, 10:00` or `4 Oct 2025 10:00`) - Cannot be between 00:00 to 08:00 (exclusive)                       | `block-timeslot`, `unblock-timeslot`, `add-consultation` |
+| **START_DATETIME**  | Starting datetime of the timeslot                | `ts/`                                           | ISO format (`2023-10-01T09:00:00`) or human-friendly (`4 Oct 2025, 10:00` or `4 Oct 2025 10:00`); Cannot be between 00:00 to 08:00 (exclusive)                        | `block-timeslot`, `unblock-timeslot`, `add-consultation` |
+| **END_DATETIME**    | Ending datetime of the timeslot                  | `te/`                                           | ISO format (`2023-10-01T09:00:00`) or human-friendly (`4 Oct 2025, 10:00` or `4 Oct 2025 10:00`); Cannot be between 00:00 to 08:00 (exclusive)                        | `block-timeslot`, `unblock-timeslot`, `add-consultation` |
 | **STUDENT_NAME**    | Name of student for consultation                 | `n/`                                            | Alphanumeric characters and spaces only; does not need to match an existing student record                                                                            | `add-consultation`                                       |
 
