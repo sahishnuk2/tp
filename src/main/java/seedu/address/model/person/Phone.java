@@ -10,7 +10,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Phone {
     public static final String MESSAGE_CONSTRAINTS =
             "Phone numbers may include an optional country code (e.g. +65-), followed by at least 3 digits. \n"
-                    + "The digits following the country code may be separated by hyphens (-). . \n"
+                    + "The digits following the country code may be separated by hyphens (-).\n"
                     + "Examples: +65-9123-4567, +1-800-1234, 9123-4567, 98765432";
 
     public static final String VALIDATION_REGEX = "^(\\+\\d{1,3}-)?(?!.*--)(?!-)(?:\\d+-?){2,}\\d$";
