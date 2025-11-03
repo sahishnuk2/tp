@@ -214,7 +214,7 @@ add i/STUDENT_ID n/NAME p/PHONE e/EMAIL g/GITHUB_USERNAME [t/TAG]…​
 - Each student must have a unique student ID. Attempting to add a student with an existing student ID
 will result in an error: "This student already exists in LambdaLab". However, students can have the same name/phone number/email/github username
 as long as their student IDs are different.
-- All fields of the student, including the tags, are limited to 100 characters.
+- All fields of the student, including the tags, are limited to 50 characters.
 </box>
 
 <br>
@@ -830,6 +830,7 @@ lab sessions to maintain accurate records.
 4. **If your Operating System (OS) is in Chinese or other non-English language**, you may encounter command format errors
    using human-friendly format for datetime parameters. The remedy is to use ISO_LOCAL_DATE_TIME format (e.g. `2023-10-01T09:00:00`
    for 1st Oct, 2023, 9:00AM) only.
+5. Minimising the window may cause some distortions of the user interface. Hence, the app is best used at full screen.
 ---
 
 # Summary
