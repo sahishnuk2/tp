@@ -74,7 +74,7 @@ public class ParserUtil {
     private static final String MESSAGE_INVALID_PERCENTAGE =
             "Attendance percentage must be an integer between 0 and 100.";
     private static final int MAXIMUM_FIELD_LENGTH = 50;
-    private static final String MESSAGE_FIELD_TOO_LONG = "Student information fields cannot exceed 100 characters";
+    private static final String MESSAGE_FIELD_TOO_LONG = "Student information fields cannot exceed 50 characters";
 
     /**
      * @param input a string that is either in the "X:Y" or "X" form
