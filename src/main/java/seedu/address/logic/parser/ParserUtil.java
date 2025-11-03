@@ -49,7 +49,9 @@ import seedu.address.model.tag.Tag;
  * Contains utility methods used for parsing strings in the various *Parser classes.
  */
 public class ParserUtil {
-
+    public static final String MESSAGE_INVALID_RANGE = "Multi-Index must be in the format of X:Y such that"
+            + " X is greater than or equal to Y,"
+            + " and both X and Y are numbers are greater than 0.";
     public static final String MESSAGE_INVALID_INDEX = "Student index must be a number that is greater than 0";
     public static final String MESSAGE_INVALID_STATUS = "Status input must be Y or N";
     public static final String MESSAGE_INVALID_LAB_INDEX =
@@ -97,7 +99,7 @@ public class ParserUtil {
     private static MultiIndex parseRange(String input) throws ParseException {
         String[] parts = input.split(":");
         if (parts.length != 2) {
-            throw new InvalidIndexException("Invalid range format: " + input);
+            throw new InvalidIndexException(MESSAGE_INVALID_RANGE);
         }
 
         Index lower = ParserUtil.parseIndex(parts[0].trim());
