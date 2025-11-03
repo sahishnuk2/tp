@@ -71,10 +71,12 @@ deactivate CommandResult
 UnblockTimeslotCommand --> LogicManager : result
 deactivate UnblockTimeslotCommand
 
-' --- Persistence omitted for compactness ---
-' LogicManager -> Storage : saveAddressBook(...) and saveTimeslots(...) removed.
+' Persistence omitted for brevity.
+note right of LogicManager : Persistence (saveAddressBook / saveTimeslots) omitted.
+end note
 
 [<-- LogicManager
 deactivate LogicManager
 
+scale 1.5
 @enduml
