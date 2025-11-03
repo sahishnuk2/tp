@@ -13,7 +13,33 @@ pageNav: 3
 
 ## **Acknowledgements**
 
-_{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well }_
+### Project Origin
+
+This project was forked from [se-edu/addressbook-level3](https://github.com/se-edu/addressbook-level3) under the MIT License. It extends the original work with additional features and functionalities inspired by CRM-style client and booking management systems.
+
+### Idea Inspiration
+
+- The design and concept were influenced by [AB3](https://se-education.org/addressbook-level3/) and [CS2103T progress tracker](https://nus-cs2103-ay2526s1.github.io/dashboards/contents/tp-progress.html), incorporating features for managing labs, exercises and grades
+- Timeslot management, including blocking/unblocking slots and consultations, was inspired by [NUSMods](https://nusmods.com/timetable/sem-1)
+
+### Third-Party Libraries
+
+- **JavaFX** — for building the graphical user interface. ([openjfx.io](https://openjfx.io))
+- **Jackson** — for JSON data serialization and deserialization. ([github.com/FasterXML/jackson](https://github.com/FasterXML/jackson))
+- **JUnit 5** — for unit and integration testing. ([junit.org/junit5](https://junit.org/junit5))
+
+### Development Tools
+
+- **Gradle** — for build automation and dependency management. ([gradle.org](https://gradle.org))
+- **GitHub Pages** — for hosting project documentation. ([pages.github.com](https://pages.github.com))
+- **PlantUML** — for generating UML diagrams used in documentation. ([plantuml.com](https://plantuml.com))
+- **MarkBind** — for authoring and publishing the user and developer guides. ([markbind.org](https://markbind.org))
+- **GitHub Actions (CI)** — for continuous integration and automated build testing. ([github.com/features/actions](https://github.com/features/actions))
+
+### AI Assistance
+
+- **ChatGPT (OpenAI)** — assisted with idea generation, conceptual explanations, and documentation drafting. ([chat.openai.com](https://chat.openai.com))
+- **Claude Code (Anthropic)** — assisted with understanding concepts, idea generation, and idea validation, and documentation review. ([www.claude.com/product/claude-code](https://www.claude.com/product/claude-code))
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -182,7 +208,7 @@ Typical lifecycle for a timeslot command:
 2. Parser validates prefixes/arguments and constructs a Command instance (e.g., BlockTimeslotCommand).
 3. LogicManager executes the Command (command.execute(model)).
 4. Command manipulates the Model (reads or mutates Timeslots) and returns a CommandResult.
-5. LogicManager persists changes (see [Persistence & UI](#persistence--ui)) and returns the CommandResult to the caller/UI.
+5. LogicManager persists changes (see [Persistence and UI](#persistence-and-ui)) and returns the CommandResult to the caller/UI.
 
 **Sequence diagrams:**
 
@@ -202,7 +228,7 @@ Typical lifecycle for a timeslot command:
 
 <puml src="diagrams/Timeslots/GetTimeslotsSequenceDiagram.puml" width="820" />
 
-#### Persistence & UI
+#### Persistence and UI
 - Persistence: LogicManager is responsible for writing persistent files. After a successful command execution, LogicManager saves the address book and, if available, timeslots via StorageManager.saveAddressBook(...) and StorageManager.saveTimeslots(...).
 - UI scheduling: Some commands (e.g., get-timeslots) produce a timeslot ranges payload inside CommandResult. When present, LogicManager schedules the UI update using Platform.runLater(() -> TimeslotsWindow.showTimetable(...)). This call:
   - Is performed asynchronously on the JavaFX thread to avoid blocking command execution.
@@ -397,7 +423,7 @@ It exposes methods such as:
 **MultiIndexCommand**
 
 Commands that use this feature extend the abstract class `MultiIndexCommand`,
-which defines a template for commands that support updates for multiple students at once using the [MultiIndex syntax](#implementation-1).
+which defines a template for commands that support updates for multiple students at once using the MultiIndex syntax above.
 
 Each subclass:
 1. Implements `applyActionToPerson(Model model, Person person)` — defining how each student is modified.
@@ -712,6 +738,7 @@ Use case ends.
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Students' performance**: Grades that students receive for their weekly exercises and labs
 * **TA**: Teaching Assistant
+* **Tracker data**: Each student's lab attendance, weekly exercise completion and examination grades
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -1352,5 +1379,12 @@ Testers are encouraged to create their own test scenarios by combining the comma
 
 Team size: 5
 
-1. Make the timetable window (used by `get-timeslots` and `get-consultations`) refresh automatically when timeslot data changes. Currently it only updates after the command is reissued. We plan to add a listener so the window refreshes immediately whenever timeslots are modified.
+1. Make the timetable window (used by `get-timeslots` and `get-consultations`) refresh automatically when timeslot data changes. Currently, it only updates after the command is reissued. We plan to add a listener so the window refreshes immediately whenever timeslots are modified.
 2. Add support for importing calendar files (e.g., .ics) to bulk-create timeslots. At the moment timeslots must be added or edited one at a time. A calendar import feature will let users import events directly from their calendar applications.
+3. Add support for filtering by grades. Currently, filter only supports filtering by labs and exercises.
+4. Add support for sorting by grades. Currently, students can only be sorted by name, student id, exercise completion and lab attendance. We plan to add another comparator to support sorting by grades.
+5. Add support for special characters in student names. Currently, the name field only accepts alphanumeric characters and spaces. We plan to extend validation to support names with hyphens, apostrophes, and other common punctuation marks (e.g., `Arjun S/O Raja`, `Gibbs-White`).
+6. Prevent UI overflow for tags. Currently, when students have a very long tag, the tag labels may overflow the card boundary. We plan to add text truncation to ensure tags are always displayed within the card bounds.
+7. Make tags cumulative. Currently, editing tags replaces all existing tags. We plan to add an option to append new tags without removing existing ones, allowing users to add tags incrementally.
+8. Make necessary fields optional. Currently, all fields (name, student ID, phone, email, GitHub username) are mandatory when adding a student. We plan to make some fields optional (e.g., phone, GitHub username) to accommodate cases where this information is not immediately available.
+9. Fix short time slot labels in timetable. Currently, short time slots (e.g., 30 minutes or less) may not display labels properly in the timetable view. We plan to improve label rendering for short time slots by using abbreviated text or tooltips. 
