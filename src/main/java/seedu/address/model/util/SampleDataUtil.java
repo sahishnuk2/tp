@@ -28,17 +28,17 @@ import seedu.address.model.timeslot.Timeslot;
 public class SampleDataUtil {
     public static Person[] getSamplePersons() {
         return new Person[] {
-            new Person(new StudentId("A1231230B"), new Name("Alex Yeoh"), new Phone("87438807"),
+            new Person(new StudentId("A1231230B"), new Name("Alex Yeoh"), new Phone("+65-87438807"),
                     new Email("alexyeoh@example.com"),
-                    getTagSet("Smart"),
+                    getTagSet("Top-Student", "Week-2-Consultation"),
                     new GithubUsername("AlexYeoh"),
                     new ExerciseList(), new LabList(), new GradeMap()),
-            new Person(new StudentId("A1231231B"), new Name("Bernice Yu"), new Phone("99272758"),
+            new Person(new StudentId("A1231231B"), new Name("Bernice Yu"), new Phone("+65-99272758"),
                     new Email("berniceyu@example.com"),
                     getTagSet("Consulting", "Struggling"),
                     new GithubUsername("BerniceYu"),
                     new ExerciseList(), new LabList(), new GradeMap()),
-            new Person(new StudentId("A1231232B"), new Name("Charlotte Oliveiro"), new Phone("93210283"),
+            new Person(new StudentId("A1231232B"), new Name("Charlotte Oliveiro"), new Phone("+55-9231-8585"),
                     new Email("charlotte@example.com"),
                     getTagSet(),
                     new GithubUsername("CharlotteOliveiro"),
