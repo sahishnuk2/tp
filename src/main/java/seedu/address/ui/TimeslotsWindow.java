@@ -376,60 +376,35 @@ public class TimeslotsWindow {
                     block.setStroke(Color.web("#d0d7de"));
                     block.setStrokeWidth(1);
 
-                    // Decide whether to hide the generic timeslot label.
-                    final int labelSafeMinutes = 15;
-                    boolean hideGenericLabel = false;
-                    if (allTimeslots != null) {
-                        for (Timeslot t2 : allTimeslots) {
-                            if (!(t2 instanceof ConsultationTimeslot)) {
-                                continue;
-                            }
-                            LocalDateTime cStart = t2.getStart();
-                            LocalDateTime cEnd = t2.getEnd();
-                            if (cStart == null || cEnd == null) {
-                                continue;
-                            }
-                            LocalDateTime cRenderStart = cStart.isAfter(dayWindowStart) ? cStart : dayWindowStart;
-                            LocalDateTime cRenderEnd = cEnd.isBefore(dayWindowEnd) ? cEnd : dayWindowEnd;
-                            if (cRenderStart.isBefore(renderEnd) && cRenderEnd.isAfter(renderStart)) {
-                                if (cRenderStart.isBefore(renderStart.plusMinutes(labelSafeMinutes))
-                                        && cRenderEnd.isAfter(renderStart)) {
-                                    hideGenericLabel = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
+                    // Generic timeslot label (behaviour mirrors consultation labels):
                     String displayLabelText = String.format("S: %s\nE: %s",
                             renderStart.format(DateTimeFormatter.ofPattern("HH:mm")),
                             renderEnd.format(DateTimeFormatter.ofPattern("HH:mm")));
                     Label bl = new Label(displayLabelText);
-
                     bl.setStyle("-fx-text-fill: #1f2a2f; -fx-font-size: 11px;");
                     // bind label position to block.x + 6 so it follows scaling
                     bl.layoutXProperty().bind(xBind.add(6));
                     bl.setLayoutY(8); // vertical placement
 
-                    // add a tooltip on the block (single tooltip per block for consistent hover behaviour)
+                    // Constrain label max width to the block width (minus padding) and enable wrapping
+                    bl.maxWidthProperty().bind(block.widthProperty().subtract(12));
+                    bl.setWrapText(true);
+                    // Hide label if block is too narrow (same threshold as consultations)
+                    bl.visibleProperty().bind(block.widthProperty().greaterThan(40));
+
+                    // Tooltip on the block for consistent hover behaviour
                     javafx.scene.control.Tooltip tsTooltip = new javafx.scene.control.Tooltip(
                             String.format("Timeslot%nStart: %s%nEnd: %s",
                                     renderStart.format(FORMATTER),
                                     renderEnd.format(FORMATTER)));
                     tsTooltip.setWrapText(true);
                     tsTooltip.setMaxWidth(300);
-                    // immediate show, short hide delay, reasonable show duration
                     tsTooltip.setShowDelay(javafx.util.Duration.ZERO);
                     tsTooltip.setHideDelay(javafx.util.Duration.millis(100));
                     tsTooltip.setShowDuration(javafx.util.Duration.seconds(8));
-                    // install tooltip on the visual block (not on multiple nodes)
                     javafx.scene.control.Tooltip.install(block, tsTooltip);
 
-                    if (!hideGenericLabel) {
-                        timeline.getChildren().addAll(block, bl);
-                    } else {
-                        timeline.getChildren().add(block);
-                    }
+                    timeline.getChildren().addAll(block, bl);
                 }
             }
         }

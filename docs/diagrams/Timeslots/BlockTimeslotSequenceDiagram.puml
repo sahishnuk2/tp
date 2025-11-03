@@ -21,7 +21,7 @@ LogicManager -> AddressBookParser : parseCommand()
 activate AddressBookParser
 
 create BlockTimeslotCommandParser
-AddressBookParser -> BlockTimeslotCommandParser : new BlockTimeslotCommandParser()
+AddressBookParser -> BlockTimeslotCommandParser
 activate BlockTimeslotCommandParser
 AddressBookParser <-- BlockTimeslotCommandParser
 deactivate BlockTimeslotCommandParser
@@ -30,12 +30,16 @@ AddressBookParser -> BlockTimeslotCommandParser : parse()
 activate BlockTimeslotCommandParser
 
 create BlockTimeslotCommand
-BlockTimeslotCommandParser -> BlockTimeslotCommand : new BlockTimeslotCommand()
+BlockTimeslotCommandParser -> BlockTimeslotCommand
 activate BlockTimeslotCommand
 
 BlockTimeslotCommand --> BlockTimeslotCommandParser
 deactivate BlockTimeslotCommandParser
 destroy BlockTimeslotCommandParser
+
+' End constructor activation for created command so execute(model) shows as a separate activation.
+BlockTimeslotCommand <-- BlockTimeslotCommandParser
+deactivate BlockTimeslotCommand
 
 AddressBookParser --> LogicManager : c
 deactivate AddressBookParser

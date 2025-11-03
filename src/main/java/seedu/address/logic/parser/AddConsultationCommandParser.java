@@ -35,7 +35,8 @@ public class AddConsultationCommandParser implements Parser<AddConsultationComma
                 CliSyntax.PREFIX_TIMESLOT_START, CliSyntax.PREFIX_TIMESLOT_END, CliSyntax.PREFIX_NAME);
 
         // disallow duplicated ts/ or te/ prefixes
-        argMultimap.verifyNoDuplicatePrefixesFor(CliSyntax.PREFIX_TIMESLOT_START, CliSyntax.PREFIX_TIMESLOT_END);
+        argMultimap.verifyNoDuplicatePrefixesFor(CliSyntax.PREFIX_TIMESLOT_START,
+            CliSyntax.PREFIX_TIMESLOT_END, CliSyntax.PREFIX_NAME);
 
         // no free-form preamble allowed
         if (!argMultimap.getPreamble().isEmpty()) {
