@@ -74,7 +74,7 @@ public class ParserUtil {
             "Attendance percentage must be an integer between 0 and 100.";
     private static final String MESSAGE_INVALID_PREFIX = "Invalid prefix(s) found: %s";
     private static final int MAXIMUM_FIELD_LENGTH = 100;
-
+    private static final String MESSAGE_FIELD_TOO_LONG = "Student information fields cannot exceed 100 characters";
     /**
      * @param input a string that is either in the "X:Y" or "X" form
      * @return a MultiIndex instance
@@ -167,6 +167,7 @@ public class ParserUtil {
     public static StudentId parseStudentId(String studentId) throws ParseException {
         requireNonNull(studentId);
         String trimmedStudentId = studentId.trim();
+        validateFieldLength(studentId);
         if (!StudentId.isValidStudentId(trimmedStudentId)) {
             throw new ParseException(StudentId.MESSAGE_CONSTRAINTS);
         }
@@ -182,6 +183,7 @@ public class ParserUtil {
     public static Name parseName(String name) throws ParseException {
         requireNonNull(name);
         String trimmedName = name.trim();
+        validateFieldLength(name);
         if (!Name.isValidName(trimmedName)) {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
@@ -197,6 +199,7 @@ public class ParserUtil {
     public static Phone parsePhone(String phone) throws ParseException {
         requireNonNull(phone);
         String trimmedPhone = phone.trim();
+        validateFieldLength(phone);
         if (!Phone.isValidPhone(trimmedPhone)) {
             throw new ParseException(Phone.MESSAGE_CONSTRAINTS);
         }
@@ -212,6 +215,7 @@ public class ParserUtil {
     public static Email parseEmail(String email) throws ParseException {
         requireNonNull(email);
         String trimmedEmail = email.trim();
+        validateFieldLength(email);
         if (!Email.isValidEmail(trimmedEmail)) {
             throw new ParseException(Email.MESSAGE_CONSTRAINTS);
         }
@@ -227,6 +231,7 @@ public class ParserUtil {
     public static Tag parseTag(String tag) throws ParseException {
         requireNonNull(tag);
         String trimmedTag = tag.trim();
+        validateFieldLength(tag);
         if (!Tag.isValidTagName(trimmedTag)) {
             throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
         }
@@ -253,6 +258,7 @@ public class ParserUtil {
      */
     public static GithubUsername parseGithubUsername(String githubUsername) throws ParseException {
         requireNonNull(githubUsername);
+        validateFieldLength(githubUsername);
         String trimmedGithubUsername = githubUsername.trim();
         if (!GithubUsername.isValidGithubUsername(trimmedGithubUsername)) {
             throw new ParseException(GithubUsername.MESSAGE_CONSTRAINTS);
@@ -578,6 +584,11 @@ public class ParserUtil {
 
         if (!unwantedPrefixes.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_PREFIX, String.join(", ", unwantedPrefixes)));
+        }
+    }
+    private static void validateFieldLength(String input) throws ParseException {
+        if (input.length() > MAXIMUM_FIELD_LENGTH) {
+            throw new ParseException(MESSAGE_FIELD_TOO_LONG);
         }
     }
 }
