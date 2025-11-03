@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EXAM_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 
@@ -111,5 +112,18 @@ public class GradeCommandParserTest {
 
         assertEquals(expectedCommand, command);
     }
-
+    @Test
+    public void parse_missingEverything_throwsParseException() {
+        String userInput = "";
+        ParseException thrown = assertThrows(ParseException.class, () -> parser.parse(userInput));
+        String expected = String.format(MESSAGE_INVALID_COMMAND_FORMAT, GradeCommand.MESSAGE_USAGE);
+        assertEquals(expected.trim(), thrown.getMessage().trim());
+    }
+    @Test
+    public void parse_missingIndex_throwsParseException() {
+        String userInput = " " + PREFIX_EXAM_NAME + "pe1 " + PREFIX_STATUS + "y";
+        ParseException thrown = assertThrows(ParseException.class, () -> parser.parse(userInput));
+        String expected = String.format(MESSAGE_INVALID_COMMAND_FORMAT, GradeCommand.MESSAGE_USAGE);
+        assertEquals(expected.trim(), thrown.getMessage().trim());
+    }
 }
