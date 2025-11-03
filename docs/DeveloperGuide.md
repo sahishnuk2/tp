@@ -184,20 +184,21 @@ Typical lifecycle for a timeslot command:
 4. Command manipulates the Model (reads or mutates Timeslots) and returns a CommandResult.
 5. LogicManager persists changes (see [Persistence & UI](#persistence--ui)) and returns the CommandResult to the caller/UI.
 
-Sequence diagrams:
-Block timeslot: 
+**Sequence diagrams:**
+
+1. Block timeslot: 
 
 <puml src="diagrams/Timeslots/BlockTimeslotSequenceDiagram.puml" width="820" />
 
-Unblock timeslot: 
+2. Unblock timeslot: 
 
 <puml src="diagrams/Timeslots/UnblockTimeslotSequenceDiagram.puml" width="820" />
 
-Clear timeslots: 
+3. Clear timeslots: 
 
 <puml src="diagrams/Timeslots/ClearTimeslotsSequenceDiagram.puml" width="820" />
 
-Get timeslots: 
+4. Get timeslots: 
 
 <puml src="diagrams/Timeslots/GetTimeslotsSequenceDiagram.puml" width="820" />
 
