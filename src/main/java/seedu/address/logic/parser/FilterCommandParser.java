@@ -68,7 +68,8 @@ public class FilterCommandParser implements Parser<FilterCommand> {
         for (String labAttendance : labAttendances) {
             if (labAttendance.isBlank()) {
                 throw new ParseException(MESSAGE_MISSING_ATTENDANCE_COMPARISON
-                        + FilterCommand.ATTENDED_PERCENTAGE_USAGE);
+                        + FilterCommand.ATTENDED_PERCENTAGE_USAGE
+                        + FilterCommand.LA_EXAMPLE);
             }
             validateFieldString.append(" ").append(labAttendance);
             verifyNoUnwantedPrefixes(validateFieldString.toString(), PREFIX_LAB_ATTENDANCE);

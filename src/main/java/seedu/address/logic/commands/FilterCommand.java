@@ -17,8 +17,8 @@ public class FilterCommand extends Command {
     public static final String COMMAND_WORD = "filter";
 
     public static final String ATTENDED_PERCENTAGE_USAGE = "Lab attended comparison must contain an operator ==, >=,"
-            + " <=, >, < and an integer to compare with from 0-100 in percents.\n"
-            + "The % symbol after the value is optional.\n";
+            + " <=, >, < \nand an integer to compare with from 0-100 in percents.\n";
+    public static final String LA_EXAMPLE = "Example: filter la/>=20";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Filters all persons whose exercise or lab attendance match the "

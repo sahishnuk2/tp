@@ -507,10 +507,11 @@ public class ParserUtil {
         // Group 1 operator: ==, >=, <=, >, < or empty,
         // group 2 value: 1–3 digits checks if negative, optional trailing '%'.
         Matcher m = Pattern
-                .compile("^(?:([<>]=?|==?|))?(-?\\d{1,3})(?:%)?$")
+                .compile("^(?:([<>]=?|==?|))?(-?\\d+)(?:%)?$")
                 .matcher(s);
         if (!m.matches()) {
-            throw new ParseException(FilterCommand.ATTENDED_PERCENTAGE_USAGE);
+            throw new ParseException("Invalid comparison!\n"
+                    + FilterCommand.ATTENDED_PERCENTAGE_USAGE + FilterCommand.LA_EXAMPLE);
         }
 
         String operator = m.group(1);
