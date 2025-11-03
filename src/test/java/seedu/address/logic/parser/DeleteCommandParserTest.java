@@ -35,7 +35,6 @@ public class DeleteCommandParserTest {
     public void parse_invalidIndexFormat_throwsParseException() {
         // invalid because non-numeric
         ParseException exception = assertThrows(ParseException.class, () -> parser.parse("a"));
-        System.out.println(exception.getMessage());
         assertTrue(exception.getMessage().contains(MESSAGE_INVALID_INDEX));
     }
 

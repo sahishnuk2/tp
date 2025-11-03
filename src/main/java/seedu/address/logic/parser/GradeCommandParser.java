@@ -1,7 +1,6 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EXAM_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.ParserUtil.validateFields;
@@ -45,13 +44,7 @@ public class GradeCommandParser implements Parser<GradeCommand> {
             studentIndex = ParserUtil.parseMultiIndex(argumentMultimap.getPreamble());
         } catch (InvalidIndexException iie) {
             throw new ParseException(iie.getMessage());
-        } catch (ParseException pe) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, GradeCommand.MESSAGE_USAGE),
-                    pe
-            );
         }
-
         // Construct and return the GradeCommand with parsed values
         return new GradeCommand(studentIndex, examName, isPassed);
     }
