@@ -8,9 +8,10 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Guarantees: immutable; name is valid as declared in {@link #isValidTagName(String)}
  */
 public class Tag {
+    public static final String MESSAGE_CONSTRAINTS =
+            "Tag names should contain only alphanumeric characters and hyphens (-), with no spaces.";
+    public static final String VALIDATION_REGEX = "[\\p{Alnum}-]+";
 
-    public static final String MESSAGE_CONSTRAINTS = "Tags names should be alphanumeric";
-    public static final String VALIDATION_REGEX = "\\p{Alnum}+";
 
     public final String tagName;
 

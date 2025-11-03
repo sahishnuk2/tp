@@ -167,17 +167,16 @@ This section describes some noteworthy details on how certain features are imple
 
 ### Feature: Storing, Adding And Managing Timeslots
 
-### Implementation overview
+#### Overview
 The Timeslots feature is implemented as a set of commands that parse user input into command objects, interact with the Model to read or mutate the stored timeslots, and return a CommandResult. Commands are implemented following the existing Command/Parser pattern used across the codebase (AddressBookParser -> XCommandParser -> XCommand). Some commands are read-only (e.g. get-timeslots) while others modify state (e.g. block-timeslot, unblock-timeslot, add-consultation, clear-timeslots).
 
-### Data model
+#### Implementation
 - Timeslot: stores start and end LocalDateTime; used for generic blocked timeslots.
 - ConsultationTimeslot: extends Timeslot and includes an associated student name; serialized to JSON with an explicit studentName field.
 - Timeslots are stored in a Timeslots collection inside ModelManager and are persisted by Storage (JsonTimeslotsStorage).
 
-<puml src="diagrams/TimeslotsClassDiagram.puml" width="574" />
+<puml src="diagrams/Timeslots/TimeslotsClassDiagram.puml" width="820" />
 
-### Command flow
 Typical lifecycle for a timeslot command:
 1. User input → AddressBookParser creates the specific CommandParser.
 2. Parser validates prefixes/arguments and constructs a Command instance (e.g., BlockTimeslotCommand).
@@ -186,22 +185,28 @@ Typical lifecycle for a timeslot command:
 5. LogicManager persists changes (see [Persistence & UI](#persistence--ui)) and returns the CommandResult to the caller/UI.
 
 Sequence diagrams:
-- Block timeslot: <puml src="diagrams/BlockTimeslotSequenceDiagram.puml" width="574" />
-- Unblock timeslot: <puml src="diagrams/UnblockTimeslotSequenceDiagram.puml" width="574" />
-- Clear timeslots: <puml src="diagrams/ClearTimeslotsSequenceDiagram.puml" width="574" />
-- Get timeslots: <puml src="diagrams/GetTimeslotsSequenceDiagram.puml" width="574" />
+Block timeslot: 
 
-### Persistence & UI
+<puml src="diagrams/Timeslots/BlockTimeslotSequenceDiagram.puml" width="820" />
+
+Unblock timeslot: 
+
+<puml src="diagrams/Timeslots/UnblockTimeslotSequenceDiagram.puml" width="820" />
+
+Clear timeslots: 
+
+<puml src="diagrams/Timeslots/ClearTimeslotsSequenceDiagram.puml" width="820" />
+
+Get timeslots: 
+
+<puml src="diagrams/Timeslots/GetTimeslotsSequenceDiagram.puml" width="820" />
+
+#### Persistence & UI
 - Persistence: LogicManager is responsible for writing persistent files. After a successful command execution, LogicManager saves the address book and, if available, timeslots via StorageManager.saveAddressBook(...) and StorageManager.saveTimeslots(...).
 - UI scheduling: Some commands (e.g., get-timeslots) produce a timeslot ranges payload inside CommandResult. When present, LogicManager schedules the UI update using Platform.runLater(() -> TimeslotsWindow.showTimetable(...)). This call:
   - Is performed asynchronously on the JavaFX thread to avoid blocking command execution.
   - Is guarded in LogicManager with a try/catch to ignore IllegalStateException in headless environments (unit tests).
   - Is only invoked when CommandResult contains non-empty timeslot ranges.
-
-### Validation and error handling
-- Argument parsing: CommandParsers validate required prefixes (ts/ and te/) and perform flexible datetime parsing (ISO and human-friendly formats). Parsers throw ParseException with user-facing messages on invalid format.
-- Command execution: Commands validate business rules (e.g., no overlapping timeslots, consultations with duplicate student/time). On violation a CommandException is thrown with a clear message.
-- Persistence errors: LogicManager translates IO or permission errors (IOException, AccessDeniedException) from Storage into CommandException so callers can surface the error to users.
 
 ### Feature: Undo Command
 
@@ -391,7 +396,7 @@ It exposes methods such as:
 **MultiIndexCommand**
 
 Commands that use this feature extend the abstract class `MultiIndexCommand`,
-which defines a template for commands that support updates for multiple students at once using the [MultiIndex syntax](#multiindex-syntax).
+which defines a template for commands that support updates for multiple students at once using the [MultiIndex syntax](#implementation-1).
 
 Each subclass:
 1. Implements `applyActionToPerson(Model model, Person person)` — defining how each student is modified.
@@ -458,7 +463,7 @@ This design cleanly separates **model data** from **UI rendering**, ensuring tha
 
 <puml src="diagrams/Trackable/TrackableClassDiagram.puml" width="800" />
 
-### **Example**
+#### Example
 Each student card displays their current progress in three areas:
 
 | Category | Green Meaning | Grey Meaning | Red Meaning |
@@ -509,6 +514,13 @@ and exercise tracking throughout the application.
     - Updates all existing students' lab and exercise tracking data to reflect the new week
 4. The system displays a success message showing the new week number and how many students were updated
 <br>
+
+#### Design Rationale
+
+The set-week command is intentionally designed as a manual command because it is simple and quick for users to type, giving TAs easy control over the current week.
+
+An automated approach—calculating the current week from the semester start date—would require users to update the semester start date each semester, which could be confusing and error-prone. In contrast, the manual approach is faster, clearer, and only needs to be done once per week, reducing the chance of errors and keeping the system straightforward to use.
+<br>
 <puml src="diagrams/set-week/SetWeekSequenceDiagram.puml" width="820" />
 
 --------------------------------------------------------------------------------------------------------------------
@@ -551,7 +563,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | TA                         | search for students based on their name                | easily find the student I'm looking for                       |
 | `* * *`  | TA                         | delete students                                        | remove false information                                      |
 | `* * *`  | TA conducting labs         | mark students attendance                               | know which students attended the lab and which students didnt |
-| `* * *`  | TA with many students      | add, update students data                              | have their accurate information in LambdaLabs                 |
+| `* * *`  | TA with many students      | add, update students data                              | maintain accurate information                                 |
 | `* *`    | TA                         | tag my student based on their exercise performance     | know how much effort I would need to help each student        |
 | `* *`    | New user                   | undo my mistakes                                       | recover from them quickly                                     |
 | `* *`    | TA                         | search for students based on their student ID          | easily find the student I'm looking for                       |
@@ -633,7 +645,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   * 2a1. System displays error message
   * 2a2. User adds in missing field or re-enters a valid field
 
-  Use case resumes at Step 3
+    Use case resumes at Step 3
 * 2b. Duplicate student ID
   * 2b1. System returns error message to show student already exists
   * 2b2. User re-enters a valid student ID
@@ -671,7 +683,7 @@ Use case ends.
   * 1a1. System returns an error describing acceptable criteria
   * 1a2. User re-enters a valid criterion
 
-  Use case resumes at Step 2
+    Use case resumes at Step 2
 
 
 ### Non-Functional Requirements
@@ -683,7 +695,7 @@ Use case ends.
 5.  Core functionalities should be covered by automated tests to ensure that future changes do not break the existing features
 6.  Users should be able to run the application simply by executing a JAR file, without needing to run an installer.
 7.  Should be able to function fully offline.
-8.  Date persistence should not depend on an external database system. Storage should be file-based and embedded.
+8.  Data persistence should not depend on an external database system. Storage should be file-based and embedded.
 9.  User data should not be lost due to unexpected situations (e.g., unexpected shutdowns).
 10. Should be able to support multiple screen resolutions (e.g., 1280×720 and above) without layout issues.
 
@@ -777,7 +789,17 @@ testers are expected to do more *exploratory* testing.
     3. Test case: `edit 1:3 t/outstanding` <br>
        Expected: In the displayed student list, the first 3 students' tags are replaced with the `outstanding` tag.
 
-2. Editing a student with invalid fields
+2. Editing a student with same data
+
+    1. Prerequisites: Ensure there is a student with name: `Alex` and phone number: `87438807`.
+
+    2. Test case: `edit 1 p/87438807` <br>
+       Expected: Error message indicating identical fields.
+
+    3. Test case: `edit 1 n/Alex` <br>
+       Expected: Error message indicating identical fields.
+
+3. Editing a student with invalid fields
 
     1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 
@@ -787,7 +809,7 @@ testers are expected to do more *exploratory* testing.
     3. Test case: `edit 0 p/98123456` <br>
        Expected: Error message indicating invalid `Student Index`.
 
-3. Editing with no fields specified
+4. Editing with no fields specified
 
     1. Test case: `edit 1`<br>
        Expected: Error message indicating at least one field needs to be provided.
@@ -1312,3 +1334,10 @@ Testers are encouraged to create their own test scenarios by combining the comma
 - **Filter Persistence**: Apply filters, execute commands like marka or marke, verify filters remain active and update correctly.
 
 
+
+## **Appendix: Planned Enhancements**
+
+Team size: 5
+
+1. Make the timetable window (used by `get-timeslots` and `get-consultations`) refresh automatically when timeslot data changes. Currently it only updates after the command is reissued. We plan to add a listener so the window refreshes immediately whenever timeslots are modified.
+2. Add support for importing calendar files (e.g., .ics) to bulk-create timeslots. At the moment timeslots must be added or edited one at a time. A calendar import feature will let users import events directly from their calendar applications.
