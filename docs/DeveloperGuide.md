@@ -504,7 +504,13 @@ that matches when **any** keyword is a case-insensitive **substring** of **any**
 The `set-week` command allows teaching assistants to set the current week of the semester (0-13). This is a crucial command as it determines which labs are considered "past" and affects the behavior of lab attendance marking
 and exercise tracking throughout the application.
 
-**How it works:**
+#### Design Rationale
+
+The set-week command is intentionally designed as a manual command because it is simple and quick for users to type, giving TAs easy control over the current week.
+
+An automated approach—calculating the current week from the semester start date—would require users to update the semester start date each semester, which could be confusing and error-prone. In contrast, the manual approach is faster, clearer, and only needs to be done once per week, reducing the chance of errors and keeping the system straightforward to use.
+
+#### How it works
 
 1. The user executes `set-week <WEEK_NUMBER>` where `WEEK_NUMBER` is between 0 and 13 (inclusive)
 2. The `SetWeekCommandParser` parses the input string and creates a `Week` object
@@ -514,13 +520,9 @@ and exercise tracking throughout the application.
     - Updates the static current week in `LabList` and `ExerciseList` classes
     - Updates all existing students' lab and exercise tracking data to reflect the new week
 4. The system displays a success message showing the new week number and how many students were updated
-<br>
 
-#### Design Rationale
 
-The set-week command is intentionally designed as a manual command because it is simple and quick for users to type, giving TAs easy control over the current week.
-
-An automated approach—calculating the current week from the semester start date—would require users to update the semester start date each semester, which could be confusing and error-prone. In contrast, the manual approach is faster, clearer, and only needs to be done once per week, reducing the chance of errors and keeping the system straightforward to use.
+The sequence diagram below illustrates the interactions within the `Logic` and `model` component, taking `execute("set-week 4")` API call as an example.
 <br>
 <puml src="diagrams/set-week/SetWeekSequenceDiagram.puml" width="820" />
 
