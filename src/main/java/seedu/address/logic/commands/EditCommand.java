@@ -105,7 +105,9 @@ public class EditCommand extends MultiIndexCommand {
         }
 
         String unchangedMsg = compileUnchangedPersons(unchangedPersons);
-        String editedMsg = String.format(MESSAGE_EDIT_PERSON_SUCCESS, sb.toString().trim());
+        String editedMsg = updatedPersons.isEmpty()
+                ? ""
+                : String.format(MESSAGE_EDIT_PERSON_SUCCESS, sb.toString().trim());
 
         String feedback = unchangedMsg.isEmpty()
                 ? editedMsg
