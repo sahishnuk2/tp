@@ -4,6 +4,7 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EXERCISE_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LAB_ATTENDANCE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LAB_NUMBER;
+import static seedu.address.logic.parser.ParserUtil.verifyNoUnwantedPrefixes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,13 +64,19 @@ public class FilterCommandParser implements Parser<FilterCommand> {
             predicates.add(getLabPredicate(labNumberStatus));
         }
 
+        StringBuilder validateFieldString = new StringBuilder().append(argMultimap.getPreamble());
         for (String labAttendance : labAttendances) {
             if (labAttendance.isBlank()) {
                 throw new ParseException(MESSAGE_MISSING_ATTENDANCE_COMPARISON
-                        + FilterCommand.ATTENDED_PERCENTAGE_USAGE);
+                        + FilterCommand.ATTENDED_PERCENTAGE_USAGE
+                        + FilterCommand.LA_EXAMPLE);
             }
+            validateFieldString.append(" ").append(labAttendance);
+            verifyNoUnwantedPrefixes(validateFieldString.toString(), PREFIX_LAB_ATTENDANCE);
             predicates.add(getLabAttendancePredicate(labAttendance));
         }
+
+        verifyNoUnwantedPrefixes(validateFieldString.toString(), PREFIX_LAB_ATTENDANCE);
 
         if (predicates.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
