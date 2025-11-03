@@ -526,7 +526,7 @@ find KEYWORD [MORE_KEYWORDS]... [i/] [n/] [p/] [e/] [g/] [t/]
 **Examples:**
 - Searches **all fields** for "alex" or "david": `find alex david`.
 - Searches **names only** for "alice": `find alice n/`.
-- Searches **Student ID** or **Name** for "A123" or "john": `find A123 john i/ n/`.
+- Searches **Student ID or Name** for "A123" or "john": `find A123 john i/ n/`.
 - Searches **tags only** for "lab1": `find lab1 t/`.
 
 <box type="tip">
