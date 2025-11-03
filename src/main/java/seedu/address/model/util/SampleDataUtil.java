@@ -28,32 +28,32 @@ import seedu.address.model.timeslot.Timeslot;
 public class SampleDataUtil {
     public static Person[] getSamplePersons() {
         return new Person[] {
-            new Person(new StudentId("A1231230B"), new Name("Alex Yeoh"), new Phone("+65-87438807"),
+            new Person(new StudentId("A1231230B"), new Name("Alex Yeoh"), new Phone("87438807"),
                     new Email("alexyeoh@example.com"),
-                    getTagSet("Top-Student", "Week-8-Consultation"),
+                    getTagSet("Smart"),
                     new GithubUsername("AlexYeoh"),
                     new ExerciseList(), new LabList(), new GradeMap()),
-            new Person(new StudentId("A1231231B"), new Name("Bernice Yu"), new Phone("+65-99272758"),
+            new Person(new StudentId("A1231231B"), new Name("Bernice Yu"), new Phone("99272758"),
                     new Email("berniceyu@example.com"),
-                    getTagSet("Week-9-Consultation", "Struggling"),
+                    getTagSet("Consulting", "Struggling"),
                     new GithubUsername("BerniceYu"),
                     new ExerciseList(), new LabList(), new GradeMap()),
-            new Person(new StudentId("A1231232B"), new Name("Charlotte Oliveiro"), new Phone("+55-9231-8585"),
+            new Person(new StudentId("A1231232B"), new Name("Charlotte Oliveiro"), new Phone("93210283"),
                     new Email("charlotte@example.com"),
-                    getTagSet("Need-PECS-help"),
+                    getTagSet(),
                     new GithubUsername("CharlotteOliveiro"),
                     new ExerciseList(), new LabList(), new GradeMap()),
-            new Person(new StudentId("A1231233B"), new Name("David Li"), new Phone("+65-91031282"),
+            new Person(new StudentId("A1231233B"), new Name("David Li"), new Phone("91031282"),
                     new Email("lidavid@example.com"),
-                    getTagSet("Need-PECS-help"),
+                    getTagSet(),
                     new GithubUsername("DavidLi"),
                     new ExerciseList(), new LabList(), new GradeMap()),
-            new Person(new StudentId("A1231234B"), new Name("Irfan Ibrahim"), new Phone("+65-92492021"),
+            new Person(new StudentId("A1231234B"), new Name("Irfan Ibrahim"), new Phone("92492021"),
                     new Email("irfan@example.com"),
                     getTagSet("Consulting"),
                     new GithubUsername("IrfanIbrahim"),
                     new ExerciseList(), new LabList(), new GradeMap()),
-            new Person(new StudentId("A1231235B"), new Name("Roy Balakrishnan"), new Phone("+1-555-123-4567"),
+            new Person(new StudentId("A1231235B"), new Name("Roy Balakrishnan"), new Phone("92624417"),
                     new Email("royb@example.com"),
                     getTagSet("Struggling"),
                     new GithubUsername("RoyBalakrishnan"),
@@ -89,8 +89,7 @@ public class SampleDataUtil {
         LocalDate weekStart = LocalDate.now().with(DayOfWeek.MONDAY);
 
         // Names to rotate for consultations
-        String[] consultNames = new String[] { "Alice", "Bob", "Charlie", "Daisy",
-            "Eve", "Frank", "Grace", "Heidi" };
+        String[] consultNames = new String[] { "Alice", "Bob", "Charlie", "Daisy", "Eve", "Frank", "Grace", "Heidi" };
 
         int nameIndex = 0;
 
@@ -128,7 +127,6 @@ public class SampleDataUtil {
                 break;
 
             case 1:
-                // Week 1: morning slots shifted later, slightly different durations
                 sample.addTimeslot(new Timeslot(base.atTime(9, 30), base.atTime(10, 30)));
                 sample.addTimeslot(new Timeslot(base.atTime(11, 0), base.atTime(11, 30)));
                 sample.addTimeslot(new Timeslot(base.atTime(15, 0), base.atTime(16, 30)));
