@@ -13,7 +13,6 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.UnblockTimeslotCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.timeslot.Timeslot;
@@ -78,7 +77,8 @@ public class UnblockTimeslotCommandParser implements Parser<UnblockTimeslotComma
         argMultimap.verifyNoDuplicatePrefixesFor(CliSyntax.PREFIX_TIMESLOT_START, CliSyntax.PREFIX_TIMESLOT_END);
 
         if (!argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    UnblockTimeslotCommand.MESSAGE_USAGE));
         }
 
         String startStr = null;
