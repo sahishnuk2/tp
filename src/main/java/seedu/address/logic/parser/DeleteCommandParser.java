@@ -22,7 +22,7 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
             MultiIndex multiIndex = ParserUtil.parseMultiIndex(args);
             return new DeleteCommand(multiIndex);
         } catch (InvalidIndexException iie) {
-            throw new ParseException("Student " + iie.getMessage());
+            throw new ParseException(iie.getMessage());
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE), pe);
         }

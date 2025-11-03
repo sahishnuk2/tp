@@ -54,7 +54,7 @@ public class GradeCommandParser implements Parser<GradeCommand> {
         try {
             studentIndex = ParserUtil.parseMultiIndex(argumentMultimap.getPreamble());
         } catch (InvalidIndexException iie) {
-            throw new ParseException("Student " + iie.getMessage());
+            throw new ParseException(iie.getMessage());
         } catch (ParseException pe) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, GradeCommand.MESSAGE_USAGE),
