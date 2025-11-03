@@ -73,7 +73,6 @@ deactivate UnblockTimeslotCommand
 
 ' Persistence omitted for brevity.
 note right of LogicManager : Persistence (saveAddressBook / saveTimeslots) omitted.
-end note
 
 [<-- LogicManager
 deactivate LogicManager
