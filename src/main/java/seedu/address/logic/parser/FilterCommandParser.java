@@ -4,7 +4,6 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EXERCISE_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LAB_ATTENDANCE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LAB_NUMBER;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.ParserUtil.verifyNoUnwantedPrefixes;
 
 import java.util.ArrayList;
