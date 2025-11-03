@@ -20,6 +20,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.GradeTracker;
 import seedu.address.model.person.Person;
+import seedu.address.testutil.BrokenGradeTracker;
 import seedu.address.testutil.PersonBuilder;
 
 /**
@@ -170,4 +171,74 @@ public class GradeCommandTest {
                 new GradeCommand(new MultiIndex(INDEX_FIRST_PERSON), "midterm", false),
                 standardCommand);
     }
+
+    @Test
+    public void execute_markExamFailed_success() {
+        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        GradeTracker gradeMap = firstPerson.getGradeTracker().copy();
+        gradeMap.markExamFailed("midterm");
+        Person gradedPerson = new PersonBuilder(firstPerson)
+                .withGradeMap(gradeMap.toString())
+                .build();
+
+        GradeCommand command = new GradeCommand(
+                new MultiIndex(INDEX_FIRST_PERSON),
+                "midterm",
+                false
+        );
+
+        String expectedMessage = String.format(
+                GradeCommand.MESSAGE_GRADE_SUCCESS,
+                "midterm",
+                "failed",
+                firstPerson.getNameAndID()
+        );
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.setPerson(firstPerson, gradedPerson);
+
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void applyActionToPerson_missingExam_throwsAssertionError() {
+        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        // Use dedicated stub
+        GradeTracker brokenGradeMap = new BrokenGradeTracker();
+
+        Person tempPerson = new PersonBuilder(firstPerson)
+                .withGradeMap(firstPerson.getGradeTracker().toString())
+                .build();
+        final Person brokenPerson = new Person(
+                tempPerson.getStudentId(),
+                tempPerson.getName(),
+                tempPerson.getPhone(),
+                tempPerson.getEmail(),
+                tempPerson.getTags(),
+                tempPerson.getGithubUsername(),
+                tempPerson.getExerciseTracker(),
+                tempPerson.getLabAttendanceList(),
+                brokenGradeMap
+        );
+
+        GradeCommand command = new GradeCommand(
+                new MultiIndex(INDEX_FIRST_PERSON),
+                "midterm",
+                true
+        );
+
+        Model dummyModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        assertThrows(AssertionError.class, () -> command.applyActionToPerson(dummyModel, brokenPerson));
+    }
+
+
+
+    @Test
+    public void equals_differentType_returnsFalse() {
+        GradeCommand command = new GradeCommand(new MultiIndex(INDEX_FIRST_PERSON), "midterm", true);
+        assertNotEquals(command, new Object()); // explicitly non-GradeCommand
+    }
+
 }
