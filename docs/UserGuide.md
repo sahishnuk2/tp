@@ -129,6 +129,10 @@ spreadsheets or GUI apps.
 
 ![Ui.png](images/Ui.png)
 
+<box type="warning">
+
+**Caution:** Reducing the window size may affect the User Interface's display of information.
+</box>
 ## Trackers  
 ![Trackers.png](images/Trackers.png)
 These are trackers that provides a visual overview of each student’s progress in terms of **lab attendance**,
