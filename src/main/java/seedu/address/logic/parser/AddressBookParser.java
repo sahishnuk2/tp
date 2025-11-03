@@ -72,6 +72,7 @@ public class AddressBookParser {
         case AddConsultationCommand.COMMAND_WORD:
             return new AddConsultationCommandParser().parse(arguments);
 
+        // Treat as no-argument command: ignore extraneous arguments like List/Clear.
         case GetConsultationsCommand.COMMAND_WORD:
             return new GetConsultationsCommand();
 
@@ -112,7 +113,7 @@ public class AddressBookParser {
             return new SortCommandParser().parse(arguments);
 
         case GetTimeslotCommand.COMMAND_WORD:
-            return new GetTimeslotCommandParser().parse(arguments);
+            return new GetTimeslotCommand();
 
         case BlockTimeslotCommand.COMMAND_WORD:
             return new BlockTimeslotCommandParser().parse(arguments);
