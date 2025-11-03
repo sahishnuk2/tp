@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENTID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.ParserUtil.verifyNoUnwantedPrefixes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,6 +48,7 @@ public class FindCommandParser implements Parser<FindCommand> {
 
         List<String> keywords = getKeywords(argMultimap);
         List<FindPredicate> predicates = getSelectedPredicates(argMultimap, keywords);
+        verifyNoUnwantedPrefixes(args, FIND_PREFIXES);
 
         return new FindCommand(new PersonContainsKeywordsPredicate(predicates));
     }

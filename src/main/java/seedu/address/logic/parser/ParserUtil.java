@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -18,7 +17,6 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.core.index.MultiIndex;
 import seedu.address.commons.exceptions.InvalidIndexException;
 import seedu.address.commons.util.StringUtil;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.FilterCommand;
 import seedu.address.logic.helpers.Comparison;
 import seedu.address.logic.helpers.ExerciseIndexStatus;
@@ -429,7 +427,7 @@ public class ParserUtil {
     public static ExerciseIndexStatus parseExerciseIndexStatus(String exerciseIndexString) throws ParseException {
         ArgumentMultimap exerciseMultimap =
                 ArgumentTokenizer.tokenize(exerciseIndexString, PREFIX_STATUS);
-        checkNoDuplicatePrefix(exerciseMultimap, PREFIX_STATUS);
+        exerciseMultimap.verifyNoDuplicatePrefixesFor(PREFIX_STATUS);
         Optional<String> statusString = exerciseMultimap.getValue(PREFIX_STATUS);
 
         Index exerciseNumber = parseExerciseIndex(exerciseMultimap.getPreamble());
@@ -450,7 +448,8 @@ public class ParserUtil {
     public static LabIndexStatus parseLabNumberStatus(String labNumberString) throws ParseException {
         ArgumentMultimap exerciseMultimap =
                 ArgumentTokenizer.tokenize(labNumberString, PREFIX_STATUS);
-        checkNoDuplicatePrefix(exerciseMultimap, PREFIX_STATUS);
+        exerciseMultimap.verifyNoDuplicatePrefixesFor(PREFIX_STATUS);
+        verifyNoUnwantedPrefixes(labNumberString, PREFIX_STATUS);
         Optional<String> statusString = exerciseMultimap.getValue(PREFIX_STATUS);
 
         Index labNumber = parseLabIndex(exerciseMultimap.getPreamble());
@@ -599,26 +598,6 @@ public class ParserUtil {
     private static void validateFieldLength(String input) throws ParseException {
         if (input.length() > MAXIMUM_FIELD_LENGTH) {
             throw new ParseException(MESSAGE_FIELD_TOO_LONG);
-        }
-    }
-
-    /**
-     * Checks for duplicate prefixes and throws an exception if there are duplicates.
-     *
-     * @param prefixes The prefixes to check duplicates for
-     * @throws IllegalArgumentException If there are duplicates
-     */
-    public static void checkNoDuplicatePrefix(ArgumentMultimap argMultimap, Prefix... prefixes) throws ParseException {
-        List<Prefix> duplicates = new ArrayList<>();
-        for (Prefix prefix : prefixes) {
-            if (argMultimap.getAllValues(prefix).size() > 1) {
-                duplicates.add(prefix);
-            }
-        }
-        if (!duplicates.isEmpty()) {
-            throw new ParseException(Messages.getErrorMessageForDuplicatePrefixes(
-                    duplicates.toArray(new Prefix[0])
-            ));
         }
     }
 }
