@@ -81,6 +81,9 @@ public class EditCommand extends MultiIndexCommand {
     @Override
     protected Person applyActionToPerson(Model model, Person personToEdit) throws CommandException {
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
+        if (!editPersonDescriptor.isAnyFieldEdited()) {
+            throw new CommandException(MESSAGE_NOT_EDITED);
+        }
         if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
@@ -100,20 +103,27 @@ public class EditCommand extends MultiIndexCommand {
         for (Person p : updatedPersons) {
             sb.append(Messages.format(p)).append("\n");
         }
-        return new CommandResult(
-                compileUnchangedPersons(unchangedPersons)
-                + String.format(MESSAGE_EDIT_PERSON_SUCCESS, sb.toString().trim())
-        );
+
+        String unchangedMsg = compileUnchangedPersons(unchangedPersons);
+        String editedMsg = String.format(MESSAGE_EDIT_PERSON_SUCCESS, sb.toString().trim());
+
+        String feedback = unchangedMsg.isEmpty()
+                ? editedMsg
+                : unchangedMsg + editedMsg;
+
+        return new CommandResult(feedback);
     }
+
     private String compileUnchangedPersons(List<Person> unchangedPersons) {
         if (unchangedPersons.isEmpty()) {
             return "";
         }
         String names = unchangedPersons.stream()
                 .map(Person::getNameAndID)
-                .collect(Collectors.joining(", ")); // collect names
+                .collect(Collectors.joining(", "));
         return String.format(MESSAGE_NO_CHANGES_MADE, names) + "\n";
     }
+
 
     /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
