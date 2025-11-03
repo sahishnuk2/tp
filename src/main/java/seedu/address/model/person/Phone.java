@@ -8,11 +8,18 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Guarantees: immutable; is valid as declared in {@link #isValidPhone(String)}
  */
 public class Phone {
-
-
     public static final String MESSAGE_CONSTRAINTS =
-            "Phone numbers should only contain numbers, and it should be at least 3 digits long";
-    public static final String VALIDATION_REGEX = "\\d{3,}";
+            "Phone numbers may start with an optional '+', followed by digits or hyphens. "
+                    + "They must be at least 3 characters long and cannot start with a hyphen. "
+                    + "Example: +65-9123-4567";
+
+    /*
+     * Allows an optional '+' at the start, followed by digits or hyphens.
+     * The phone number must be at least 3 characters long and cannot start with a hyphen.
+     */
+    public static final String VALIDATION_REGEX = "^(?!-)\\+?[\\d-]{3,}$";
+
+
     public final String value;
 
     /**
@@ -44,7 +51,6 @@ public class Phone {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof Phone)) {
             return false;
         }
@@ -57,5 +63,4 @@ public class Phone {
     public int hashCode() {
         return value.hashCode();
     }
-
 }

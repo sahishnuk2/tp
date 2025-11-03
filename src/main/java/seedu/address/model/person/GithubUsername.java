@@ -10,7 +10,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class GithubUsername {
 
     public static final String MESSAGE_CONSTRAINTS = "GitHub usernames must be 1–39 characters long "
-            + "and may include letters, numbers, and hyphens."
+            + "and may include letters, numbers, and hyphens. "
             + "They cannot start or end with a hyphen or contain consecutive hyphens.";
 
     /*

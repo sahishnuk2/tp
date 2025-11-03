@@ -167,17 +167,16 @@ This section describes some noteworthy details on how certain features are imple
 
 ### Feature: Storing, Adding And Managing Timeslots
 
-### Implementation overview
+#### Overview
 The Timeslots feature is implemented as a set of commands that parse user input into command objects, interact with the Model to read or mutate the stored timeslots, and return a CommandResult. Commands are implemented following the existing Command/Parser pattern used across the codebase (AddressBookParser -> XCommandParser -> XCommand). Some commands are read-only (e.g. get-timeslots) while others modify state (e.g. block-timeslot, unblock-timeslot, add-consultation, clear-timeslots).
 
-### Data model
+#### Implementation
 - Timeslot: stores start and end LocalDateTime; used for generic blocked timeslots.
 - ConsultationTimeslot: extends Timeslot and includes an associated student name; serialized to JSON with an explicit studentName field.
 - Timeslots are stored in a Timeslots collection inside ModelManager and are persisted by Storage (JsonTimeslotsStorage).
 
-<puml src="diagrams/TimeslotsClassDiagram.puml" width="574" />
+<puml src="diagrams/Timeslots/TimeslotsClassDiagram.puml" width="820" />
 
-### Command flow
 Typical lifecycle for a timeslot command:
 1. User input → AddressBookParser creates the specific CommandParser.
 2. Parser validates prefixes/arguments and constructs a Command instance (e.g., BlockTimeslotCommand).
@@ -186,22 +185,28 @@ Typical lifecycle for a timeslot command:
 5. LogicManager persists changes (see [Persistence & UI](#persistence--ui)) and returns the CommandResult to the caller/UI.
 
 Sequence diagrams:
-- Block timeslot: <puml src="diagrams/BlockTimeslotSequenceDiagram.puml" width="574" />
-- Unblock timeslot: <puml src="diagrams/UnblockTimeslotSequenceDiagram.puml" width="574" />
-- Clear timeslots: <puml src="diagrams/ClearTimeslotsSequenceDiagram.puml" width="574" />
-- Get timeslots: <puml src="diagrams/GetTimeslotsSequenceDiagram.puml" width="574" />
+Block timeslot: 
 
-### Persistence & UI
+<puml src="diagrams/Timeslots/BlockTimeslotSequenceDiagram.puml" width="820" />
+
+Unblock timeslot: 
+
+<puml src="diagrams/Timeslots/UnblockTimeslotSequenceDiagram.puml" width="820" />
+
+Clear timeslots: 
+
+<puml src="diagrams/Timeslots/ClearTimeslotsSequenceDiagram.puml" width="820" />
+
+Get timeslots: 
+
+<puml src="diagrams/Timeslots/GetTimeslotsSequenceDiagram.puml" width="820" />
+
+#### Persistence & UI
 - Persistence: LogicManager is responsible for writing persistent files. After a successful command execution, LogicManager saves the address book and, if available, timeslots via StorageManager.saveAddressBook(...) and StorageManager.saveTimeslots(...).
 - UI scheduling: Some commands (e.g., get-timeslots) produce a timeslot ranges payload inside CommandResult. When present, LogicManager schedules the UI update using Platform.runLater(() -> TimeslotsWindow.showTimetable(...)). This call:
   - Is performed asynchronously on the JavaFX thread to avoid blocking command execution.
   - Is guarded in LogicManager with a try/catch to ignore IllegalStateException in headless environments (unit tests).
   - Is only invoked when CommandResult contains non-empty timeslot ranges.
-
-### Validation and error handling
-- Argument parsing: CommandParsers validate required prefixes (ts/ and te/) and perform flexible datetime parsing (ISO and human-friendly formats). Parsers throw ParseException with user-facing messages on invalid format.
-- Command execution: Commands validate business rules (e.g., no overlapping timeslots, consultations with duplicate student/time). On violation a CommandException is thrown with a clear message.
-- Persistence errors: LogicManager translates IO or permission errors (IOException, AccessDeniedException) from Storage into CommandException so callers can surface the error to users.
 
 ### Feature: Undo Command
 
@@ -267,7 +272,7 @@ execute another modifying command before you can undo again. There is no redo fu
 
 The following sequence diagram shows how an undo operation goes through the `Logic` component:
 
-<puml src="diagrams/UndoCommand/UndoSequenceDiagram-Logic" with="574" />
+<puml src="diagrams/UndoCommand/UndoSequenceDiagram-Logic.puml" with="574" />
 
 <box type="info" seamless>
 
@@ -278,7 +283,7 @@ the lifeline reaches the end of diagram.
 
 Similarly, how an undo operation goes through the `Model` component is shown below:
 
-<puml src="diagrams/UndoCommand/UndoSequenceDiagram-Model" with="574" />
+<puml src="diagrams/UndoCommand/UndoSequenceDiagram-Model.puml" with="574" />
 
 **Step 5.** The user then decides to execute the command `list`. Commands that do not modify the address book,
 such as `list`, `find`, or `get-timeslots`, will not call `Model#saveAddressBook()`. Thus, the previous state remains `null`.
@@ -373,8 +378,7 @@ a student project with limited development time.
 ### Feature: Multi-Index Input Support
 
 #### Overview
-LambdaLab supports commands that can target **multiple students at once** through the use of **multi-index inputs**.  
-This feature is powered by the `MultiIndex` and `MultiIndexCommand` classes, which together allow users to specify **a single index** (e.g., `2`) or **a contiguous range** (e.g., `1:5`) when executing commands.
+LambdaLab supports commands that can target **multiple students at once** through the use of **multi-index inputs**. This feature is powered by the `MultiIndex` and `MultiIndexCommand` classes, which together allow users to specify **a single index** (e.g., `2`) or **a contiguous range** (e.g., `1:5`) when executing commands.
 
 This enables bulk operations such as grading, marking attendance, or updating exercises — all in one concise command.
 
@@ -391,8 +395,8 @@ It exposes methods such as:
 
 **MultiIndexCommand**
 
-Commands that use this feature extend the abstract class `MultiIndexCommand`,  
-which defines a template for commands that support updates for multiple students at once using the [MultiIndex syntax](#multiindex-syntax).
+Commands that use this feature extend the abstract class `MultiIndexCommand`,
+which defines a template for commands that support updates for multiple students at once using the [MultiIndex syntax](#implementation-1).
 
 Each subclass:
 1. Implements `applyActionToPerson(Model model, Person person)` — defining how each student is modified.
@@ -428,7 +432,7 @@ A sequence diagram for this command is shown below:
 ### Feature: Displaying Trackable Data
 
 #### Overview
-LambdaLab displays each student’s academic progress using **trackable components**, which visually represent data such as **exercise completion**, **lab attendance**, and **exam performance**.  
+LambdaLab displays each student’s academic progress using **trackable components**, which visually represent data such as **exercise completion**, **lab attendance**, and **exam performance**.
 This feature leverages the `Trackable` interface and its implementing classes to unify how progress information is retrieved and displayed within the UI.
 
 Each trackable component defines both:
@@ -438,7 +442,7 @@ Each trackable component defines both:
 #### Implementation
 The **Trackable Display** feature enables LambdaLab to visually represent a student’s **exercises**, **lab attendance**, and **exam results** in a consistent and colour-coded format.
 
-This is achieved through the `Trackable` interface, which standardizes how trackable data is exposed to the UI.  
+This is achieved through the `Trackable` interface, which standardizes how trackable data is exposed to the UI.
 Each of the following classes implements `Trackable`:
 
 - `ExerciseList` – tracks completion status of exercises.
@@ -459,7 +463,7 @@ This design cleanly separates **model data** from **UI rendering**, ensuring tha
 
 <puml src="diagrams/Trackable/TrackableClassDiagram.puml" width="800" />
 
-### **Example**
+#### Example
 Each student card displays their current progress in three areas:
 
 | Category | Green Meaning | Grey Meaning | Red Meaning |
@@ -474,8 +478,7 @@ This provides a concise and visual summary of each student’s standing in the c
 
 #### Current Implementation
 The `find` mechanism performs a multi-keyword search over student records with **presence-only selectors** to restrict which fields are searched.
-Keywords are taken from the preamble (e.g., `find alice bob`), while empty selectors (e.g., `n/`, `g/`) 
-act as flags to limit the searched fields. If no selectors are provided, all supported fields are searched.
+Keywords are taken from the preamble (e.g., `find alice bob`), while empty selectors (e.g., `n/`, `g/`) act as flags to limit the searched fields. If no selectors are provided, all supported fields are searched.
 
 Each selector creates a separate `Predicate` with the `keywords` then they are combined into a combined `PersonContainsKeywordPredicate`
 and passed to a `FindCommand`. The command then updates the model’s filtered list in one step.
@@ -502,7 +505,7 @@ and exercise tracking throughout the application.
 
 **How it works:**
 
-1. The user executes `set-week <WEEK_NUMBER>` where `WEEK_NUMBER` is between 0 and 13
+1. The user executes `set-week <WEEK_NUMBER>` where `WEEK_NUMBER` is between 0 and 13 (inclusive)
 2. The `SetWeekCommandParser` parses the input string and creates a `Week` object
 3. The `SetWeekCommand` is executed, which:
     - Saves the current state to enable undo functionality
@@ -510,6 +513,13 @@ and exercise tracking throughout the application.
     - Updates the static current week in `LabList` and `ExerciseList` classes
     - Updates all existing students' lab and exercise tracking data to reflect the new week
 4. The system displays a success message showing the new week number and how many students were updated
+<br>
+
+#### Design Rationale
+
+The set-week command is intentionally designed as a manual command because it is simple and quick for users to type, giving TAs easy control over the current week.
+
+An automated approach—calculating the current week from the semester start date—would require users to update the semester start date each semester, which could be confusing and error-prone. In contrast, the manual approach is faster, clearer, and only needs to be done once per week, reducing the chance of errors and keeping the system straightforward to use.
 <br>
 <puml src="diagrams/set-week/SetWeekSequenceDiagram.puml" width="820" />
 
@@ -553,7 +563,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | TA                         | search for students based on their name                | easily find the student I'm looking for                       |
 | `* * *`  | TA                         | delete students                                        | remove false information                                      |
 | `* * *`  | TA conducting labs         | mark students attendance                               | know which students attended the lab and which students didnt |
-| `* * *`  | TA with many students      | add, update students data                              | have their accurate information in LambdaLabs                 |
+| `* * *`  | TA with many students      | add, update students data                              | maintain accurate information                                 |
 | `* *`    | TA                         | tag my student based on their exercise performance     | know how much effort I would need to help each student        |
 | `* *`    | New user                   | undo my mistakes                                       | recover from them quickly                                     |
 | `* *`    | TA                         | search for students based on their student ID          | easily find the student I'm looking for                       |
@@ -635,7 +645,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   * 2a1. System displays error message
   * 2a2. User adds in missing field or re-enters a valid field
 
-  Use case resumes at Step 3
+    Use case resumes at Step 3
 * 2b. Duplicate student ID
   * 2b1. System returns error message to show student already exists
   * 2b2. User re-enters a valid student ID
@@ -670,10 +680,10 @@ Use case ends.
 
 **Extensions**
 * 1a. Unsupported or misspelled criterion
-  * 1a1. System returns an error describing acceptable criteria 
+  * 1a1. System returns an error describing acceptable criteria
   * 1a2. User re-enters a valid criterion
 
-  Use case resumes at Step 2
+    Use case resumes at Step 2
 
 
 ### Non-Functional Requirements
@@ -685,7 +695,7 @@ Use case ends.
 5.  Core functionalities should be covered by automated tests to ensure that future changes do not break the existing features
 6.  Users should be able to run the application simply by executing a JAR file, without needing to run an installer.
 7.  Should be able to function fully offline.
-8.  Date persistence should not depend on an external database system. Storage should be file-based and embedded.
+8.  Data persistence should not depend on an external database system. Storage should be file-based and embedded.
 9.  User data should not be lost due to unexpected situations (e.g., unexpected shutdowns).
 10. Should be able to support multiple screen resolutions (e.g., 1280×720 and above) without layout issues.
 
@@ -729,9 +739,9 @@ testers are expected to do more *exploratory* testing.
 
     2. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
-   
+
 3. Shutdown
-    1. `exit` <br> 
+    1. `exit` <br>
        Expected: Closes the application orderly. Users are advised to exit via this command to ensure all views are properly shut down.
 
 ### Adding a student
@@ -740,7 +750,7 @@ testers are expected to do more *exploratory* testing.
 
    1. Test case: `add i/A0309024L n/Shawn Lee p/98765432 e/shawn@gmail.com g/shawnlee2 t/modelStudent` <br>
       Expected: Shawn lee is added to the end of the student list with the specified details.
-   
+
    2. Test case: `add n/Kai Hong i/A0309124L p/99983721 e/kh@gmail.com g/kaihong551 t/consultation t/struggling` <br>
       Expected: Kai Hong is added with multiple tags.
 
@@ -748,10 +758,10 @@ testers are expected to do more *exploratory* testing.
 
    1. Test case:`add n/Shawn Lee p/98765432 e/shawn@gmail.com g/shawnlee2 t/modelStudent` - Student Id missing. <br>
       Expected: Error message indicating invalid command format.
-   
+
    2. Test case:`add i/A0309024L n/Shawn Lee e/shawn@gmail.com g/shawnlee2 t/modelStudent` - Phone number missing. <br>
       Expected: Error message indicating invalid command format.
-   
+
 3. Adding a student with invalid data fields
 
     1. Test case:`add i/A0309021 n/Shawn Lee p/98765432 e/shawn@gmail.com g/shawnlee2 t/modelStudent` <br>
@@ -763,7 +773,7 @@ testers are expected to do more *exploratory* testing.
 4. Add a duplicate person
 
     1. Prerequisite: Student named Alex Yeoh with Student Id: A1231234B is already added.
-   
+
     2. Test case:`add i/A1231234B n/Alex Yeoh p/98765432 e/alexyeoh@example.com g/AlexYeoh` <br>
        Expected: Error message indicating that this student already exists.
 
@@ -771,15 +781,25 @@ testers are expected to do more *exploratory* testing.
 
 1. Editing a student with valid data
 
-    1. Prerequisites: List all students using the `list` command. Multiple students in the list.
+    1. Prerequisites: List all students using the `list` command. At least 3 students in the list.
 
     2. Test case: `edit 2 p/91234567 e/newmail@gmail.com` <br>
        Expected: In the displayed student list, the second student's data is updated to new details.
 
     3. Test case: `edit 1:3 t/outstanding` <br>
-       Expected: In the displayed student list, the first 3 students' tags are replaced with a new tag.
+       Expected: In the displayed student list, the first 3 students' tags are replaced with the `outstanding` tag.
 
-2. Editing a student with invalid fields
+2. Editing a student with same data
+
+    1. Prerequisites: Ensure there is a student with name: `Alex` and phone number: `87438807`.
+
+    2. Test case: `edit 1 p/87438807` <br>
+       Expected: Error message indicating identical fields.
+
+    3. Test case: `edit 1 n/Alex` <br>
+       Expected: Error message indicating identical fields.
+
+3. Editing a student with invalid fields
 
     1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 
@@ -788,8 +808,8 @@ testers are expected to do more *exploratory* testing.
 
     3. Test case: `edit 0 p/98123456` <br>
        Expected: Error message indicating invalid `Student Index`.
-   
-3. Editing with no fields specified
+
+4. Editing with no fields specified
 
     1. Test case: `edit 1`<br>
        Expected: Error message indicating at least one field needs to be provided.
@@ -799,12 +819,12 @@ testers are expected to do more *exploratory* testing.
 
 1. Deleting student(s)
 
-    1. Prerequisites: List all student using the `list` command. Multiple students in the list.
+    1. Prerequisites: List all student using the `list` command. At least 3 students in the list.
 
     2. Test case: `delete 1`<br>
        Expected: First student is deleted from the list. Details of the deleted student shown in the status message.
     3. Test case: `delete 1:3`<br>
-       Expected: First three students are deleted from the list. Details of the deleted student shown in the status message. 
+       Expected: First three students are deleted from the list. Details of the deleted students shown in the status message.
 
 2. Deleting with invalid index
 
@@ -816,7 +836,7 @@ testers are expected to do more *exploratory* testing.
 
     3. Test case: `delete x`<br>
        Expected: Error message indicating invalid `Student Index`.
-   
+
 3. Deleting with no index specified
 
     1. Test case: `delete`<br>
@@ -829,10 +849,10 @@ testers are expected to do more *exploratory* testing.
 
     2. Test case: `set-week 5`<br>
        Expected: Status bar footer updates to display "Week 5". Lab attendance and Exercises will be updated accordingly. (labs 1-2 show red for absent/green for attended and exercises 0-2 show red for overdue/green for done)
-   
+
     3. Test case: `set-week 0`<br>
        Expected: Status bar shows "Week 0". Lab attendance and Exercises updated.
-   
+
 2. Setting an invalid week number
 
     1. Test case: `set-week -1`<br>
@@ -840,7 +860,7 @@ testers are expected to do more *exploratory* testing.
 
     2. Test case: `set-week 14`<br>
        Expected: Error message indicating `Week number`.
-   
+
 3. Setting week with invalid format
 
     1. Test case: `set-week abc`<br>
@@ -856,17 +876,17 @@ testers are expected to do more *exploratory* testing.
 
 1. Marking attendance for student(s))
 
-      1. Prerequisites: List all students. Multiple persons in the list.
+      1. Prerequisites: List all students. At least 5 persons in the list.
 
       2. Test case: `marka 1 l/1 s/y`<br>
          Expected: Lab 1 marked as attended (green) for student 1. Success message shows student name and lab number.
 
       3. Test case: `marka 1 l/1 s/n`<br>
-         Expected: Lab 1 marked as not attended (grey/red depending on the week number) for student 2.
-   
+         Expected: Lab 1 marked as not attended (grey/red depending on the week number) for student 1.
+
       4. Test case: `marka 3:5 l/2 s/y`<br>
-         Expected: Lab 2 marked as attended (green) for students 3, 4, and 5. 
-   
+         Expected: Lab 2 marked as attended (green) for students 3, 4, and 5.
+
 2. Invalid lab numbers
 
     1. Test case: `marka 1 l/0 s/y`<br>
@@ -907,7 +927,7 @@ testers are expected to do more *exploratory* testing.
        Expected: Exercise 0 marked as done (green) for student 1. Success message shows student name and exercise number.
 
     3. Test case: `marke 1 ei/0 s/n`<br>
-       Expected: Exercise 3 marked as not done for student 2.
+       Expected: Exercise 3 marked as not done for student 1.
 
     4. Test case: `marke 3:5 ei/1 s/y`<br>
        Expected: Exercise 1 marked as done for students 3, 4, and 5.
@@ -924,7 +944,7 @@ testers are expected to do more *exploratory* testing.
 
     1. Test case: `marke 1 ei/0 s/x`<br>
        Expected: Error message indicating invalid `Status`.
-   
+
 4. Missing required fields
 
     1. Test case: `marke 1 ei/0`<br>
@@ -1032,12 +1052,12 @@ testers are expected to do more *exploratory* testing.
     2. Test case: `filter la/<=70`<br>
        Expected: All students who attended less than or equal to 70 percent of labs are displayed.
 
-3. Filtering with multiple criteria
+4. Filtering with multiple criteria
 
     1. Test case: `filter ei/1 s/Y l/2 s/Y`<br>
        Expected: All students who completed exercise 1 AND attended lab 2 are displayed.
 
-4. Invalid filter commands
+5. Invalid filter commands
 
     1. Test case: `filter`<br>
        Expected: Error message indicating invalid command format.
@@ -1064,7 +1084,7 @@ testers are expected to do more *exploratory* testing.
        Expected: Students sorted alphabetically by name. Success messages shows the specified sort criterion.
 
     3. Test case: `sort c/id`<br>
-       Expected: Students sorted by student ID. 
+       Expected: Students sorted by student ID.
 
     4. Test case: `sort c/lab`<br>
        Expected: Students sorted by lab attendance.
@@ -1275,7 +1295,7 @@ testers are expected to do more *exploratory* testing.
 
     2. Test case: Press `F1` key<br>
        Expected: Help window opens.
-   
+
     3. Test case: `help x`<br>
        Expected: Help window opens.
 
@@ -1285,7 +1305,7 @@ testers are expected to do more *exploratory* testing.
 
     2. Test case: `help` <br>
        Expected: Existing help window comes to focus, no duplicate window created.
-   
+
 
 ### Saving data
 
@@ -1314,3 +1334,10 @@ Testers are encouraged to create their own test scenarios by combining the comma
 - **Filter Persistence**: Apply filters, execute commands like marka or marke, verify filters remain active and update correctly.
 
 
+
+## **Appendix: Planned Enhancements**
+
+Team size: 5
+
+1. Make the timetable window (used by `get-timeslots` and `get-consultations`) refresh automatically when timeslot data changes. Currently it only updates after the command is reissued. We plan to add a listener so the window refreshes immediately whenever timeslots are modified.
+2. Add support for importing calendar files (e.g., .ics) to bulk-create timeslots. At the moment timeslots must be added or edited one at a time. A calendar import feature will let users import events directly from their calendar applications.

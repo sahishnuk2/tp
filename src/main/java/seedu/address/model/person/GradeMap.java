@@ -16,7 +16,7 @@ import seedu.address.model.person.exceptions.InvalidExamNameException;
  * Wraps a HashMap with String keys and Examination values.
  */
 public class GradeMap implements GradeTracker {
-    public static final String[] VALID_EXAM_NAMES = {"pe1", "midterm", "pe2", "final"};
+    public static final String[] VALID_EXAM_NAMES = {"pe0", "pe1", "midterm", "pe2", "final"};
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
     private final HashMap<String, Examination> examMap;
 

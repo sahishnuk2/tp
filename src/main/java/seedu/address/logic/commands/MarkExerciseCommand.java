@@ -24,7 +24,7 @@ public class MarkExerciseCommand extends MultiIndexCommand {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Marks the exercise status of one or more persons "
             + "identified by their index numbers in the last person listing.\n"
             + "Parameters: INDEX (must be a positive integer or range X:Y) "
-            + "ei/EXERCISEINDEX s/STATUS\n"
+            + "ei/EXERCISE_NUMBER s/STATUS\n"
             + "Example: " + COMMAND_WORD + " 1:3 ei/1 s/y \n"
             + "Example: " + COMMAND_WORD + " 2 ei/3 s/y";
 
@@ -34,8 +34,6 @@ public class MarkExerciseCommand extends MultiIndexCommand {
             "Exercise %1$d already marked as %2$s for %3$s";
     public static final String MESSAGE_INDEX_OUT_OF_BOUNDS =
             "The exercise index provided is invalid, index must be between 0 to 9 (inclusive)";
-
-    private static final int HIGHEST_INDEX = NUMBER_OF_EXERCISES - 1;
 
     private final MultiIndex studentIndex;
     private final Index exerciseIndex;

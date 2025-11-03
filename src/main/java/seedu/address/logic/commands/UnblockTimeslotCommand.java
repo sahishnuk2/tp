@@ -2,7 +2,6 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,8 +26,8 @@ public class UnblockTimeslotCommand extends Command {
             + " - Human-friendly: 4 Oct 2025, 10:00\n"
             + "Example: " + COMMAND_WORD + " ts/2025-10-04T10:00:00 te/2025-10-04T13:00:00";
 
-    public static final String MESSAGE_SUCCESS = "Updated stored timeslots: removed=%1$d added=%2$d";
-    public static final String MESSAGE_TIMESLOT_NOT_FOUND = "No stored timeslot overlaps the given range: %1$s -> %2$s";
+    public static final String MESSAGE_SUCCESS = "Updated stored timeslots";
+    public static final String MESSAGE_TIMESLOT_NOT_FOUND = "No stored timeslot overlaps the given range: %1$s";
 
     private final Timeslot timeslot;
 
@@ -48,9 +47,7 @@ public class UnblockTimeslotCommand extends Command {
                 .collect(Collectors.toList());
 
         if (overlapping.isEmpty()) {
-            String start = timeslot.getStart().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-            String end = timeslot.getEnd().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-            throw new CommandException(String.format(MESSAGE_TIMESLOT_NOT_FOUND, start, end));
+            throw new CommandException(String.format(MESSAGE_TIMESLOT_NOT_FOUND, timeslot));
         }
 
         List<Timeslot> toRemove = new ArrayList<>();
@@ -68,23 +65,24 @@ public class UnblockTimeslotCommand extends Command {
                 // overlap at left side: new stored becomes [u1, s1]
                 toRemove.add(s);
                 if (timeslot.getEnd().isBefore(s.getEnd())) {
-                    toAdd.add(new Timeslot(timeslot.getEnd(), s.getEnd()));
+                    // preserve consultation vs generic type
+                    toAdd.add(Timeslot.createSameType(s, timeslot.getEnd(), s.getEnd()));
                 }
             } else if (coversEnd) {
                 // overlap at right side: new stored becomes [s0, u0]
                 toRemove.add(s);
                 if (timeslot.getStart().isAfter(s.getStart())) {
-                    toAdd.add(new Timeslot(s.getStart(), timeslot.getStart()));
+                    toAdd.add(Timeslot.createSameType(s, s.getStart(), timeslot.getStart()));
                 }
             } else {
                 // unblock range is strictly inside stored timeslot -> split into two
                 toRemove.add(s);
                 // left part [s0, u0] and right part [u1, s1] (each valid by construction)
                 if (timeslot.getStart().isAfter(s.getStart())) {
-                    toAdd.add(new Timeslot(s.getStart(), timeslot.getStart()));
+                    toAdd.add(Timeslot.createSameType(s, s.getStart(), timeslot.getStart()));
                 }
                 if (timeslot.getEnd().isBefore(s.getEnd())) {
-                    toAdd.add(new Timeslot(timeslot.getEnd(), s.getEnd()));
+                    toAdd.add(Timeslot.createSameType(s, timeslot.getEnd(), s.getEnd()));
                 }
             }
         }
@@ -106,7 +104,7 @@ public class UnblockTimeslotCommand extends Command {
             }
         }
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toRemove.size(), toAdd.size()));
+        return new CommandResult(MESSAGE_SUCCESS);
     }
 
     // Two timeslots overlap if their intervals intersect (end > start and start < end).
