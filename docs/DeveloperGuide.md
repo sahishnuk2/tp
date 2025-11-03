@@ -504,7 +504,13 @@ that matches when **any** keyword is a case-insensitive **substring** of **any**
 The `set-week` command allows teaching assistants to set the current week of the semester (0-13). This is a crucial command as it determines which labs are considered "past" and affects the behavior of lab attendance marking
 and exercise tracking throughout the application.
 
-**How it works:**
+#### Design Rationale
+
+The set-week command is intentionally designed as a manual command because it is simple and quick for users to type, giving TAs easy control over the current week.
+
+An automated approach—calculating the current week from the semester start date—would require users to update the semester start date each semester, which could be confusing and error-prone. In contrast, the manual approach is faster, clearer, and only needs to be done once per week, reducing the chance of errors and keeping the system straightforward to use.
+
+#### How it works
 
 1. The user executes `set-week <WEEK_NUMBER>` where `WEEK_NUMBER` is between 0 and 13 (inclusive)
 2. The `SetWeekCommandParser` parses the input string and creates a `Week` object
@@ -514,13 +520,9 @@ and exercise tracking throughout the application.
     - Updates the static current week in `LabList` and `ExerciseList` classes
     - Updates all existing students' lab and exercise tracking data to reflect the new week
 4. The system displays a success message showing the new week number and how many students were updated
-<br>
 
-#### Design Rationale
 
-The set-week command is intentionally designed as a manual command because it is simple and quick for users to type, giving TAs easy control over the current week.
-
-An automated approach—calculating the current week from the semester start date—would require users to update the semester start date each semester, which could be confusing and error-prone. In contrast, the manual approach is faster, clearer, and only needs to be done once per week, reducing the chance of errors and keeping the system straightforward to use.
+The sequence diagram below illustrates the interactions within the `Logic` and `model` component, taking `execute("set-week 4")` API call as an example.
 <br>
 <puml src="diagrams/set-week/SetWeekSequenceDiagram.puml" width="820" />
 
@@ -757,10 +759,10 @@ testers are expected to do more *exploratory* testing.
 
 2. Adding a student with missing required fields
 
-   1. Test case:`add n/Shawn Lee p/98765432 e/shawn@gmail.com g/shawnlee2 t/modelStudent` - Student Id missing. <br>
+   1. Test case (`Student Id` missing):`add n/Shawn Lee p/98765432 e/shawn@gmail.com g/shawnlee2 t/modelStudent` <br>
       Expected: Error message indicating invalid command format.
 
-   2. Test case:`add i/A0309024L n/Shawn Lee e/shawn@gmail.com g/shawnlee2 t/modelStudent` - Phone number missing. <br>
+   2. Test case(`Phone Number` missing):`add i/A0309024L n/Shawn Lee e/shawn@gmail.com g/shawnlee2 t/modelStudent` <br>
       Expected: Error message indicating invalid command format.
 
 3. Adding a student with invalid data fields
@@ -794,7 +796,7 @@ testers are expected to do more *exploratory* testing.
       Expected: Error message stating "Only tags can be edited for multiple students."
 
 
-2. Editing a student with same data
+1. Editing a student with same data
 
     1. Prerequisites: Ensure there is a student with name: `Alex` and phone number: `87438807`.
 
@@ -804,7 +806,7 @@ testers are expected to do more *exploratory* testing.
     3. Test case: `edit 1 n/Alex` <br>
        Expected: Error message indicating identical fields.
 
-3. Editing a student with invalid fields
+2. Editing a student with invalid fields
 
     1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 
@@ -813,12 +815,14 @@ testers are expected to do more *exploratory* testing.
 
     3. Test case: `edit 0 p/98123456` <br>
        Expected: Error message indicating invalid `Student Index`.
-   4. Test case: `edit 1 p/+652-923-112-34-`<br>
+   
+    4. Test case: `edit 1 p/+652-923-112-34-`<br>
        Expected: Error message indicating invalid `Phone Number`  format
-   5. Test case: `edit 1 n/wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww`<br>
-   Expected: Error message indicating that student input fields cannot exceed 50 characters.
+   
+    5. Test case: `edit 1 n/wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww`<br>
+       Expected: Error message indicating that student input fields cannot exceed 50 characters.
 
-4. Editing with no fields specified
+3. Editing with no fields specified
 
     1. Test case: `edit 1`<br>
        Expected: Error message indicating at least one field needs to be provided.
@@ -1064,7 +1068,7 @@ testers are expected to do more *exploratory* testing.
 4. Filtering with multiple criteria
 
     1. Test case: `filter ei/1 s/Y l/2 s/Y`<br>
-       Expected: All students who completed exercise 1 AND attended lab 2 are displayed.
+       Expected: All students who completed exercise 1 **and** attended lab 2 are displayed.
 
 5. Invalid filter commands
 
@@ -1140,7 +1144,7 @@ testers are expected to do more *exploratory* testing.
        Expected: Error message indicating invalid command format.
 
     3. Test case: `block-timeslot ts/invalid te/1 Jan 2025, 11:00`<br>
-       Expected: Error message indicating invalid `timeslot datetime`.
+       Expected: Error message indicating invalid `datetime`.
 
 ### Unblocking a timeslot
 
@@ -1169,7 +1173,7 @@ testers are expected to do more *exploratory* testing.
 4. Invalid unblock commands
 
     1. Test case: `unblock-timeslot ts/4 Oct 2025, 13:00 te/4 Oct 2025, 10:00`<br>
-       Expected: Error message indicating invalid timeslot range (end must be after start).
+       Expected: Error message indicating invalid `timeslot range`.
 
 ### Adding a consultation
 

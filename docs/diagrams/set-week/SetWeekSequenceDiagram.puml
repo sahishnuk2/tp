@@ -19,10 +19,10 @@ participant "m:Model" as Model MODEL_COLOR
   participant "ExerciseList" as ExerciseList MODEL_COLOR
 end box
 
-[-> LogicManager : execute("set-week <WEEK NUMBER>")
+[-> LogicManager : execute("set-week 4")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand("set-week <WEEK NUMBER>")
+LogicManager -> AddressBookParser : parseCommand("set-week 4")
 activate AddressBookParser
 
 create SetWeekCommandParser
@@ -32,11 +32,11 @@ activate SetWeekCommandParser
 SetWeekCommandParser --> AddressBookParser
 deactivate SetWeekCommandParser
 
-AddressBookParser -> SetWeekCommandParser : parse("set-week <WEEK NUMBER>")
+AddressBookParser -> SetWeekCommandParser : parse("set-week 4")
 activate SetWeekCommandParser
 
 create Week
-SetWeekCommandParser -> Week : new Week(<WEEK NUMBER>)
+SetWeekCommandParser -> Week : new Week(4)
 activate Week
 
 Week --> SetWeekCommandParser

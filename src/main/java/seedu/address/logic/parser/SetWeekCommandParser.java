@@ -16,6 +16,8 @@ public class SetWeekCommandParser implements Parser<SetWeekCommand> {
     public SetWeekCommand parse(String args) throws ParseException {
         requireNonNull(args);
 
+        ParserUtil.verifyNoUnwantedPrefixes(args);
+
         Week currentWeek;
 
         try {
