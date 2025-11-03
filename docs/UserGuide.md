@@ -227,6 +227,7 @@ edit INDEX [i/STUDENT_ID] [n/NAME] [p/PHONE] [e/EMAIL] [g/GITHUB_USERNAME] [t/TA
 **Examples:**
 - Edits the phone number and email address of the 1st student to be `91234567` and `johndoe@example.com`: `edit 1 p/91234567 e/johndoe@example.com`.
 - Edits the name of the 2nd student to be `Betsy Crower` and clears all existing tags: `edit 2 n/Betsy Crower t/`.
+- Edits the tag of the 1st to 3rd student to be `Struggling` : `edit 1:3 t/struggling`
 
 <box type="tip">
 
@@ -236,8 +237,10 @@ updated to the input values.
 
 <box type="warning">
 
-**Caution:** When editing tags, the existing tags of the student will be removed (i.e., adding of tags is not cumulative).
+**Caution:** 
+- When editing tags, the existing tags of the student will be removed (i.e., adding of tags is not cumulative).
 You can remove all the student's tags by typing `t/` without specifying any tags after it.
+- Simultaneous editing of multiple students is only enabled for tags.
 </box>
 
 <br>
