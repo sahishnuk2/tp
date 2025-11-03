@@ -2,7 +2,9 @@ package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
@@ -491,5 +493,103 @@ public class ParserUtilTest {
         assertThrows(ParseException.class, () -> ParserUtil.parseSortCriterion("   "));
         assertThrows(ParseException.class, () -> ParserUtil.parseSortCriterion("height"));
     }
+
+    @Test
+    public void parseExerciseIndex_validAndInvalid_successAndFailure() throws Exception {
+        assertEquals(Index.fromZeroBased(1), ParserUtil.parseExerciseIndex("1"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseExerciseIndex("-1"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseExerciseIndex("1000"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseExerciseIndex("abc"));
+    }
+
+    @Test
+    public void parseRange_validWithSpaces_success() throws Exception {
+        MultiIndex result = ParserUtil.parseMultiIndex("  1  :   3 ");
+        assertEquals(new MultiIndex(Index.fromOneBased(1), Index.fromOneBased(3)), result);
+    }
+
+    @Test
+    public void validateFields_emptyPreamble_throwsParseException() {
+        ArgumentMultimap multimap = ArgumentTokenizer.tokenize("", PREFIX_NAME);
+        assertThrows(ParseException.class, () ->
+                ParserUtil.validateFields(multimap, "usage", PREFIX_NAME));
+    }
+
+    @Test
+    public void validateFields_missingRequiredPrefix_throwsParseException() {
+        ArgumentMultimap multimap = ArgumentTokenizer.tokenize("nameOnly", PREFIX_NAME);
+        assertThrows(ParseException.class, () ->
+                ParserUtil.validateFields(multimap, "usage", PREFIX_NAME, PREFIX_PHONE));
+    }
+
+    @Test
+    public void validateFieldLength_tooLongInput_throwsParseException() {
+        String longInput = "a".repeat(60);
+        assertThrows(ParseException.class, () -> {
+            var method = ParserUtil.class.getDeclaredMethod("validateFieldLength", String.class);
+            method.setAccessible(true);
+            try {
+                method.invoke(null, longInput);
+            } catch (java.lang.reflect.InvocationTargetException e) {
+                // rethrow underlying cause so assertThrows can see the ParseException
+                throw e.getCause();
+            }
+        });
+    }
+
+
+    @Test
+    public void parseStatus_caseInsensitive_success() throws Exception {
+        assertTrue(ParserUtil.parseStatus("Y"));
+        assertTrue(ParserUtil.parseStatus("y"));
+        assertFalse(ParserUtil.parseStatus("N"));
+        assertFalse(ParserUtil.parseStatus("n"));
+    }
+
+    @Test
+    public void parseExerciseTracker_valid_success() throws Exception {
+        String validInput = "ex 0: D ex 1: N ex 2: O ex 3: D ex 4: N ex 5: D ex 6: N ex 7: N ex 8: O ex 9: D";
+        assertDoesNotThrow(() -> ParserUtil.parseExerciseTracker(validInput));
+    }
+
+    @Test
+    public void parseExerciseTracker_invalid_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseExerciseTracker("invalid data"));
+    }
+
+    @Test
+    public void parseGradeTracker_valid_success() throws Exception {
+        String input = "pe1: Passed, midterm: Failed, pe2: NA";
+        assertDoesNotThrow(() -> ParserUtil.parseGradeTracker(input));
+    }
+
+    @Test
+    public void parseGradeTracker_invalidResult_throwsParseException() {
+        String input = "quiz: unknown";
+        assertThrows(ParseException.class, () -> ParserUtil.parseGradeTracker(input));
+    }
+
+    @Test
+    public void getExamination_invalidResult_throwsParseException() throws Exception {
+        var method = ParserUtil.class.getDeclaredMethod("getExamination", String.class, String.class);
+        method.setAccessible(true);
+
+        try {
+            method.invoke(null, "exam", "weirdValue");
+            fail("Expected ParseException to be thrown");
+        } catch (java.lang.reflect.InvocationTargetException e) {
+            Throwable cause = e.getCause();
+            assertTrue(cause instanceof ParseException,
+                    "Expected cause to be ParseException but was: " + cause.getClass().getSimpleName());
+        }
+    }
+
+
+    @Test
+    public void parseMultiIndex_colonEdgeCases_success() throws Exception {
+        assertEquals(new MultiIndex(Index.fromOneBased(1), Index.fromOneBased(1)),
+                ParserUtil.parseMultiIndex("1:1"));
+    }
+
 
 }
