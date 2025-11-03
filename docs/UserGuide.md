@@ -432,12 +432,12 @@ Example: `unblock-timeslot ts/7 Nov 2025, 15:50 te/7 Nov 2025, 16:10`
 <tr>
 <td>
 
-<img src="images/BeforeBlockTimeslot.png" width="350px">
+<img src="images/BeforeBlockTimeslot.png" width="375px">
 
 </td>
 <td>
 
-<img src="images/AfterBlockTimeslot.png" width="350px%">
+<img src="images/AfterBlockTimeslot.png" width="375px%">
 
 </td>
 </tr>
