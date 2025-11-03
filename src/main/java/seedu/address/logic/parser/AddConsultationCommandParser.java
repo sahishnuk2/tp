@@ -23,11 +23,13 @@ public class AddConsultationCommandParser implements Parser<AddConsultationComma
 
     // Standardized error message for datetime parsing failures
     private static final String INVALID_DATETIME_MESSAGE =
-        "Invalid datetime: either wrong format or an impossible calendar date"
+        "Invalid datetime: either wrong format or an impossible calendar date\n"
         + " (for example, '30 Feb' does not exist). ";
 
     @Override
     public AddConsultationCommand parse(String args) throws ParseException {
+        ParserUtil.verifyNoUnwantedPrefixes(args,
+                CliSyntax.PREFIX_TIMESLOT_START, CliSyntax.PREFIX_TIMESLOT_END, CliSyntax.PREFIX_NAME);
         // include the name prefix so "n/..." is parsed separately (otherwise it becomes part of end datetime)
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
                 CliSyntax.PREFIX_TIMESLOT_START, CliSyntax.PREFIX_TIMESLOT_END, CliSyntax.PREFIX_NAME);

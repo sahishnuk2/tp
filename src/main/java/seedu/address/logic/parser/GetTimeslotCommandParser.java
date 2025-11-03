@@ -17,6 +17,7 @@ public class GetTimeslotCommandParser implements Parser<GetTimeslotCommand> {
      */
     @Override
     public GetTimeslotCommand parse(String args) throws ParseException {
+        ParserUtil.verifyNoUnwantedPrefixes(args);
         String trimmedArgs = args.trim();
         if (!trimmedArgs.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, GetTimeslotCommand.MESSAGE_USAGE));

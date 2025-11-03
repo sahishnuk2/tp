@@ -23,6 +23,8 @@ activate AddressBookParser
 create ClearTimeslotsCommandParser
 AddressBookParser -> ClearTimeslotsCommandParser : new ClearTimeslotsCommandParser()
 activate ClearTimeslotsCommandParser
+AddressBookParser <-- ClearTimeslotsCommandParser
+deactivate ClearTimeslotsCommandParser
 
 AddressBookParser -> ClearTimeslotsCommandParser : parse()
 activate ClearTimeslotsCommandParser

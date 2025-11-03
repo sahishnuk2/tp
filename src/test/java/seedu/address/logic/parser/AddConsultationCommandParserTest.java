@@ -76,7 +76,7 @@ public class AddConsultationCommandParserTest {
         String badStart = " ts/not-a-date te/2025-10-04T11:00:00 n/John";
         String badEnd = " ts/2025-10-04T10:00:00 te/also-bad n/John";
 
-        String expectedMessage = "Invalid datetime: either wrong format or an impossible calendar date"
+        String expectedMessage = "Invalid datetime: either wrong format or an impossible calendar date\n"
                 + " (for example, '30 Feb' does not exist). ";
 
         assertParseFailure(parser, badStart, expectedMessage);

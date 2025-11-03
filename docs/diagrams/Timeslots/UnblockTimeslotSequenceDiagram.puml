@@ -23,6 +23,8 @@ activate AddressBookParser
 create UnblockTimeslotCommandParser
 AddressBookParser -> UnblockTimeslotCommandParser : new UnblockTimeslotCommandParser()
 activate UnblockTimeslotCommandParser
+AddressBookParser <-- UnblockTimeslotCommandParser
+deactivate UnblockTimeslotCommandParser
 
 AddressBookParser -> UnblockTimeslotCommandParser : parse()
 activate UnblockTimeslotCommandParser
@@ -73,7 +75,6 @@ deactivate UnblockTimeslotCommand
 
 ' Persistence omitted for brevity.
 note right of LogicManager : Persistence (saveAddressBook / saveTimeslots) omitted.
-end note
 
 [<-- LogicManager
 deactivate LogicManager

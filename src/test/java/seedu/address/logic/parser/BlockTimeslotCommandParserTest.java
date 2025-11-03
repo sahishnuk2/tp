@@ -64,7 +64,9 @@ public class BlockTimeslotCommandParserTest {
         // 30 Feb 2025 does not exist
         String args = " ts/2025-02-30T10:00:00 te/2025-02-30T11:00:00";
         ParseException ex = assertThrows(ParseException.class, () -> parser.parse(args));
-        assertTrue(ex.getMessage().contains("Invalid datetime: either wrong format or an impossible calendar date"));
+        String expectedMessage = "Invalid datetime: either wrong format or an impossible calendar date\n"
+                + " (for example, '30 Feb' does not exist). ";
+        assertTrue(ex.getMessage().contains(expectedMessage));
     }
 
     @Test
