@@ -75,4 +75,41 @@ public class GradeCommandParserTest {
 
         assertThrows(ParseException.class, () -> parser.parse(userInput));
     }
+
+    @Test
+    public void parse_extraUnwantedPrefix_throwsParseException() {
+        String userInput = "1 " + PREFIX_EXAM_NAME + "pe1 " + PREFIX_STATUS + "y t/tag";
+        ParseException thrown = assertThrows(ParseException.class, () -> parser.parse(userInput));
+        // MESSAGE_INVALID_PREFIX = "Invalid prefix(s) found: %s"
+        assertEquals("Invalid prefix(s) found: t/", thrown.getMessage());
+    }
+
+    @Test
+    public void parse_duplicatePrefixes_throwsParseException() {
+        String userInput = "1 " + PREFIX_EXAM_NAME + "pe1 " + PREFIX_EXAM_NAME + "pe2 " + PREFIX_STATUS + "y";
+        ParseException thrown = assertThrows(ParseException.class, () -> parser.parse(userInput));
+        // From ArgumentMultimap.verifyNoDuplicatePrefixesFor
+        String expectedMsg = "Multiple prefix(s) specified: en/";
+        // Adjust expectedMsg if your helper uses a different duplicate error message
+        assertEquals(expectedMsg, thrown.getMessage());
+    }
+
+    @Test
+    public void parse_indexRangeInvalidBounds_throwsParseException() {
+        String userInput = "5:2 " + PREFIX_EXAM_NAME + "pe1 " + PREFIX_STATUS + "y";
+        ParseException thrown = assertThrows(ParseException.class, () -> parser.parse(userInput));
+        assertEquals("5:2 is invalid! Lower bound cannot be greater than upper bound", thrown.getMessage());
+    }
+
+    @Test
+    public void parse_statusUppercase_success() throws Exception {
+        String userInput = "3 " + PREFIX_EXAM_NAME + "final " + PREFIX_STATUS + "Y";
+        GradeCommand command = parser.parse(userInput);
+
+        MultiIndex expectedIndex = new MultiIndex(Index.fromOneBased(3));
+        GradeCommand expectedCommand = new GradeCommand(expectedIndex, "final", true);
+
+        assertEquals(expectedCommand, command);
+    }
+
 }
