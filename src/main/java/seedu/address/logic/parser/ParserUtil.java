@@ -73,7 +73,6 @@ public class ParserUtil {
             "Missing appropriate operator for comparison, one of ==, >=, <=, >, < should follow la/";
     private static final String MESSAGE_INVALID_PERCENTAGE =
             "Attendance percentage must be an integer between 0 and 100.";
-    private static final String MESSAGE_INVALID_PREFIX = "Invalid prefix(s) found: %s";
     private static final int MAXIMUM_FIELD_LENGTH = 50;
     private static final String MESSAGE_FIELD_TOO_LONG = "Student information fields cannot exceed 100 characters";
 
