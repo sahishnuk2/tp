@@ -111,7 +111,7 @@ public class FilterCommandParserTest {
     @Test
     public void parse_labAttendanceEmptyValue_throwsParseException() {
         String userInput = " la/";
-        String expected = "Missing attendance comparison.\n" + FilterCommand.ATTENDED_PERCENTAGE_USAGE;
+        String expected = "Missing attendance comparison.\n" + FilterCommand.ATTENDED_PERCENTAGE_USAGE + FilterCommand.LA_EXAMPLE;
         assertParseFailure(parser, userInput, expected);
     }
     @Test
