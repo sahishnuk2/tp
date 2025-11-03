@@ -14,7 +14,6 @@ box Model MODEL_COLOR_T1
 participant "m:Model" as Model MODEL_COLOR
 end box
 
-participant "Platform" as Platform
 
 [-> LogicManager : execute("get-timeslots")
 activate LogicManager
@@ -58,10 +57,14 @@ deactivate CommandResult
 GetTimeslotCommand --> LogicManager : result
 deactivate GetTimeslotCommand
 
-' --- Persistence & UI scheduling omitted to keep diagram compact ---
-' Persistence (saveAddressBook / saveTimeslots) and Platform.runLater UI calls removed.
+' Persistence & UI scheduling intentionally omitted to keep diagram compact.
+note right of LogicManager
+  Persistence (saveAddressBook/saveTimeslots) and UI scheduling
+  (Platform.runLater / TimeslotsWindow) omitted from this diagram.
+end note
 
 [<-- LogicManager
 deactivate LogicManager
 
+scale 1.5
 @enduml
