@@ -89,8 +89,7 @@ public class SampleDataUtil {
         LocalDate weekStart = LocalDate.now().with(DayOfWeek.MONDAY);
 
         // Names to rotate for consultations
-        String[] consultNames = new String[] { "Alice", "Bob", "Charlie", "Daisy",
-            "Eve", "Frank", "Grace", "Heidi" };
+        String[] consultNames = new String[] { "Alice", "Bob", "Charlie", "Daisy", "Eve", "Frank", "Grace", "Heidi" };
 
         int nameIndex = 0;
 
@@ -128,7 +127,6 @@ public class SampleDataUtil {
                 break;
 
             case 1:
-                // Week 1: morning slots shifted later, slightly different durations
                 sample.addTimeslot(new Timeslot(base.atTime(9, 30), base.atTime(10, 30)));
                 sample.addTimeslot(new Timeslot(base.atTime(11, 0), base.atTime(11, 30)));
                 sample.addTimeslot(new Timeslot(base.atTime(15, 0), base.atTime(16, 30)));
