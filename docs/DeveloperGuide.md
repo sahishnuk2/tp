@@ -742,7 +742,7 @@ testers are expected to do more *exploratory* testing.
 
     1. Download the jar file and copy into an empty folder
 
-    2. Open the application using `java -jar LambdaLab.jar`. <br>
+    2. Open the application using `java -jar "[CS2103T-T09-3][LambdaLab].jar"`. <br>
        Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
 2. Saving window preferences
