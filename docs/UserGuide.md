@@ -89,6 +89,8 @@ spreadsheets or GUI apps.
 
 ---
 
+<div style="page-break-after: always;"></div>
+
 # Quick Start
 
 1. Ensure you have **Java 17** or above installed on your computer.<br>
@@ -127,7 +129,7 @@ spreadsheets or GUI apps.
 ---
 # User Interface
 
-![Ui.png](images/Ui.png)
+<img src="images/Ui.png" width="700px">
 
 <box type="warning">
 
@@ -154,6 +156,9 @@ For example, a green tracker indicates satisfactory progress, while a red one hi
 — such as missed labs, overdue exercises, or failed exams.
 
 ---
+
+<div style="page-break-after: always;"></div>
+
 # Features
 
 <box type="info">
@@ -762,6 +767,8 @@ exit
 
 ---
 
+<div style="page-break-after: always;"></div>
+
 # Troubleshooting
 
 ## Frequently asked questions
@@ -849,9 +856,14 @@ lab sessions to maintain accurate records.
    using human-friendly format for datetime parameters. The remedy is to use ISO_LOCAL_DATE_TIME format (e.g. `2023-10-01T09:00:00`
    for 1st Oct, 2023, 9:00AM) only.
 5. **Minimizing the window** may cause some distortions of the user interface. Hence, the app is best used at full screen.
+
 ---
 
+<div style="page-break-after: always;"></div>
+
 # Summary
+
+
 
 ## Command Summary
 
@@ -880,6 +892,8 @@ Action     | Format, Examples
 **Exit**   | `exit`
 
 ---
+
+<div style="page-break-after: always;"></div>
 
 ## Parameter Summary
 
