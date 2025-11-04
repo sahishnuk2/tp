@@ -1,13 +1,11 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EXERCISE_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.ParserUtil.validateFields;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.core.index.MultiIndex;
-import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.exceptions.InvalidIndexException;
 import seedu.address.logic.commands.MarkExerciseCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -35,18 +33,11 @@ public class MarkExerciseCommandParser implements Parser<MarkExerciseCommand> {
         validateFields(argMultimap, MarkExerciseCommand.MESSAGE_USAGE, PREFIX_EXERCISE_INDEX, PREFIX_STATUS);
         try {
             exerciseIndex = ParserUtil.parseExerciseIndex(
-                    argMultimap.getValue(PREFIX_EXERCISE_INDEX).orElseThrow(() -> new ParseException(
-                            String.format(EMPTY_PREFIX_FORMAT, PREFIX_STATUS)
-                    ))
+                    argMultimap.getValue(PREFIX_EXERCISE_INDEX).orElse("")
             );
-            statusString = argMultimap.getValue(PREFIX_STATUS).orElseThrow(() -> new ParseException(
-                    String.format(EMPTY_PREFIX_FORMAT, PREFIX_STATUS)
-            ));
+            statusString = argMultimap.getValue(PREFIX_STATUS).orElse("");
         } catch (InvalidIndexException iie) {
             throw new ParseException(iie.getMessage());
-        } catch (IllegalValueException ive) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    MarkExerciseCommand.MESSAGE_USAGE), ive);
         }
         try {
             personIndex = ParserUtil.parseMultiIndex(argMultimap.getPreamble());

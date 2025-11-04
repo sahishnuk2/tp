@@ -1,89 +1,104 @@
 package seedu.address.commons.core.index;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-class MultiIndexTest {
+public class MultiIndexTest {
 
     @Test
-    void constructor_validRange_success() {
-        Index lower = Index.fromOneBased(1);
-        Index upper = Index.fromOneBased(3);
-        MultiIndex multiIndex = new MultiIndex(lower, upper);
-
-        assertEquals(lower, multiIndex.getLowerBound(), "Lower bound should match");
-        assertEquals(upper, multiIndex.getUpperBound(), "Upper bound should match");
+    public void constructor_validSingle_success() {
+        Index index = Index.fromOneBased(3);
+        MultiIndex multi = new MultiIndex(index);
+        assertEquals(index, multi.getLowerBound());
+        assertEquals(index, multi.getUpperBound());
+        assertTrue(multi.isSingle());
     }
 
     @Test
-    void constructor_singleIndex_success() {
-        Index single = Index.fromOneBased(5);
-        MultiIndex multiIndex = new MultiIndex(single);
+    public void constructor_validRange_success() {
+        Index lower = Index.fromOneBased(2);
+        Index upper = Index.fromOneBased(5);
+        MultiIndex multi = new MultiIndex(lower, upper);
 
-        assertEquals(single, multiIndex.getLowerBound(), "Lower bound should match single index");
-        assertEquals(single, multiIndex.getUpperBound(), "Upper bound should match single index");
-        assertTrue(multiIndex.isSingle(), "Should represent a single index");
+        assertEquals(lower, multi.getLowerBound());
+        assertEquals(upper, multi.getUpperBound());
+        assertFalse(multi.isSingle());
     }
 
     @Test
-    void constructor_invalidRange_throwsIllegalArgumentException() {
+    public void constructor_lowerGreaterThanUpper_throwsIllegalArgumentException() {
         Index lower = Index.fromOneBased(5);
-        Index upper = Index.fromOneBased(3);
-        assertThrows(IllegalArgumentException.class, () -> new MultiIndex(lower, upper),
-                "Lower bound greater than upper bound should throw");
+        Index upper = Index.fromOneBased(2);
+        assertThrows(IllegalArgumentException.class, () -> new MultiIndex(lower, upper));
     }
 
     @Test
-    void toIndexList_validRange_correctListReturned() {
-        MultiIndex multiIndex = new MultiIndex(Index.fromOneBased(2), Index.fromOneBased(4));
-        List<Index> indices = multiIndex.toIndexList();
-
-        assertEquals(3, indices.size(), "List should contain three indices");
-        assertEquals(Index.fromOneBased(2), indices.get(0));
-        assertEquals(Index.fromOneBased(3), indices.get(1));
-        assertEquals(Index.fromOneBased(4), indices.get(2));
+    public void constructor_nullArguments_throwsNullPointerException() {
+        Index valid = Index.fromOneBased(1);
+        assertThrows(NullPointerException.class, () -> new MultiIndex(null, valid));
+        assertThrows(NullPointerException.class, () -> new MultiIndex(valid, null));
+        assertThrows(NullPointerException.class, () -> new MultiIndex((Index) null));
     }
 
     @Test
-    void toIndexList_singleIndex_returnsSingleElementList() {
-        MultiIndex multiIndex = new MultiIndex(Index.fromOneBased(7));
-        List<Index> indices = multiIndex.toIndexList();
-
-        assertEquals(1, indices.size(), "List should contain only one element");
-        assertEquals(Index.fromOneBased(7), indices.get(0));
+    public void toIndexList_singleIndex_success() {
+        MultiIndex multi = new MultiIndex(Index.fromOneBased(4));
+        List<Index> list = multi.toIndexList();
+        assertEquals(1, list.size());
+        assertEquals(Index.fromOneBased(4), list.get(0));
     }
 
     @Test
-    void toString_range_correctFormat() {
-        MultiIndex multiIndex = new MultiIndex(Index.fromOneBased(1), Index.fromOneBased(5));
-        assertEquals("1:5", multiIndex.toString());
+    public void toIndexList_range_success() {
+        MultiIndex multi = new MultiIndex(Index.fromOneBased(2), Index.fromOneBased(4));
+        List<Index> list = multi.toIndexList();
+        assertEquals(List.of(Index.fromOneBased(2), Index.fromOneBased(3), Index.fromOneBased(4)), list);
     }
 
     @Test
-    void toString_singleIndex_correctFormat() {
-        MultiIndex multiIndex = new MultiIndex(Index.fromOneBased(3));
-        assertEquals("3", multiIndex.toString());
+    public void toString_singleAndRange_success() {
+        MultiIndex single = new MultiIndex(Index.fromOneBased(3));
+        MultiIndex range = new MultiIndex(Index.fromOneBased(1), Index.fromOneBased(3));
+
+        assertEquals("3", single.toString());
+        assertEquals("1:3", range.toString());
     }
 
     @Test
-    void equals_sameBounds_true() {
+    public void equals_sameObject_true() {
+        MultiIndex multi = new MultiIndex(Index.fromOneBased(1), Index.fromOneBased(2));
+        assertTrue(multi.equals(multi));
+    }
+
+    @Test
+    public void equals_differentType_false() {
+        MultiIndex multi = new MultiIndex(Index.fromOneBased(1), Index.fromOneBased(2));
+        assertFalse(multi.equals("notAMultiIndex"));
+    }
+
+    @Test
+    public void equals_sameValues_true() {
         MultiIndex a = new MultiIndex(Index.fromOneBased(1), Index.fromOneBased(3));
         MultiIndex b = new MultiIndex(Index.fromOneBased(1), Index.fromOneBased(3));
-
-        assertEquals(a, b, "MultiIndex with same bounds should be equal");
+        assertTrue(a.equals(b));
+        assertEquals(a.hashCode(), b.hashCode());
     }
 
     @Test
-    void equals_differentBounds_false() {
-        MultiIndex a = new MultiIndex(Index.fromOneBased(1), Index.fromOneBased(3));
-        MultiIndex b = new MultiIndex(Index.fromOneBased(2), Index.fromOneBased(4));
-
-        assertNotEquals(a, b, "Different ranges should not be equal");
+    public void equals_differentValues_false() {
+        Index one = Index.fromOneBased(1);
+        Index two = Index.fromOneBased(2);
+        assertNotEquals(one, two, "Indices should not be equal");
+        MultiIndex a = new MultiIndex(one, Index.fromOneBased(3));
+        MultiIndex b = new MultiIndex(two, Index.fromOneBased(3));
+        assertFalse(a.equals(b));
     }
+
 }
