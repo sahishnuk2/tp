@@ -36,11 +36,6 @@ This project was forked from [se-edu/addressbook-level3](https://github.com/se-e
 - **MarkBind** — for authoring and publishing the user and developer guides. ([markbind.org](https://markbind.org))
 - **GitHub Actions (CI)** — for continuous integration and automated build testing. ([github.com/features/actions](https://github.com/features/actions))
 
-### AI Assistance
-
-- **ChatGPT (OpenAI)** — assisted with idea generation, conceptual explanations, and documentation drafting. ([chat.openai.com](https://chat.openai.com))
-- **Claude Code (Anthropic)** — assisted with understanding concepts, idea generation, and idea validation, and documentation review. ([www.claude.com/product/claude-code](https://www.claude.com/product/claude-code))
-
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Setting up, getting started**
