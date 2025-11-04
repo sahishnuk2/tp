@@ -62,6 +62,9 @@ public class Exercise {
         }
         return exerciseNumber == otherExercise.exerciseNumber && isDone == otherExercise.isDone;
     }
+    public final int getExerciseNumber() {
+        return exerciseNumber;
+    }
 
     @Override
     public int hashCode() {

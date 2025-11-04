@@ -64,4 +64,10 @@ public class IndexTest {
         String expected = Index.class.getCanonicalName() + "{zeroBasedIndex=" + index.getZeroBased() + "}";
         assertEquals(expected, index.toString());
     }
+    @Test
+    public void hashCode_consistent_sameObject() {
+        Index index = Index.fromOneBased(2);
+        int initialHash = index.hashCode();
+        assertEquals(initialHash, index.hashCode());
+    }
 }

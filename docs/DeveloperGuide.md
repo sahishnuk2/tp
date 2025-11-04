@@ -1375,3 +1375,4 @@ Team size: 5
 7. Make tags cumulative. Currently, editing tags replaces all existing tags. We plan to add an option to append new tags without removing existing ones, allowing users to add tags incrementally.
 8. Make necessary fields optional. Currently, all fields (name, student ID, phone, email, GitHub username) are mandatory when adding a student. We plan to make some fields optional (e.g., phone, GitHub username) to accommodate cases where this information is not immediately available.
 9. Fix short time slot labels in timetable. Currently, short time slots (e.g., 30 minutes or less) may not display labels properly in the timetable view. We plan to improve label rendering for short time slots by using abbreviated text or tooltips. 
+10. Enable setting exams as unmarked. Currently, exams can only be set to be passed or failed once they have been marked. 
