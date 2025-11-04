@@ -47,7 +47,7 @@ spreadsheets or GUI apps.
 
 <div style="margin-left: 20px; line-height: 1.2;">
 
-2.2.1. [On student data](#on-student-data-1)
+2.2.1. [Of student data](#of-student-data)
 - [List](#listing-students-list)
 - [Find](#finding-students-find)
 - [Filter](#filtering-students-filter)
@@ -89,6 +89,8 @@ spreadsheets or GUI apps.
 
 ---
 
+<div style="page-break-after: always;"></div>
+
 # Quick Start
 
 1. Ensure you have **Java 17** or above installed on your computer.<br>
@@ -127,7 +129,7 @@ spreadsheets or GUI apps.
 ---
 # User Interface
 
-![Ui.png](images/Ui.png)
+<img src="images/Ui.png" width="700px">
 
 <box type="warning">
 
@@ -154,6 +156,9 @@ For example, a green tracker indicates satisfactory progress, while a red one hi
 — such as missed labs, overdue exercises, or failed exams.
 
 ---
+
+<div style="page-break-after: always;"></div>
+
 # Features
 
 <box type="info">
@@ -437,7 +442,7 @@ Example: `unblock-timeslot ts/7 Nov 2025, 15:50 te/7 Nov 2025, 16:10`
 </td>
 <td>
 
-<img src="images/AfterBlockTimeslot.png" width="375px%">
+<img src="images/AfterBlockTimeslot.png" width="375px">
 
 </td>
 </tr>
@@ -495,7 +500,7 @@ clear-timeslots
 
 ## Data-visualisation commands
 
-### On student data
+### Of student data
 
 #### Listing students: `list`
 
@@ -762,15 +767,17 @@ exit
 
 ---
 
+<div style="page-break-after: always;"></div>
+
 # Troubleshooting
 
 ## Frequently asked questions
 
-**Q**: How do I save my data after editing?
+**Q**: How do I save my data after editing?<br>
 **A**: LambdaLab data is saved in the hard disk automatically after any command that changes the data.
 There is no need to save manually.
 
-**Q**: Can I edit on the data file directly without using commands?
+**Q**: Can I edit on the data file directly without using commands?<br>
 **A**: LambdaLab data is saved automatically as a JSON file `[JAR file location]/data/lambdalab.json`.
 Advanced users are welcome to update data directly by editing that data file.
 <box type="warning">
@@ -796,9 +803,10 @@ Furthermore, certain edits can cause the LambdaLab to behave in unexpected ways 
     - Copy the `lambdalab.json` and `timeslots.json` files from your old computer.
     - On your new computer, navigate to `[JAR file location]/data/`.
     - Replace the empty `lambdalab.json` and `timeslots.json` files with your copied file.
-4. Restart LambdaLab on your new computer to see all your student data.
+4. Restart LambdaLab on your new computer to see all your student data. 
+<br>
    <box type="tip">
-   Tip: You can also backup your data regularly by copying the two `.json` files to a secure location (e.g., cloud storage, USB drive).
+   **Tip**: You can also backup your data regularly by copying the two `.json` files to a secure location (e.g., cloud storage, USB drive).
    </box>
 
 **Q**: Can I track multiple tutorial groups in LambdaLab?<br>
@@ -808,7 +816,7 @@ groups, you can maintain separate `.jar` files in different folders, each with i
 **Q**: How do I keep track of which labs and exercises are current for CS2030S?<br>
 **A**: LambdaLab allows you to mark labs 1-10 and exercises 0-9. You'll need to refer to the CS2030S course schedule
 to determine which labs and exercises are currently active. Assuming that exercise 0 starts in week 2 and lab 1 starts
-in week 3, you may use [`set-week` command](#set-week) once every week to auto-update the status of past exercises and labs.
+in week 3, you may use [`set-week` command](#setting-current-week-set-week) once every week to auto-update the status of past exercises and labs.
 
 **Q**: Can I export my student data to a spreadsheet?<br>
 **A**: Currently, data is stored in JSON format in the `data/lambdalab.json` and `data/timeslots.json` file. Advanced users can manually convert
@@ -848,9 +856,14 @@ lab sessions to maintain accurate records.
    using human-friendly format for datetime parameters. The remedy is to use ISO_LOCAL_DATE_TIME format (e.g. `2023-10-01T09:00:00`
    for 1st Oct, 2023, 9:00AM) only.
 5. **Minimizing the window** may cause some distortions of the user interface. Hence, the app is best used at full screen.
+
 ---
 
+<div style="page-break-after: always;"></div>
+
 # Summary
+
+
 
 ## Command Summary
 
@@ -879,6 +892,8 @@ Action     | Format, Examples
 **Exit**   | `exit`
 
 ---
+
+<div style="page-break-after: always;"></div>
 
 ## Parameter Summary
 
