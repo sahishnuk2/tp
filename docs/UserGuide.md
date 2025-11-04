@@ -773,11 +773,11 @@ exit
 
 ## Frequently asked questions
 
-**Q**: How do I save my data after editing?
+**Q**: How do I save my data after editing?<br>
 **A**: LambdaLab data is saved in the hard disk automatically after any command that changes the data.
 There is no need to save manually.
 
-**Q**: Can I edit on the data file directly without using commands?
+**Q**: Can I edit on the data file directly without using commands?<br>
 **A**: LambdaLab data is saved automatically as a JSON file `[JAR file location]/data/lambdalab.json`.
 Advanced users are welcome to update data directly by editing that data file.
 <box type="warning">
